@@ -5,11 +5,7 @@ import {
 	type DeclarationReflection,
 	ReflectionKind,
 } from "typedoc";
-import Layout from "../../components/layout/Layout.astro";
-import Sidebar, {
-	generateSidebar,
-} from "../../components/layout/Sidebar.astro";
-import { TitleSection } from "../../components/page/TitleSection";
+import ClassPage from "../../templates/ClassPage.astro";
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 	const app = await Application.bootstrap({
@@ -77,35 +73,14 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 	return pages;
 }
 
+const DocsTemplates = { [ReflectionKind.Class]: ClassPage };
+
 interface Props {
 	reflection: DeclarationReflection;
 }
 
 const { reflection } = Astro.props;
-const module = reflection.parent;
 
-if (!module || !module.isDeclaration()) {
-	throw new Error("Reflection has no parent module.");
-}
-
-const sidebar = await generateSidebar(module);
-
-const title = `${reflection.name} | ${module.name}`;
-const description = reflection.comment?.summary.join("")
-	|| `Documentation for ${reflection.name} in ${module.name}.`;
+const Template = DocsTemplates[reflection.kind] || null;
 ---
-
-<Layout title={title} description={description}>
-	<div class="flex flex-row w-full">
-		<Sidebar {...sidebar} />
-		<main class="flex-grow p-6">
-			<div class="max-w-5xl mx-auto flex flex-row">
-				<div class="flex-grow min-w-fit">
-					<div class="w-full mb-6 border-b border-gray-300">
-						<TitleSection reflection={reflection} />
-					</div>
-				</div>
-			</div>
-		</main>
-	</div>
-</Layout>
+{Template && <Template reflection={reflection} />}

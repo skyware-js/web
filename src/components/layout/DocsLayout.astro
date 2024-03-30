@@ -1,0 +1,35 @@
+---
+import { DeclarationReflection } from "typedoc";
+import { TitleSection } from "../page/TitleSection.tsx";
+import Page from "./Page.astro";
+import Sidebar, { generateSidebar } from "./Sidebar.astro";
+
+interface Props {
+	reflection: DeclarationReflection;
+}
+
+const { reflection } = Astro.props;
+const module = reflection.parent;
+
+if (!module || !module.isDeclaration()) {
+	throw new Error("Reflection has no parent module.");
+}
+
+const sidebar = await generateSidebar(module);
+
+const title = `${reflection.name} | ${module.name}`;
+const description = reflection.comment?.summary.join("")
+	|| `Documentation for ${reflection.name} in ${module.name}.`;
+---
+<Page title={title} description={description}>
+	<div class="flex flex-row w-full">
+		<Sidebar {...sidebar} />
+		<main class="flex-grow p-6">
+			<div class="max-w-5xl mx-auto flex flex-row">
+				<div class="flex-grow min-w-fit">
+					<slot />
+				</div>
+			</div>
+		</main>
+	</div>
+</Page>
