@@ -1,0 +1,12 @@
+{
+	"packages": [
+		{
+			"repo": "skyware-js/bot",
+			"packageName": "@skyware/bot"
+		},
+		{
+			"repo": "skyware-js/firehose",
+			"packageName": "@skyware/firehose"
+		}
+	]
+}

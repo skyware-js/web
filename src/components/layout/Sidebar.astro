@@ -1,0 +1,213 @@
+---
+import { GithubIcon } from "@/assets/icons/GithubIcon.tsx";
+import { Logo } from "@/assets/Logo.tsx";
+import { getCollection } from "astro:content";
+import { clsx } from "clsx/lite";
+import { type DeclarationReflection, ReflectionKind } from "typedoc";
+import { Search } from "../Search.tsx";
+import { Select } from "../Select.tsx";
+import SidebarDocsSection from "./SidebarDocsSection.astro";
+
+interface Props {
+	modules: Array<{ name: string; url: string }>;
+	guides: Array<
+		{
+			data: { title: string; description: string; module: string };
+			slug: string;
+		}
+	>;
+	docs: {
+		classes: Array<{ name: string; url: string }>;
+		functions: Array<{ name: string; url: string }>;
+		enums: Array<{ name: string; url: string }>;
+		variables: Array<{ name: string; url: string }>;
+		types: Array<{ name: string; url: string }>;
+	};
+}
+
+export { Props as SidebarProps };
+
+export async function generateSidebar(
+	module: DeclarationReflection,
+): Promise<Props> {
+	const moduleName = module.name.split("/").pop()!;
+
+	const modules = module.project.getChildrenByKind(ReflectionKind.Module).map(
+		(mod) => ({ name: mod.name, url: `/docs/${mod.name.split("/").pop()}` })
+	);
+
+	const guides = await getCollection(
+		"guides",
+		({ data }) => data.module === moduleName,
+	);
+
+	const docs = (module.children || []).reduce<
+		Record<
+			"classes" | "functions" | "enums" | "variables" | "types",
+			Array<{ name: string; url: string }>
+		>
+	>((acc, child) => {
+		const name = child.name;
+		switch (child.kind) {
+			case ReflectionKind.Class:
+				acc.classes.push({
+					name,
+					url: `/docs/${moduleName}/classes/${name}`,
+				});
+				break;
+			case ReflectionKind.Function:
+				acc.functions.push({
+					name,
+					url: `/docs/${moduleName}/functions/${name}`,
+				});
+				break;
+			case ReflectionKind.Enum:
+				acc.enums.push({
+					name,
+					url: `/docs/${moduleName}/enums/${name}`,
+				});
+				break;
+			case ReflectionKind.TypeAlias:
+			case ReflectionKind.Interface:
+				acc.types.push({
+					name,
+					url: `/docs/${moduleName}/types/${name}`,
+				});
+				break;
+			case ReflectionKind.Variable:
+				acc.variables.push({
+					name,
+					url: `/docs/${moduleName}/variables/${name}`,
+				});
+				break;
+		}
+		return acc;
+	}, { classes: [], functions: [], enums: [], types: [], variables: [] });
+
+	return { modules, guides, docs };
+}
+
+const { modules, guides, docs } = Astro.props;
+
+const currentModule = modules.find((mod) =>
+	Astro.url.pathname.includes(mod.url)
+);
+const currentGuide = guides.find(({ slug }) =>
+	Astro.url.pathname.includes(slug)
+);
+const githubUrl = `https://github.com/${
+	currentModule.name.replace("@skyware", "skyware-js")
+}`;
+---
+<nav class="w-96 border-r border-r-gray-300">
+	<div
+		class="w-full flex flex-col items-center justify-center px-8 py-6 gap-6 border-b border-b-gray-300"
+	>
+		<a href="/">
+			<Logo className="h-5 fill-accent" />
+		</a>
+		<div class="w-full flex flex-row items-center justify-between gap-6">
+			<Select
+				className="w-full"
+				label="Select module"
+				options={modules.map((mod) => mod.name)}
+			/>
+			<a href={githubUrl} class="text-accent">
+				<GithubIcon className="h-5 fill-gray-700" />
+			</a>
+		</div>
+	</div>
+	<div
+		class="w-full flex flex-col items-center justify-center px-8 py-6 gap-6"
+	>
+		<Search client:load />
+		{
+			guides.length > 0 && (
+				<div class="w-full flex flex-col gap-2">
+					<h3 class="text-docs-h3 text-gray-900 font-medium">
+						Guides
+					</h3>
+					<ul class="w-full py-2 border-l border-l-gray-300">
+						{
+							guides.map(({ data, slug }) => (
+								<li
+									class={clsx(
+										"w-full pl-4",
+										currentGuide?.slug === slug && "border-l- border-l-accent",
+									)}
+								>
+									<a
+										href={`/guides/${slug}`}
+										class={clsx(
+											"text-gray-900 hover:text-accent",
+											currentGuide?.slug === slug && "text-accent",
+										)}
+									>
+										{data.title}
+									</a>
+								</li>
+							))
+						}
+					</ul>
+				</div>
+			)
+		}
+		<div class="w-full flex flex-col gap-4">
+			<h3 class="text-docs-h3 text-gray-900 font-medium">
+				Docs
+			</h3>
+			<ul class="w-full flex flex-col gap-8 border-l border-l-gray-300">
+				{
+					docs.classes.length ? (
+						<li class="w-full">
+							<SidebarDocsSection
+								title="Classes"
+								section={docs.classes}
+							/>
+						</li>
+					) : null
+				}
+				{
+					docs.functions.length ? (
+						<li class="w-full">
+							<SidebarDocsSection
+								title="Functions"
+								section={docs.functions}
+							/>
+						</li>
+					) : null
+				}
+				{
+					docs.enums.length ? (
+						<li class="w-full">
+							<SidebarDocsSection
+								title="Enums"
+								section={docs.enums}
+							/>
+						</li>
+					) : null
+				}
+				{
+					docs.variables.length ? (
+						<li class="w-full">
+							<SidebarDocsSection
+								title="Variables"
+								section={docs.variables}
+							/>
+						</li>
+					) : null
+				}
+				{
+					docs.types.length ? (
+						<li class="w-full">
+							<SidebarDocsSection
+								title="Types"
+								section={docs.types}
+							/>
+						</li>
+					) : null
+				}
+			</ul>
+		</div>
+	</div>
+</nav>

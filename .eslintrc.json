@@ -1,0 +1,20 @@
+{
+	"extends": ["plugin:@typescript-eslint/strict-type-checked"],
+	"plugins": ["@typescript-eslint"],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"project": "./tsconfig.json"
+	},
+	"rules": {
+		"@typescript-eslint/no-unused-vars": "off",
+		"@typescript-eslint/restrict-plus-operands": "off",
+		"@typescript-eslint/no-non-null-assertion": "off",
+		"@typescript-eslint/no-unnecessary-condition": "off",
+		"@typescript-eslint/no-unsafe-assignment": "off",
+		"@typescript-eslint/no-unsafe-member-access": "off",
+		"@typescript-eslint/no-unsafe-argument": "off",
+		"@typescript-eslint/no-unsafe-call": "off",
+		"@typescript-eslint/no-namespace": "off"
+	},
+	"root": true
+}

@@ -1,0 +1,28 @@
+---
+import { clsx } from "clsx/lite";
+interface Props {
+	title: string;
+	section: Array<{ name: string; url: string }>;
+}
+const { title, section } = Astro.props;
+
+const current = section.find(({ url }) => Astro.url.pathname.includes(url));
+---
+<h4 class="pl-4 text-gray-700 text-docs-base">{title}</h4>
+<ul class="mt-1.5">
+	{
+		section.map(({ name, url }) => (
+			<li
+				class={clsx("py-1.5 pl-4", url === current?.url && "border-l border-l-accent")}
+			>
+				<a
+					href={url}
+					class={clsx(
+						"font-mono text-code-h3",
+						url === current?.url ? "text-accent" : "text-gray-900",
+					)}
+				>{name}</a>
+			</li>
+		))
+	}
+</ul>

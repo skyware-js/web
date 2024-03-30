@@ -1,0 +1,111 @@
+---
+import type { GetStaticPathsResult } from "astro";
+import {
+	Application,
+	type DeclarationReflection,
+	ReflectionKind,
+} from "typedoc";
+import Layout from "../../components/layout/Layout.astro";
+import Sidebar, {
+	generateSidebar,
+} from "../../components/layout/Sidebar.astro";
+import { TitleSection } from "../../components/page/TitleSection";
+
+export async function getStaticPaths(): Promise<GetStaticPathsResult> {
+	const app = await Application.bootstrap({
+		entryPointStrategy: "packages",
+		entryPoints: ["packages/*"],
+	});
+	const project = await app.convert();
+	if (!project) throw new Error("Failed to generate documentation.");
+
+	const modules = project.getChildrenByKind(ReflectionKind.Module);
+
+	const pages: GetStaticPathsResult = [];
+
+	for (const module of modules) {
+		const packageSlug = module.name.split("/").pop();
+		for (const reflection of module.children || []) {
+			switch (reflection.kind) {
+				case ReflectionKind.Class:
+					pages.push({
+						params: {
+							path: `${packageSlug}/classes/${reflection.name}`,
+						},
+						props: { reflection },
+					});
+					break;
+				case ReflectionKind.Interface:
+				case ReflectionKind.TypeAlias:
+					pages.push({
+						params: {
+							path: `${packageSlug}/types/${reflection.name}`,
+						},
+						props: { reflection },
+					});
+					break;
+				case ReflectionKind.Enum:
+					pages.push({
+						params: {
+							path: `${packageSlug}/enums/${reflection.name}`,
+						},
+						props: { reflection },
+					});
+					break;
+				case ReflectionKind.Function:
+					pages.push({
+						params: {
+							path: `${packageSlug}/functions/${reflection.name}`,
+						},
+						props: { reflection },
+					});
+					break;
+				case ReflectionKind.Variable:
+					pages.push({
+						params: {
+							path: `${packageSlug}/variables/${reflection.name}`,
+						},
+						props: { reflection },
+					});
+					break;
+				default:
+					break;
+			}
+		}
+	}
+
+	return pages;
+}
+
+interface Props {
+	reflection: DeclarationReflection;
+}
+
+const { reflection } = Astro.props;
+const module = reflection.parent;
+
+if (!module || !module.isDeclaration()) {
+	throw new Error("Reflection has no parent module.");
+}
+
+const sidebar = await generateSidebar(module);
+
+const title = `${reflection.name} | ${module.name}`;
+const description = reflection.comment?.summary.join("")
+	|| `Documentation for ${reflection.name} in ${module.name}.`;
+---
+
+<Layout title={title} description={description}>
+	<div class="flex flex-row w-full">
+		<Sidebar {...sidebar} />
+		<main class="flex-grow p-6">
+			<div class="max-w-5xl mx-auto flex flex-row">
+				<div class="flex-grow min-w-fit">
+					<div class="w-full mb-6 border-b border-gray-300">
+						<TitleSection reflection={reflection} />
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+</Layout>
