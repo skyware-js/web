@@ -1,6 +1,9 @@
 import theme from "shiki/themes/catppuccin-mocha.mjs";
 import { ReflectionKind } from "typedoc";
 
+export const HighlightKind = { ...ReflectionKind, SkywareDeclaration: 1000 };
+export type HighlightKind = typeof HighlightKind[keyof typeof HighlightKind];
+
 const themeColors = theme.tokenColors!.reduce<Record<string, string>>((acc, color) => {
 	const scopes = color.scope ? (Array.isArray(color.scope) ? color.scope : [color.scope]) : [];
 	for (const scope of scopes) {
@@ -8,7 +11,7 @@ const themeColors = theme.tokenColors!.reduce<Record<string, string>>((acc, colo
 	}
 	return acc;
 }, {});
-export function reflectionColor(kind: ReflectionKind) {
+export function reflectionColor(kind: HighlightKind) {
 	switch (kind) {
 		case ReflectionKind.EnumMember:
 			return themeColors["variable.other.enummember"];
@@ -29,11 +32,13 @@ export function reflectionColor(kind: ReflectionKind) {
 		case ReflectionKind.Function:
 		case ReflectionKind.Method:
 			return themeColors["entity.name.function"];
+		case HighlightKind.SkywareDeclaration:
+			return "#70BAFF";
 		default:
 			return themeColors["text"];
 	}
 }
 
-export const HighlightText = ({ kind, children }: { kind: ReflectionKind; children: string }) => (
+export const HighlightText = ({ kind, children }: { kind: HighlightKind; children: string }) => (
 	<span style={{ color: reflectionColor(kind) }}>{children}</span>
 );
