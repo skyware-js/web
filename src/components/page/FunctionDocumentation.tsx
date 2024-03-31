@@ -2,11 +2,12 @@ import { ChevronLeftIcon } from "@/assets/icons/ChevronLeftIcon.tsx";
 import { ChevronRightIcon } from "@/assets/icons/ChevronRightIcon.tsx";
 import CodeHeading from "@/components/page/CodeHeading.tsx";
 import { HighlightKind, HighlightText } from "@/util/highlight.tsx";
+import { renderMarkdown } from "@/util/renderMarkdown.tsx";
 import { renderSummary } from "@/util/renderSummary.tsx";
 import { renderTags } from "@/util/renderTags.tsx";
 import { renderType } from "@/util/renderType.tsx";
 import { resolveSourceUrl } from "@/util/resolveUrl.ts";
-import { Fragment, type ReactNode, useState } from "react";
+import { Fragment, type ReactNode } from "react";
 import {
 	type DeclarationReflection,
 	ParameterReflection,
@@ -19,7 +20,7 @@ export function renderParameters(parameters: Array<ParameterReflection>) {
 		<div className="space-y-3">
 			<h4 className="font-medium text-docs-h3 text-gray-900">Parameters</h4>
 			{parameters.map((param) => {
-				const paramName = (
+				const paramName = param.name === "__namedParameters" ? null : (
 					<>
 						{param.flags.isRest
 							? <HighlightText kind={HighlightKind.Punctuation}>...</HighlightText>
@@ -55,17 +56,34 @@ export function renderParameters(parameters: Array<ParameterReflection>) {
 
 				return (
 					<div key={param.name} className="space-y-2 ml-4">
-						<span className="font-mono text-code-h3">
+						<p className="font-mono text-code-h3">
 							{paramName}
 							{paramType}
 							{paramDefault}
-						</span>
+						</p>
 						{paramSummary
 							? <p className="text-docs-base text-gray-900">{paramSummary}</p>
 							: null}
 					</div>
 				);
 			})}
+		</div>
+	);
+}
+
+function renderReturns(signature: SignatureReflection) {
+	const returns = signature.type;
+	if (!returns) return null;
+
+	if (["void", "Promise<void>"].includes(returns.stringify("none"))) return null;
+
+	const description = renderMarkdown(signature.comment?.getTag("@returns")?.content);
+
+	return (
+		<div className="space-y-2">
+			<h4 className="font-medium text-docs-h3 text-gray-900">Returns</h4>
+			<p className="font-mono text-code-h3 ml-2">{renderType(returns)}</p>
+			<span className="ml-2 block">{description}</span>
 		</div>
 	);
 }
@@ -113,12 +131,15 @@ function FunctionSignature({ signature }: { signature: SignatureReflection }): R
 
 	const parametersList = params.length ? renderParameters(params) : null;
 
+	const returns = renderReturns(signature);
+
 	return (
 		<div className="text-docs-base text-gray-900 space-y-4 group">
 			{typeSignature}
 			{summary}
 			{tags}
 			{parametersList}
+			{returns}
 		</div>
 	);
 }

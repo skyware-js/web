@@ -26,7 +26,9 @@ export function parseMarkdown(text: string): Array<{ text: string; url?: string;
 	return parts;
 }
 
-export function renderMarkdown(parts: Array<CommentDisplayPart>): ReactNode {
+export function renderMarkdown(parts?: Array<CommentDisplayPart> | null | undefined): ReactNode {
+	if (!parts) return null;
+
 	const renderText = (text: string) =>
 		parseMarkdown(text).map((
 			{ text, url, code },

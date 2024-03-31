@@ -218,13 +218,23 @@ export function renderType(type?: SomeType | undefined): ReactNode {
 					<HighlightText kind={HighlightKind.Punctuation}>{"("}</HighlightText>
 					{type.declaration.signatures[0].parameters?.map((param, i) => (
 						<Fragment key={i}>
-							<HighlightText kind={HighlightKind.Parameter}>
-								{param.name}
-							</HighlightText>
-							{param.flags.isOptional
-								? <HighlightText kind={HighlightKind.Punctuation}>?</HighlightText>
-								: null}
-							<HighlightText kind={HighlightKind.Punctuation}>{": "}</HighlightText>
+							{param.name === "__namedParameters" ? null : (
+								<>
+									<HighlightText kind={HighlightKind.Parameter}>
+										{param.name}
+									</HighlightText>
+									{param.flags.isOptional
+										? (
+											<HighlightText kind={HighlightKind.Punctuation}>
+												?
+											</HighlightText>
+										)
+										: null}
+									<HighlightText kind={HighlightKind.Punctuation}>
+										{": "}
+									</HighlightText>
+								</>
+							)}
 							{renderType(param.type)}
 							{i < type.declaration.signatures![0].parameters!.length - 1 && (
 								<HighlightText kind={HighlightKind.Punctuation}>
@@ -238,7 +248,7 @@ export function renderType(type?: SomeType | undefined): ReactNode {
 				</>
 			)
 			: (
-				<HighlightText kind={HighlightKind.Text}>
+				<HighlightText kind={HighlightKind.Punctuation}>
 					{"{ "}
 					{type.declaration.children?.slice(0, 3).map((property, i) => (
 						<>
