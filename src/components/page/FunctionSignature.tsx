@@ -1,5 +1,7 @@
 import CodeHeading from "@/components/page/CodeHeading.tsx";
 import { HighlightKind, HighlightText } from "@/util/highlight.tsx";
+import { renderSummary } from "@/util/renderSummary.tsx";
+import { renderTags } from "@/util/renderTags.tsx";
 import { renderType } from "@/util/renderType.tsx";
 import { resolveSourceUrl } from "@/util/resolveUrl.ts";
 import { Fragment, type ReactNode } from "react";
@@ -42,7 +44,7 @@ export function renderParameters(parameters: Array<ParameterReflection>) {
 					)
 					: null;
 
-				const paramSummary = param.comment?.summary.map((s) => s.text).join("") || "";
+				const paramSummary = renderSummary(param.comment);
 
 				return (
 					<div key={param.name} className="space-y-2 ml-4">
@@ -103,10 +105,8 @@ export function FunctionSignature({ reflection }: { reflection: DeclarationRefle
 			</CodeHeading>
 		);
 
-		const summaryText = overload.comment?.summary.map((s) => s.text).join("") || "";
-		const summary = summaryText
-			? <p className="text-docs-base text-gray-900">{summaryText}</p>
-			: null;
+		const summary = renderSummary(overload.comment);
+		const tags = renderTags(overload.comment);
 
 		const parametersList = params.length ? renderParameters(params) : null;
 
@@ -114,6 +114,7 @@ export function FunctionSignature({ reflection }: { reflection: DeclarationRefle
 			<div key={overload.id} className="text-docs-base text-gray-900 space-y-4 group">
 				{signature}
 				{summary}
+				{tags}
 				{parametersList}
 			</div>
 		);

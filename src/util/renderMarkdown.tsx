@@ -68,7 +68,11 @@ export function renderMarkdown(parts: Array<CommentDisplayPart>): ReactNode {
 						</a>
 					);
 				} else if (target instanceof Reflection) {
-					return <LinkIfPossible reflection={target} />;
+					return (
+						<LinkIfPossible key={i} reflection={target}>
+							{tsLinkText || text}
+						</LinkIfPossible>
+					);
 				} else return renderText(text);
 			} else {
 				return renderText(text);

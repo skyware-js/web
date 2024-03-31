@@ -2,6 +2,7 @@
 import { DeclarationReflection, ReflectionKind } from "typedoc";
 import DocsLayout from "../components/layout/DocsLayout.astro";
 import { FunctionSignature } from "../components/page/FunctionSignature";
+import { MethodMembers } from "../components/page/MethodMembers";
 import { PropertyMembers } from "../components/page/PropertyMembers";
 import { TitleSection } from "../components/page/TitleSection";
 
@@ -18,6 +19,9 @@ const properties = reflection.getChildrenByKind(
 const accessors = reflection.getChildrenByKind(ReflectionKind.Accessor).filter((
 	prop,
 ) => !prop.flags.isPrivate && !prop.flags.isProtected);
+const methods = reflection.getChildrenByKind(ReflectionKind.Method).filter((
+	method,
+) => !method.flags.isPrivate && !method.flags.isProtected);
 ---
 
 <DocsLayout reflection={reflection}>
@@ -44,6 +48,13 @@ const accessors = reflection.getChildrenByKind(ReflectionKind.Accessor).filter((
 		accessors.length ? (
 			<div class="w-full pl-4 py-8 border-t border-gray-300">
 				<PropertyMembers properties={accessors} />
+			</div>
+		) : null
+	}
+	{
+		methods.length ? (
+			<div class="w-full pl-4 py-8 border-t border-gray-300">
+				<MethodMembers methods={methods} />
 			</div>
 		) : null
 	}

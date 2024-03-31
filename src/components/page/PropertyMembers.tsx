@@ -2,7 +2,7 @@ import CodeHeading from "@/components/page/CodeHeading.tsx";
 import { renderParameters } from "@/components/page/FunctionSignature.tsx";
 import { HighlightKind, HighlightText } from "@/util/highlight.tsx";
 import { renderSummary } from "@/util/renderSummary.tsx";
-import { renderExampleTags, renderSeeTags } from "@/util/renderTags.tsx";
+import { renderTags } from "@/util/renderTags.tsx";
 import { renderType } from "@/util/renderType.tsx";
 import { resolveSourceUrl } from "@/util/resolveUrl.ts";
 import type { ReactNode } from "react";
@@ -151,10 +151,9 @@ export function PropertyMembers({ properties }: { properties: Array<DeclarationR
 
 				const comment = (accessorSignature || property).comment;
 
-				const exampleTags = renderExampleTags(comment?.getTags("@example"));
-				const seeTags = renderSeeTags(comment?.getTags("@see"));
-
 				const summary = renderSummary(comment);
+				const tags = renderTags(comment);
+
 				const childProperties = ((accessorSignature || property).type as ReflectionType)
 					?.declaration?.children;
 				const properties = childProperties?.length
@@ -165,8 +164,7 @@ export function PropertyMembers({ properties }: { properties: Array<DeclarationR
 					<div key={property.name} className="flex flex-col gap-y-4 group">
 						{signature}
 						{summary}
-						{exampleTags}
-						{seeTags}
+						{tags}
 						{parameters}
 						{properties}
 					</div>

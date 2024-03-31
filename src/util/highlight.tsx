@@ -1,4 +1,4 @@
-import { rendererClassic, rendererRich, transformerTwoslash } from "@shikijs/twoslash";
+import { transformerTwoslash } from "@shikijs/twoslash";
 import { clsx } from "clsx/lite";
 import type { AllHTMLAttributes, ReactNode } from "react";
 import { getHighlighter } from "shiki/bundle/web";
@@ -87,11 +87,9 @@ export function HighlightText(
 
 export const highlighter = await getHighlighter({ themes: ["catppuccin-mocha"], langs: ["ts"] });
 export const codeToHtml = (code: string) => {
-	console.log(code);
 	return highlighter.codeToHtml(code, {
 		theme: "catppuccin-mocha",
 		lang: "ts",
-
-		transformers: [transformerTwoslash()],
+		transformers: [transformerTwoslash({ throws: false })],
 	});
 };

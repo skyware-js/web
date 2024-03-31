@@ -17,6 +17,7 @@ import {
 	QueryType,
 	ReferenceType,
 	type Reflection,
+	ReflectionKind,
 	ReflectionType,
 	RestType,
 	type SomeType,
@@ -27,13 +28,14 @@ import {
 } from "typedoc";
 
 export function LinkIfPossible(
-	{ type, reflection }: { type: SomeType; reflection?: never } | {
+	{ type, reflection, children }: { type: SomeType; reflection?: never; children?: ReactNode } | {
 		type?: never;
 		reflection: Reflection;
+		children?: ReactNode;
 	},
 ) {
 	const text = type ? type.stringify("none") : reflection.name;
-	const span = <HighlightText kind={HighlightKind.SomeExport}>{text}</HighlightText>;
+	const span = <HighlightText kind={HighlightKind.SomeExport}>{children || text}</HighlightText>;
 	if (type && (!(type instanceof ReferenceType) || !type.package?.startsWith("@skyware/"))) {
 		return span;
 	} else {
@@ -41,12 +43,14 @@ export function LinkIfPossible(
 		if (!url) return span;
 		return (
 			<HighlightText
-				kind={reflection?.kind || HighlightKind.SkywareDeclaration}
+				kind={reflection?.kindOf(ReflectionKind.SomeExport)
+					? HighlightKind.SkywareDeclaration
+					: (reflection?.kind || HighlightKind.SkywareDeclaration)}
 				as="a"
 				href={url}
 				className={"font-mono"}
 			>
-				{text}
+				{children || text}
 			</HighlightText>
 		);
 	}
