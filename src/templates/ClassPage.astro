@@ -1,7 +1,7 @@
 ---
 import { DeclarationReflection, ReflectionKind } from "typedoc";
 import DocsLayout from "../components/layout/DocsLayout.astro";
-import { FunctionSignature } from "../components/page/FunctionSignature";
+import { FunctionDocumentation } from "../components/page/FunctionDocumentation";
 import { MethodMembers } from "../components/page/MethodMembers";
 import { PropertyMembers } from "../components/page/PropertyMembers";
 import { TitleSection } from "../components/page/TitleSection";
@@ -32,7 +32,7 @@ const methods = reflection.getChildrenByKind(ReflectionKind.Method).filter((
 		ctor && ctor.signatures.some((sig) => sig.parameters?.length)
 		? (
 			<div class="w-full pl-4 py-8 border-t border-gray-300">
-				<FunctionSignature reflection={ctor} />
+				<FunctionDocumentation reflection={ctor} />
 			</div>
 		)
 		: null
@@ -59,3 +59,4 @@ const methods = reflection.getChildrenByKind(ReflectionKind.Method).filter((
 		) : null
 	}
 </DocsLayout>
+<script src="../util/handleOverloadInteractivity.ts"></script>

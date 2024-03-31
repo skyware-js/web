@@ -1,5 +1,5 @@
 import CodeHeading from "@/components/page/CodeHeading.tsx";
-import { renderParameters } from "@/components/page/FunctionSignature.tsx";
+import { renderParameters } from "@/components/page/FunctionDocumentation.tsx";
 import { HighlightKind, HighlightText } from "@/util/highlight.tsx";
 import { renderSummary } from "@/util/renderSummary.tsx";
 import { renderTags } from "@/util/renderTags.tsx";
@@ -61,7 +61,7 @@ export function renderProperties(properties: Array<DeclarationReflection>) {
 
 export function PropertyMembers({ properties }: { properties: Array<DeclarationReflection> }) {
 	return (
-		<div className="space-y-6">
+		<div className="space-y-10">
 			{properties.map((property) => {
 				if (property.flags.isExternal) return null;
 
