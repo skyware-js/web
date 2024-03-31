@@ -19,5 +19,21 @@
 :root {
     scrollbar-width: thin;
     scrollbar-color: theme("colors.gray.300") theme("colors.gray.100");
-    scrollbar-gutter: stable;
+}
+
+:root {
+    --twoslash-popup-bg: theme("colors.gray.100");
+    --twoslash-border-color: theme("colors.gray.300");
+    --twoslash-cursor-color: theme("colors.gray.700");
+    --twoslash-docs-font: "Geist Variable", system-ui, sans-serif;
+    --twoslash-code-font: "Geist Mono Variable", monospace;
+}
+
+pre.shiki {
+    @apply py-3 px-4 border border-gray-300 rounded-lg max-w-full h-fit overflow-x-auto overflow-y-visible;
+    background-color: theme("colors.gray.100") !important;
+}
+
+pre.shiki .twoslash-hover {
+    @apply static;
 }

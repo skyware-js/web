@@ -16,6 +16,7 @@ import {
 	PredicateType,
 	QueryType,
 	ReferenceType,
+	type Reflection,
 	ReflectionType,
 	RestType,
 	type SomeType,
@@ -25,18 +26,27 @@ import {
 	UnionType,
 } from "typedoc";
 
-function LinkIfPossible({ type }: { type: SomeType }) {
-	const span = (
-		<HighlightText kind={HighlightKind.SomeExport}>{type.stringify("none")}</HighlightText>
-	);
-	if (!(type instanceof ReferenceType) || !type.package?.startsWith("@skyware/")) {
+export function LinkIfPossible(
+	{ type, reflection }: { type: SomeType; reflection?: never } | {
+		type?: never;
+		reflection: Reflection;
+	},
+) {
+	const text = type ? type.stringify("none") : reflection.name;
+	const span = <HighlightText kind={HighlightKind.SomeExport}>{text}</HighlightText>;
+	if (type && (!(type instanceof ReferenceType) || !type.package?.startsWith("@skyware/"))) {
 		return span;
 	} else {
-		const url = resolveReflectionUrl(type.reflection as DeclarationReflection);
+		const url = resolveReflectionUrl(reflection || type.reflection as DeclarationReflection);
 		if (!url) return span;
 		return (
-			<HighlightText kind={HighlightKind.SkywareDeclaration} as="a" href={url}>
-				{type.stringify("none")}
+			<HighlightText
+				kind={reflection?.kind || HighlightKind.SkywareDeclaration}
+				as="a"
+				href={url}
+				className={"font-mono"}
+			>
+				{text}
 			</HighlightText>
 		);
 	}
@@ -228,7 +238,9 @@ export function renderType(type?: SomeType | undefined): ReactNode {
 					{"{ "}
 					{type.declaration.children?.slice(0, 3).map((property, i) => (
 						<>
-							<HighlightText kind={HighlightKind.Text}>{property.name}</HighlightText>
+							<HighlightText kind={HighlightKind.Parameter}>
+								{property.name}
+							</HighlightText>
 							{property.flags.isOptional
 								? <HighlightText kind={HighlightKind.Punctuation}>?</HighlightText>
 								: null}

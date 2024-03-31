@@ -1,5 +1,7 @@
+import { rendererClassic, rendererRich, transformerTwoslash } from "@shikijs/twoslash";
 import { clsx } from "clsx/lite";
 import type { AllHTMLAttributes, ReactNode } from "react";
+import { getHighlighter } from "shiki/bundle/web";
 import theme from "shiki/themes/catppuccin-mocha.mjs";
 import { ReflectionKind } from "typedoc";
 
@@ -82,3 +84,14 @@ export function HighlightText(
 		</Element>
 	);
 }
+
+export const highlighter = await getHighlighter({ themes: ["catppuccin-mocha"], langs: ["ts"] });
+export const codeToHtml = (code: string) => {
+	console.log(code);
+	return highlighter.codeToHtml(code, {
+		theme: "catppuccin-mocha",
+		lang: "ts",
+
+		transformers: [transformerTwoslash()],
+	});
+};

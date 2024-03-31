@@ -23,9 +23,9 @@ export default {
 			fontSize: {
 				"code-h1": "1.25rem",
 				"code-h2": "1.125rem",
-				"code-h3": "0.9375rem",
-				"docs-h3": ["1rem", "1.5rem"],
-				"docs-base": ["0.875rem", "1.125rem"],
+				"code-h3": "1rem",
+				"docs-h3": ["1.125rem", "1.625rem"],
+				"docs-base": ["1rem", "1.5rem"],
 				"docs-aside": ["0.75rem", "1rem"],
 			},
 		},

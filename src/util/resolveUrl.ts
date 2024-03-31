@@ -1,4 +1,4 @@
-import { type DeclarationReflection, Reflection, ReflectionKind, SourceReference } from "typedoc";
+import { Reflection, ReflectionKind, SourceReference } from "typedoc";
 
 export function resolveSourceUrl(reflection: Reflection & { sources?: Array<SourceReference> }) {
 	const source = reflection.sources?.[0];
@@ -16,10 +16,9 @@ export function resolveSourceUrl(reflection: Reflection & { sources?: Array<Sour
 	return `https://github.com/skyware-js/${repoName}/blob/main/${fileName}#L${line + 1}`;
 }
 
-export function resolveReflectionUrl(reflection: DeclarationReflection): string | null {
+export function resolveReflectionUrl(reflection: Reflection): string | null {
 	let module: Reflection;
-	for (module = reflection; module.kind !== ReflectionKind.Module; module = module.parent!) {
-	}
+	for (module = reflection; module.kind !== ReflectionKind.Module; module = module.parent!) {}
 	if (!module.name) return null;
 
 	const repoName = module.name.split("/").pop()!;
@@ -37,8 +36,7 @@ export function resolveReflectionUrl(reflection: DeclarationReflection): string 
 	if (category) return `/docs/${repoName}/${category}/${reflection.name}`;
 
 	if (reflection.kindOf([ReflectionKind.ClassMember, ReflectionKind.SomeMember])) {
-		return resolveReflectionUrl(reflection.parent as DeclarationReflection) + "#"
-			+ reflection.name;
+		return resolveReflectionUrl(reflection.parent!) + "#" + reflection.name;
 	}
 
 	return null;

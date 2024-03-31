@@ -15,6 +15,9 @@ const ctor = reflection.getChildrenByKind(ReflectionKind.Constructor)[0];
 const properties = reflection.getChildrenByKind(
 	ReflectionKind.VariableOrProperty,
 ).filter((prop) => !prop.flags.isPrivate && !prop.flags.isProtected);
+const accessors = reflection.getChildrenByKind(ReflectionKind.Accessor).filter((
+	prop,
+) => !prop.flags.isPrivate && !prop.flags.isProtected);
 ---
 
 <DocsLayout reflection={reflection}>
@@ -34,6 +37,13 @@ const properties = reflection.getChildrenByKind(
 		properties.length ? (
 			<div class="w-full pl-4 py-8 border-t border-gray-300">
 				<PropertyMembers properties={properties} />
+			</div>
+		) : null
+	}
+	{
+		accessors.length ? (
+			<div class="w-full pl-4 py-8 border-t border-gray-300">
+				<PropertyMembers properties={accessors} />
 			</div>
 		) : null
 	}

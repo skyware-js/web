@@ -24,9 +24,9 @@ const description = reflection.comment?.summary.join("")
 <Page title={title} description={description}>
 	<div class="flex flex-row w-full">
 		<Sidebar {...sidebar} />
-		<main class="flex-grow p-6">
+		<main class="flex-grow min-w-0 w-full p-6">
 			<div class="max-w-5xl mx-auto flex flex-row">
-				<div class="flex-grow min-w-fit">
+				<div class="flex-grow max-w-full">
 					<slot />
 				</div>
 			</div>
