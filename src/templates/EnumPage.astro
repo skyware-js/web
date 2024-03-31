@@ -1,6 +1,7 @@
 ---
 import type { DeclarationReflection } from "typedoc";
 import DocsLayout from "../components/layout/DocsLayout.astro";
+import { PropertyMembers } from "../components/page/PropertyMembers";
 import { TitleSection } from "../components/page/TitleSection";
 
 interface Props {
@@ -8,10 +9,21 @@ interface Props {
 }
 
 const { reflection } = Astro.props;
+
+const properties = reflection.children.filter((child) =>
+	!child.flags.isExternal && !child.flags.isPrivate
+);
 ---
 
 <DocsLayout reflection={reflection}>
 	<div class="w-full">
 		<TitleSection reflection={reflection} />
 	</div>
+	{
+		properties.length ? (
+			<div class="w-full pl-4 py-8 border-t border-gray-300">
+				<PropertyMembers properties={properties} />
+			</div>
+		) : null
+	}
 </DocsLayout>

@@ -117,7 +117,11 @@ function FunctionSignature({ signature }: { signature: SignatureReflection }): R
 		: null;
 
 	const typeSignature = (
-		<CodeHeading level="h2" id={reflection.name} url={resolveSourceUrl(signature)}>
+		<CodeHeading
+			level={reflection.kind === ReflectionKind.Function ? "h1" : "h2"}
+			id={reflection.name}
+			url={resolveSourceUrl(signature)}
+		>
 			{keyword}
 			<HighlightText kind={reflection.kind}>{reflection.name}</HighlightText>
 			<HighlightText kind={HighlightKind.Punctuation}>(</HighlightText>

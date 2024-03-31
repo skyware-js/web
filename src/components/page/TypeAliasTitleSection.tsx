@@ -1,18 +1,12 @@
+import { PageKinds } from "@/components/page/TitleSection.tsx";
 import { HighlightKind, HighlightText } from "@/util/highlight.tsx";
 import { renderSummary } from "@/util/renderSummary.tsx";
+import { renderType } from "@/util/renderType.tsx";
 import { resolveSourceUrl } from "@/util/resolveUrl.ts";
-import { type DeclarationReflection, ReflectionKind } from "typedoc";
+import { type DeclarationReflection } from "typedoc";
 import CodeHeading from "./CodeHeading.tsx";
 
-export const PageKinds = {
-	[ReflectionKind.Class]: "class",
-	[ReflectionKind.Enum]: "enum",
-	[ReflectionKind.Function]: "function",
-	[ReflectionKind.Interface]: "interface",
-	[ReflectionKind.TypeAlias]: "type",
-} as const;
-
-export function TitleSection({ reflection }: { reflection: DeclarationReflection }) {
+export function TypeAliasTitleSection({ reflection }: { reflection: DeclarationReflection }) {
 	const kind = PageKinds[reflection.kind as keyof typeof PageKinds];
 
 	const sourceUrl = resolveSourceUrl(reflection);
@@ -21,6 +15,8 @@ export function TitleSection({ reflection }: { reflection: DeclarationReflection
 		<CodeHeading level="h1" url={sourceUrl} id="title">
 			<HighlightText kind={HighlightKind.Reference}>{kind}</HighlightText>{" "}
 			<HighlightText kind={HighlightKind.SkywareDeclaration}>{reflection.name}</HighlightText>
+			<HighlightText kind={HighlightKind.Punctuation}>{" = "}</HighlightText>
+			{renderType(reflection.type)}
 		</CodeHeading>
 	);
 

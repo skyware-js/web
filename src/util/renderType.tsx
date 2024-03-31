@@ -61,10 +61,8 @@ export function renderType(type?: SomeType | undefined): ReactNode {
 	if (type instanceof ArrayType) {
 		return (
 			<>
-				<HighlightText kind={HighlightKind.Intrinsic}>{"Array"}</HighlightText>
-				<HighlightText kind={HighlightKind.Punctuation}>{"<"}</HighlightText>
 				{renderType(type.elementType)}
-				<HighlightText kind={HighlightKind.Punctuation}>{">"}</HighlightText>
+				<HighlightText kind={HighlightKind.Punctuation}>{"[]"}</HighlightText>
 			</>
 		);
 	}
@@ -163,10 +161,10 @@ export function renderType(type?: SomeType | undefined): ReactNode {
 		return (
 			<>
 				{type.asserts
-					? <HighlightText kind={HighlightKind.Punctuation}>{"asserts "}</HighlightText>
+					? <HighlightText kind={HighlightKind.Text}>{"asserts "}</HighlightText>
 					: null}
 				<HighlightText kind={HighlightKind.SomeValue}>{type.name}</HighlightText>
-				<HighlightText kind={HighlightKind.Punctuation}>{" is "}</HighlightText>
+				<HighlightText kind={HighlightKind.Text}>{" is "}</HighlightText>
 				{renderType(type.targetType)}
 			</>
 		);
@@ -195,7 +193,7 @@ export function renderType(type?: SomeType | undefined): ReactNode {
 										{renderType(arg)}
 										{i < type.typeArguments!.length - 1 && (
 											<HighlightText kind={HighlightKind.Punctuation}>
-												{" "}
+												{", "}
 											</HighlightText>
 										)}
 									</Fragment>
