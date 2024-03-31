@@ -6,6 +6,10 @@ import {
 	ReflectionKind,
 } from "typedoc";
 import ClassPage from "../../templates/ClassPage.astro";
+import EnumPage from "../../templates/EnumPage.astro";
+import FunctionPage from "../../templates/FunctionPage.astro";
+import TypePage from "../../templates/TypePage.astro";
+import VariablePage from "../../templates/VariablePage.astro";
 import { resolveReflectionUrl } from "../../util/resolveUrl";
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
@@ -46,7 +50,14 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 	return pages;
 }
 
-const DocsTemplates = { [ReflectionKind.Class]: ClassPage };
+const DocsTemplates = {
+	[ReflectionKind.Class]: ClassPage,
+	[ReflectionKind.Interface]: TypePage,
+	[ReflectionKind.TypeAlias]: TypePage,
+	[ReflectionKind.Enum]: EnumPage,
+	[ReflectionKind.Function]: FunctionPage,
+	[ReflectionKind.Variable]: VariablePage,
+};
 
 interface Props {
 	reflection: DeclarationReflection;

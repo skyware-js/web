@@ -1,6 +1,7 @@
 import { AnchorIcon } from "@/assets/icons/AnchorIcon.tsx";
 import { ExternalIcon } from "@/assets/icons/ExternalIcon.tsx";
 import { HighlightKind, HighlightText } from "@/util/highlight.tsx";
+import { renderSummary } from "@/util/renderSummary.tsx";
 import { resolveSourceUrl } from "@/util/resolveUrl.ts";
 import { type DeclarationReflection, ReflectionKind } from "typedoc";
 import CodeHeading from "./CodeHeading.tsx";
@@ -25,10 +26,7 @@ export function TitleSection({ reflection }: { reflection: DeclarationReflection
 		</CodeHeading>
 	);
 
-	const summaryText = reflection.comment?.summary.map((s) => s.text).join("") || "";
-	const summary = summaryText
-		? <p className="text-docs-base text-gray-900">{summaryText}</p>
-		: null;
+	const summary = renderSummary(reflection.comment);
 
 	return <div className="p-2 pt-4 pb-8 space-y-3 group">{heading}{summary}</div>;
 }

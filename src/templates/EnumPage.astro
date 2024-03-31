@@ -1,0 +1,17 @@
+---
+import type { DeclarationReflection } from "typedoc";
+import DocsLayout from "../components/layout/DocsLayout.astro";
+import { TitleSection } from "../components/page/TitleSection";
+
+interface Props {
+	reflection: DeclarationReflection;
+}
+
+const { reflection } = Astro.props;
+---
+
+<DocsLayout reflection={reflection}>
+	<div class="w-full">
+		<TitleSection reflection={reflection} />
+	</div>
+</DocsLayout>
