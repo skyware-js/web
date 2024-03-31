@@ -1,7 +1,7 @@
 import { AnchorIcon } from "@/assets/icons/AnchorIcon.tsx";
 import { ExternalIcon } from "@/assets/icons/ExternalIcon.tsx";
 import { HighlightKind, HighlightText } from "@/util/highlight.tsx";
-import { resolveSourceUrl } from "@/util/resolveSourceUrl.ts";
+import { resolveSourceUrl } from "@/util/resolveUrl.ts";
 import { type DeclarationReflection, ReflectionKind } from "typedoc";
 import CodeHeading from "./CodeHeading.tsx";
 

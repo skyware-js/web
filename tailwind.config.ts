@@ -22,9 +22,9 @@ export default {
 		extend: {
 			fontSize: {
 				"code-h1": "1.25rem",
-				"code-h2": "1rem",
-				"code-h3": "0.875rem",
-				"docs-h3": ["0.875rem", "1.5rem"],
+				"code-h2": "1.125rem",
+				"code-h3": "0.9375rem",
+				"docs-h3": ["1rem", "1.5rem"],
 				"docs-base": ["0.875rem", "1.125rem"],
 				"docs-aside": ["0.75rem", "1rem"],
 			},

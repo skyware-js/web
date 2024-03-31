@@ -1,6 +1,7 @@
 ---
-import { DeclarationReflection } from "typedoc";
+import { DeclarationReflection, ReflectionKind } from "typedoc";
 import DocsLayout from "../components/layout/DocsLayout.astro";
+import { FunctionSignature } from "../components/page/FunctionSignature";
 import { TitleSection } from "../components/page/TitleSection";
 
 interface Props {
@@ -8,10 +9,21 @@ interface Props {
 }
 
 const { reflection } = Astro.props;
+
+const ctor = reflection.getChildrenByKind(ReflectionKind.Constructor)[0];
 ---
 
 <DocsLayout reflection={reflection}>
-	<div class="w-full mb-6 border-b border-gray-300">
+	<div class="w-full border-b border-gray-300">
 		<TitleSection reflection={reflection} />
 	</div>
+	{
+		ctor && ctor.signatures.some((sig) => sig.parameters?.length)
+		? (
+			<div class="w-full pl-4 py-8 border-b border-gray-300">
+				<FunctionSignature reflection={ctor} />
+			</div>
+		)
+		: null
+	}
 </DocsLayout>

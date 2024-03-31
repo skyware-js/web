@@ -6,6 +6,7 @@ import {
 	ReflectionKind,
 } from "typedoc";
 import ClassPage from "../../templates/ClassPage.astro";
+import { resolveReflectionUrl } from "../../util/resolveUrl";
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 	const app = await Application.bootstrap({
@@ -20,52 +21,22 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 	const pages: GetStaticPathsResult = [];
 
 	for (const module of modules) {
-		const packageSlug = module.name.split("/").pop();
 		for (const reflection of module.children || []) {
-			switch (reflection.kind) {
-				case ReflectionKind.Class:
-					pages.push({
-						params: {
-							path: `${packageSlug}/classes/${reflection.name}`,
-						},
-						props: { reflection },
-					});
-					break;
-				case ReflectionKind.Interface:
-				case ReflectionKind.TypeAlias:
-					pages.push({
-						params: {
-							path: `${packageSlug}/types/${reflection.name}`,
-						},
-						props: { reflection },
-					});
-					break;
-				case ReflectionKind.Enum:
-					pages.push({
-						params: {
-							path: `${packageSlug}/enums/${reflection.name}`,
-						},
-						props: { reflection },
-					});
-					break;
-				case ReflectionKind.Function:
-					pages.push({
-						params: {
-							path: `${packageSlug}/functions/${reflection.name}`,
-						},
-						props: { reflection },
-					});
-					break;
-				case ReflectionKind.Variable:
-					pages.push({
-						params: {
-							path: `${packageSlug}/variables/${reflection.name}`,
-						},
-						props: { reflection },
-					});
-					break;
-				default:
-					break;
+			const path = resolveReflectionUrl(reflection).replace("/docs/", "");
+			if (!path) {
+				throw new Error(`Failed to resolve URL for ${reflection.name}`);
+			}
+			if (
+				reflection.kindOf([
+					ReflectionKind.Class,
+					ReflectionKind.Interface,
+					ReflectionKind.TypeAlias,
+					ReflectionKind.Enum,
+					ReflectionKind.Function,
+					ReflectionKind.Variable,
+				])
+			) {
+				pages.push({ params: { path }, props: { reflection } });
 			}
 		}
 	}
