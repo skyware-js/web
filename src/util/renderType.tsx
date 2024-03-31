@@ -166,32 +166,86 @@ export function renderType(type?: SomeType | undefined): ReactNode {
 		);
 	}
 	if (type instanceof ReferenceType) {
-		return (
-			<>
-				<LinkIfPossible type={type} />
-				{type.typeArguments?.length
-					? (
-						<>
-							<HighlightText kind={HighlightKind.Punctuation}>{"<"}</HighlightText>
-							{type.typeArguments.map((t, i) => (
-								<Fragment key={i}>
-									{renderType(t)}
-									{i < type.typeArguments!.length - 1 && (
-										<HighlightText kind={HighlightKind.Punctuation}>
-											{", "}
-										</HighlightText>
-									)}
-								</Fragment>
-							))}
-							<HighlightText kind={HighlightKind.Punctuation}>{">"}</HighlightText>
-						</>
-					)
-					: null}
-			</>
-		);
+		if (type.package === "typescript") {
+			return (
+				<>
+					<HighlightText kind={HighlightKind.Intrinsic}>{type.name}</HighlightText>
+					{type.typeArguments && type.typeArguments.length > 0
+						? (
+							<>
+								<HighlightText kind={HighlightKind.Punctuation}>
+									{"<"}
+								</HighlightText>
+								{type.typeArguments.map((arg, i) => (
+									<Fragment key={i}>
+										{renderType(arg)}
+										{i < type.typeArguments!.length - 1 && (
+											<HighlightText kind={HighlightKind.Punctuation}>
+												{" "}
+											</HighlightText>
+										)}
+									</Fragment>
+								))}
+								<HighlightText kind={HighlightKind.Punctuation}>
+									{">"}
+								</HighlightText>
+							</>
+						)
+						: null}
+				</>
+			);
+		}
+		return <LinkIfPossible type={type} />;
 	}
 	if (type instanceof ReflectionType) {
-		return <HighlightText kind={HighlightKind.Text}>Object</HighlightText>;
+		return (!type.declaration.children && type.declaration.signatures?.length)
+			? (
+				<>
+					<HighlightText kind={HighlightKind.Punctuation}>{"("}</HighlightText>
+					{type.declaration.signatures[0].parameters?.map((param, i) => (
+						<Fragment key={i}>
+							<HighlightText kind={HighlightKind.Parameter}>
+								{param.name}
+							</HighlightText>
+							{param.flags.isOptional
+								? <HighlightText kind={HighlightKind.Punctuation}>?</HighlightText>
+								: null}
+							<HighlightText kind={HighlightKind.Punctuation}>{": "}</HighlightText>
+							{renderType(param.type)}
+							{i < type.declaration.signatures![0].parameters!.length - 1 && (
+								<HighlightText kind={HighlightKind.Punctuation}>
+									{" "}
+								</HighlightText>
+							)}
+						</Fragment>
+					))}
+					<HighlightText kind={HighlightKind.Punctuation}>{") => "}</HighlightText>
+					{renderType(type.declaration.signatures[0].type)}
+				</>
+			)
+			: (
+				<HighlightText kind={HighlightKind.Text}>
+					{"{ "}
+					{type.declaration.children?.slice(0, 3).map((property, i) => (
+						<>
+							<HighlightText kind={HighlightKind.Text}>{property.name}</HighlightText>
+							{property.flags.isOptional
+								? <HighlightText kind={HighlightKind.Punctuation}>?</HighlightText>
+								: null}
+							<HighlightText kind={HighlightKind.Punctuation}>{": "}</HighlightText>
+							{renderType(property.type)}
+							<HighlightText kind={HighlightKind.Punctuation}>;</HighlightText>
+							{i < type.declaration.children!.length - 1 && (
+								<HighlightText kind={HighlightKind.Text}>{" "}</HighlightText>
+							)}
+						</>
+					)) || null}
+					{(type.declaration.children?.length || 0) > 3
+						? <HighlightText kind={HighlightKind.Text}>{" ..."}</HighlightText>
+						: null}
+					{" }"}
+				</HighlightText>
+			);
 	}
 	if (type instanceof RestType) {
 		return (

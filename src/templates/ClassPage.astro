@@ -2,6 +2,7 @@
 import { DeclarationReflection, ReflectionKind } from "typedoc";
 import DocsLayout from "../components/layout/DocsLayout.astro";
 import { FunctionSignature } from "../components/page/FunctionSignature";
+import { PropertyMembers } from "../components/page/PropertyMembers";
 import { TitleSection } from "../components/page/TitleSection";
 
 interface Props {
@@ -11,19 +12,29 @@ interface Props {
 const { reflection } = Astro.props;
 
 const ctor = reflection.getChildrenByKind(ReflectionKind.Constructor)[0];
+const properties = reflection.getChildrenByKind(
+	ReflectionKind.VariableOrProperty,
+).filter((prop) => !prop.flags.isPrivate && !prop.flags.isProtected);
 ---
 
 <DocsLayout reflection={reflection}>
-	<div class="w-full border-b border-gray-300">
+	<div class="w-full">
 		<TitleSection reflection={reflection} />
 	</div>
 	{
 		ctor && ctor.signatures.some((sig) => sig.parameters?.length)
 		? (
-			<div class="w-full pl-4 py-8 border-b border-gray-300">
+			<div class="w-full pl-4 py-8 border-t border-gray-300">
 				<FunctionSignature reflection={ctor} />
 			</div>
 		)
 		: null
+	}
+	{
+		properties.length ? (
+			<div class="w-full pl-4 py-8 border-t border-gray-300">
+				<PropertyMembers properties={properties} />
+			</div>
+		) : null
 	}
 </DocsLayout>

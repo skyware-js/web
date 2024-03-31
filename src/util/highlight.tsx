@@ -29,6 +29,7 @@ export function reflectionColor(kind: HighlightKind) {
 		case HighlightKind.ConstructorSignature:
 		case HighlightKind.Reference:
 		case HighlightKind.Intrinsic:
+		case HighlightKind.Keyword:
 			return themeColors["storage.type"];
 		case HighlightKind.Parameter:
 		case HighlightKind.SomeValue:
@@ -38,7 +39,6 @@ export function reflectionColor(kind: HighlightKind) {
 		case HighlightKind.FunctionOrMethod:
 			return themeColors["entity.name.function"];
 		case HighlightKind.SomeExport:
-		case HighlightKind.Keyword:
 		case HighlightKind.Class:
 		case HighlightKind.Interface:
 		case HighlightKind.TypeAlias:
@@ -62,7 +62,7 @@ export function reflectionColor(kind: HighlightKind) {
 export function HighlightText(
 	{ kind, as: Element = "span", children, ...props }:
 		& Omit<AllHTMLAttributes<HTMLElement>, "kind" | "children">
-		& { kind: HighlightKind; as?: string; children: string | null },
+		& { kind: HighlightKind; as?: string; children: ReactNode },
 ): ReactNode {
 	const color = reflectionColor(kind);
 	return (
@@ -74,7 +74,7 @@ export function HighlightText(
 				"text-[var(--color)]",
 				Element === "a"
 					&& `relative border-b border-b-[var(--color)] border-dotted hover:border-none\
-before:content-[''] before:absolute before:block before:left-1/2 before:-translate-x-1/2 before:top-1/2 before:-translate-y-1/2 before:w-[110%] before:h-[130%] before:hover:bg-[var(--color-dim)] before:rounded-sm`,
+ before:content-[''] before:absolute before:block before:left-1/2 before:-translate-x-1/2 before:top-1/2 before:-translate-y-1/2 before:w-[110%] before:h-[130%] before:hover:bg-[var(--color-dim)] before:rounded-sm`,
 				props.className,
 			)}
 		>

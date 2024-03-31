@@ -1,5 +1,7 @@
+import CodeHeading from "@/components/page/CodeHeading.tsx";
 import { HighlightKind, HighlightText } from "@/util/highlight.tsx";
 import { renderType } from "@/util/renderType.tsx";
+import { resolveSourceUrl } from "@/util/resolveUrl.ts";
 import { Fragment, type ReactNode } from "react";
 import { type DeclarationReflection, ReflectionKind } from "typedoc";
 
@@ -9,7 +11,7 @@ export function FunctionSignature({ reflection }: { reflection: DeclarationRefle
 		throw new Error(`Function ${reflection.name} has no signatures`);
 	}
 
-	return signatures?.map((overload, i) => {
+	return signatures.map((overload, i) => {
 		const params = overload.parameters || [];
 
 		const paramNodes: Array<ReactNode> = [];
@@ -36,13 +38,13 @@ export function FunctionSignature({ reflection }: { reflection: DeclarationRefle
 			: null;
 
 		const signature = (
-			<span className="font-mono text-code-h2">
+			<CodeHeading level="h2" id={reflection.name} url={resolveSourceUrl(overload)}>
 				{keyword}
 				<HighlightText kind={reflection.kind}>{reflection.name}</HighlightText>
 				<HighlightText kind={HighlightKind.Punctuation}>(</HighlightText>
 				{paramNodes}
 				<HighlightText kind={HighlightKind.Punctuation}>)</HighlightText>
-			</span>
+			</CodeHeading>
 		);
 
 		const summaryText = overload.comment?.summary.map((s) => s.text).join("") || "";
@@ -122,11 +124,11 @@ export function FunctionSignature({ reflection }: { reflection: DeclarationRefle
 			: null;
 
 		return (
-			<div key={overload.id} className="text-docs-base text-gray-900 space-y-4">
+			<div key={overload.id} className="text-docs-base text-gray-900 space-y-4 group">
 				{signature}
 				{summary}
 				{parametersList}
 			</div>
 		);
-	}) || null;
+	});
 }
