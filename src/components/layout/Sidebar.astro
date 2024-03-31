@@ -98,9 +98,11 @@ const githubUrl = `https://github.com/${
 	currentModule.name.replace("@skyware", "skyware-js")
 }`;
 ---
-<nav class="w-96 border-r border-r-gray-300 h-screen">
+<nav
+	class="w-[26rem] border-r border-r-gray-300 h-screen sticky top-0 left-0 overflow-y-auto overflow-x-hidden"
+>
 	<div
-		class="w-full flex flex-col items-center justify-center px-8 py-6 gap-6 border-b border-b-gray-300"
+		class="w-full h-fit flex flex-col items-center justify-center px-8 py-6 gap-6 border-b border-b-gray-300"
 	>
 		<a href="/">
 			<Logo className="h-5 fill-accent" />
@@ -129,7 +131,7 @@ const githubUrl = `https://github.com/${
 		</div>
 	</div>
 	<div
-		class="w-full flex flex-col items-center justify-center px-8 py-6 gap-6 overflow-y-scroll"
+		class="w-full flex flex-col items-center justify-center px-8 py-6 gap-6"
 	>
 		<Search client:load />
 		{
