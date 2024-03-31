@@ -5,7 +5,6 @@ import { getCollection } from "astro:content";
 import { clsx } from "clsx/lite";
 import { type DeclarationReflection, ReflectionKind } from "typedoc";
 import { Search } from "../Search.tsx";
-import { Select } from "../Select.tsx";
 import SidebarDocsSection from "./SidebarDocsSection.astro";
 
 interface Props {
@@ -107,11 +106,18 @@ const githubUrl = `https://github.com/${
 			<Logo className="h-5 fill-accent" />
 		</a>
 		<div class="w-full flex flex-row items-center justify-between gap-6">
-			<Select
-				className="w-full"
-				label="Select module"
-				options={modules.map((mod) => mod.name)}
-			/>
+			<label for="module-switcher" class="sr-only">Select module</label>
+			<select
+				id="module-switcher"
+				class="w-full block bg-gray-100 px-3 py-1.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-0 hover:border-gray-500 focus:border-gray-500 text-docs-base leading-6 text-gray-700"
+				onchange="window.location.href = this.value"
+			>
+				{
+					modules.map(({ name, url }) => (
+						<option value={url}>{name}</option>
+					))
+				}
+			</select>
 			<a href={githubUrl} class="text-accent">
 				<GithubIcon className="h-5 fill-gray-700" />
 			</a>
