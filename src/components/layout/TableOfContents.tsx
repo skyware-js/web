@@ -1,3 +1,4 @@
+import { sortReflections } from "@/util/sortReflections.ts";
 import { type ReactNode, useEffect, useMemo } from "react";
 import type { DeclarationReflection } from "typedoc";
 
@@ -13,15 +14,16 @@ export function generateTOC(reflection?: DeclarationReflection | undefined | nul
 	if (!reflection?.children?.length) return null;
 
 	const ctor = reflection.getChildrenByKind(/* ReflectionKind.Constructor */ 512)[0];
-	const properties = reflection.getChildrenByKind(
-		/* ReflectionKind.Property */ 1024 | /* ReflectionKind.EnumMember */ 16,
-	).filter((prop) => !prop.flags.isPrivate && !prop.flags.isProtected && !prop.flags.isExternal);
-	const accessors = reflection.getChildrenByKind(/* ReflectionKind.Accessor */ 262144).filter((
-		prop,
-	) => !prop.flags.isPrivate && !prop.flags.isProtected && !prop.flags.isExternal);
-	const methods = reflection.getChildrenByKind(/* ReflectionKind.Method */ 2048).filter((
-		method,
-	) => !method.flags.isPrivate && !method.flags.isProtected && !method.flags.isExternal);
+	const properties = sortReflections(
+		reflection.getChildrenByKind(
+			/* ReflectionKind.Property */ 1024 | /* ReflectionKind.EnumMember */ 16,
+		),
+	).filter(({ flags }) => !flags.isPrivate && !flags.isProtected && !flags.isExternal);
+	const accessors = sortReflections(
+		reflection.getChildrenByKind(/* ReflectionKind.Accessor */ 262144),
+	).filter(({ flags }) => !flags.isPrivate && !flags.isProtected && !flags.isExternal);
+	const methods = sortReflections(reflection.getChildrenByKind(/* ReflectionKind.Method */ 2048))
+		.filter(({ flags }) => !flags.isPrivate && !flags.isProtected && !flags.isExternal);
 
 	const toc: TOCList = { name: reflection.name };
 

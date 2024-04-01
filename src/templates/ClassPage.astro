@@ -5,6 +5,7 @@ import { FunctionDocumentation } from "../components/page/FunctionDocumentation"
 import { MethodMembers } from "../components/page/MethodMembers";
 import { PropertyMembers } from "../components/page/PropertyMembers";
 import { TitleSection } from "../components/page/TitleSection";
+import { sortReflections as sort } from "../util/sortReflections";
 
 interface Props {
 	reflection: DeclarationReflection;
@@ -13,15 +14,11 @@ interface Props {
 const { reflection } = Astro.props;
 
 const ctor = reflection.getChildrenByKind(ReflectionKind.Constructor)[0];
-const properties = reflection.getChildrenByKind(
-	ReflectionKind.VariableOrProperty,
-).filter((prop) => !prop.flags.isPrivate && !prop.flags.isProtected);
-const accessors = reflection.getChildrenByKind(ReflectionKind.Accessor).filter((
-	prop,
-) => !prop.flags.isPrivate && !prop.flags.isProtected);
-const methods = reflection.getChildrenByKind(ReflectionKind.Method).filter((
-	method,
-) => !method.flags.isPrivate && !method.flags.isProtected);
+const properties = sort(
+	reflection.getChildrenByKind(ReflectionKind.VariableOrProperty),
+);
+const accessors = sort(reflection.getChildrenByKind(ReflectionKind.Accessor));
+const methods = sort(reflection.getChildrenByKind(ReflectionKind.Method));
 ---
 
 <DocsLayout reflection={reflection}>

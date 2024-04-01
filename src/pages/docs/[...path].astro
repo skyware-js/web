@@ -14,6 +14,7 @@ import {
 	externalSymbolLinkMappings,
 	resolveReflectionUrl,
 } from "../../util/resolveUrl";
+import { serializeSources } from "../../util/typedocSerializeSources";
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 	const app = await Application.bootstrap({
@@ -21,8 +22,11 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 		entryPoints: ["packages/*"],
 		excludeExternals: true,
 		excludeInternal: true,
+		excludePrivate: true,
+		excludeProtected: true,
 		externalSymbolLinkMappings,
 	});
+	serializeSources(app);
 	const project = await app.convert();
 	if (!project) throw new Error("Failed to generate documentation.");
 
@@ -31,7 +35,7 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 	const pages: GetStaticPathsResult = [];
 
 	for (const module of modules) {
-		for (const reflection of module.children || []) {
+		for (const reflection of module.children) {
 			const path = resolveReflectionUrl(reflection)?.replace(
 				"/docs/",
 				"",

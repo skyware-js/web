@@ -3,6 +3,7 @@ import type { DeclarationReflection } from "typedoc";
 import DocsLayout from "../components/layout/DocsLayout.astro";
 import { PropertyMembers } from "../components/page/PropertyMembers";
 import { TitleSection } from "../components/page/TitleSection";
+import { sortReflections as sort } from "../util/sortReflections";
 
 interface Props {
 	reflection: DeclarationReflection;
@@ -10,9 +11,7 @@ interface Props {
 
 const { reflection } = Astro.props;
 
-const properties = reflection.children.filter((child) =>
-	!child.flags.isExternal && !child.flags.isPrivate
-);
+const properties = sort(reflection.children);
 ---
 
 <DocsLayout reflection={reflection}>

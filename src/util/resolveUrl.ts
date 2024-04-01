@@ -20,6 +20,8 @@ export const externalSymbolLinkMappings = {
 		Date:
 			"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
 	},
+	limiter: { "*": "https://www.npmjs.com/package/limiter" },
+	"quick-lru": { "*": "https://www.npmjs.com/package/quick-lru" },
 };
 
 export function parseAtprotoLexiconPath(fileName: string): Array<string> | null {
