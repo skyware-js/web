@@ -1,5 +1,4 @@
 import { type ReactNode, useEffect, useMemo } from "react";
-import scrollIntoView from "scroll-into-view-if-needed";
 import type { DeclarationReflection } from "typedoc";
 
 interface TOCList {
@@ -46,10 +45,6 @@ export function TableOfContents({ toc }: { toc: TOCList }): ReactNode {
 						);
 						if (link) {
 							link.setAttribute("data-visible", "true");
-							const tag = entry.target.tagName.toLowerCase();
-							if (tag === "h1" || tag === "h2") {
-								scrollIntoView(link, { block: "start", behavior: "smooth" });
-							}
 						}
 					} else {
 						const id = entry.target.id;
