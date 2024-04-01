@@ -1,10 +1,15 @@
+import { ExternalIcon } from "@/assets/icons/ExternalIcon.tsx";
 import { HighlightKind, HighlightText } from "@/util/highlight.tsx";
-import { resolveReflectionUrl } from "@/util/resolveUrl.ts";
+import {
+	parseAtprotoLexiconPath,
+	resolveReflectionUrl,
+	resolveTypeUrl,
+} from "@/util/resolveUrl.ts";
 import { Fragment, type ReactNode } from "react";
 import {
 	ArrayType,
 	ConditionalType,
-	type DeclarationReflection,
+	DeclarationReflection,
 	IndexedAccessType,
 	InferredType,
 	IntersectionType,
@@ -17,7 +22,6 @@ import {
 	QueryType,
 	ReferenceType,
 	type Reflection,
-	ReflectionKind,
 	ReflectionType,
 	RestType,
 	type SomeType,
@@ -27,30 +31,81 @@ import {
 	UnionType,
 } from "typedoc";
 
+function resolveAtprotoLexiconTypeName(type: ReferenceType): string {
+	if (!type.symbolId?.fileName) return type.name;
+	const lexiconParts = parseAtprotoLexiconPath(type.symbolId.fileName);
+	if (!lexiconParts) return type.name;
+
+	const lexiconPascalCase = lexiconParts.map((part) => part[0].toUpperCase() + part.slice(1))
+		.join("");
+	return lexiconPascalCase + "." + type.name;
+}
+
+function resolveTypeName(type?: SomeType | null | undefined): string | null {
+	if (!type || !(type instanceof ReferenceType)) return null;
+	if (type.package === "@atproto/api") {
+		return resolveAtprotoLexiconTypeName(type);
+	}
+	if (type.package === "quick-lru" && type.name === "default") {
+		return "QuickLRU";
+	}
+	return type.name || null;
+}
+
+function typeLinkKind(typeOrReflection?: SomeType | Reflection | null | undefined) {
+	if (!typeOrReflection) return "internal";
+	if (typeOrReflection instanceof DeclarationReflection) {
+		return typeLinkKind(typeOrReflection.type);
+	}
+	if (typeOrReflection instanceof ReferenceType) {
+		if (typeOrReflection.package?.startsWith("@skyware/")) return "internal";
+		if (typeOrReflection.package === "typescript" || typeOrReflection.package === "global") {
+			return "builtin";
+		}
+		return "external";
+	}
+	return "internal";
+}
+
 export function LinkIfPossible(
-	{ type, reflection, children }: { type: SomeType; reflection?: never; children?: ReactNode } | {
-		type?: never;
-		reflection: Reflection;
-		children?: ReactNode;
-	},
+	{ type, reflection, children }:
+		| { type: SomeType; reflection?: undefined; children?: ReactNode }
+		| { type?: undefined; reflection: Reflection; children?: ReactNode },
 ) {
-	const text = type ? type.stringify("none") : reflection.name;
-	const span = <HighlightText kind={HighlightKind.SomeExport}>{children || text}</HighlightText>;
-	if (type && (!(type instanceof ReferenceType) || !type.package?.startsWith("@skyware/"))) {
+	const fallbackName = type?.stringify("none") || reflection?.name;
+	const resolvedName = resolveTypeName(type);
+
+	const span = (
+		<HighlightText kind={HighlightKind.SomeExport}>
+			{resolvedName || children || fallbackName}
+		</HighlightText>
+	);
+	if (type && !(type instanceof ReferenceType)) {
 		return span;
 	} else {
-		const url = resolveReflectionUrl(reflection || type.reflection as DeclarationReflection);
+		const url = resolveTypeUrl(type) || resolveReflectionUrl(reflection || type.reflection);
 		if (!url) return span;
+
+		const linkKind = typeLinkKind(type || reflection);
+		const highlightKind = linkKind === "internal"
+			? HighlightKind.SkywareDeclaration
+			: linkKind === "builtin"
+			? HighlightKind.Intrinsic
+			: HighlightKind.SomeExport;
+
 		return (
 			<HighlightText
-				kind={reflection?.kindOf(ReflectionKind.SomeExport)
-					? HighlightKind.SkywareDeclaration
-					: (reflection?.kind || HighlightKind.SkywareDeclaration)}
+				kind={highlightKind}
 				as="a"
 				href={url}
-				className={"font-mono"}
+				target={linkKind === "internal" ? "_self" : "_blank"}
+				rel="noopener noreferrer"
+				className="font-mono inline-flex items-center space-x-1"
 			>
-				{children || text}
+				<span>{resolvedName || children || fallbackName}</span>
+				{linkKind === "external"
+					? <ExternalIcon className="fill-current w-[0.75em] h-[0.75em]" />
+					: null}
 			</HighlightText>
 		);
 	}
@@ -178,36 +233,29 @@ export function renderType(type?: SomeType | undefined): ReactNode {
 		);
 	}
 	if (type instanceof ReferenceType) {
-		if (type.package === "typescript") {
-			return (
-				<>
-					<HighlightText kind={HighlightKind.Intrinsic}>{type.name}</HighlightText>
-					{type.typeArguments && type.typeArguments.length > 0
-						? (
-							<>
-								<HighlightText kind={HighlightKind.Punctuation}>
-									{"<"}
-								</HighlightText>
-								{type.typeArguments.map((arg, i) => (
-									<Fragment key={i}>
-										{renderType(arg)}
-										{i < type.typeArguments!.length - 1 && (
-											<HighlightText kind={HighlightKind.Punctuation}>
-												{", "}
-											</HighlightText>
-										)}
-									</Fragment>
-								))}
-								<HighlightText kind={HighlightKind.Punctuation}>
-									{">"}
-								</HighlightText>
-							</>
-						)
-						: null}
-				</>
-			);
-		}
-		return <LinkIfPossible type={type} />;
+		return (
+			<>
+				<LinkIfPossible type={type}>{type.name}</LinkIfPossible>
+				{type.typeArguments?.length
+					? (
+						<>
+							<HighlightText kind={HighlightKind.Punctuation}>{"<"}</HighlightText>
+							{type.typeArguments.map((arg, i) => (
+								<Fragment key={i}>
+									{renderType(arg)}
+									{i < type.typeArguments!.length - 1 && (
+										<HighlightText kind={HighlightKind.Punctuation}>
+											{", "}
+										</HighlightText>
+									)}
+								</Fragment>
+							))}
+							<HighlightText kind={HighlightKind.Punctuation}>{">"}</HighlightText>
+						</>
+					)
+					: null}
+			</>
+		);
 	}
 	if (type instanceof ReflectionType) {
 		return (!type.declaration.children && type.declaration.signatures?.length)

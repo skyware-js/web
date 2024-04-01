@@ -14,6 +14,7 @@ export default {
 			},
 			accent: "#70BAFF",
 			current: "currentColor",
+			transparent: "transparent",
 		},
 		fontFamily: {
 			sans: ["Geist Variable", "sans-serif"],

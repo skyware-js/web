@@ -75,8 +75,8 @@ export function HighlightText(
 			className={clsx(
 				"text-[var(--color)]",
 				Element === "a"
-					&& `relative border-b border-b-[var(--color)] border-dotted hover:border-none\
- before:content-[''] before:absolute before:block before:left-1/2 before:-translate-x-1/2 before:top-1/2 before:-translate-y-1/2 before:w-[110%] before:h-[130%] before:hover:bg-[var(--color-dim)] before:rounded-sm`,
+					&& `relative border-b border-b-[var(--color)] border-dotted hover:border-b-transparent\
+ before:content-[''] before:absolute before:block before:left-1/2 before:-translate-x-1/2 before:top-1/2 before:-translate-y-1/2 before:w-[105%] before:h-[120%] before:hover:bg-[var(--color-dim)] before:rounded-sm`,
 				props.className,
 			)}
 		>

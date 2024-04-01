@@ -10,7 +10,10 @@ import EnumPage from "../../templates/EnumPage.astro";
 import FunctionPage from "../../templates/FunctionPage.astro";
 import TypePage from "../../templates/TypePage.astro";
 import VariablePage from "../../templates/VariablePage.astro";
-import { resolveReflectionUrl } from "../../util/resolveUrl";
+import {
+	externalSymbolLinkMappings,
+	resolveReflectionUrl,
+} from "../../util/resolveUrl";
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 	const app = await Application.bootstrap({
@@ -18,6 +21,7 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 		entryPoints: ["packages/*"],
 		excludeExternals: true,
 		excludeInternal: true,
+		externalSymbolLinkMappings,
 	});
 	const project = await app.convert();
 	if (!project) throw new Error("Failed to generate documentation.");
@@ -28,7 +32,10 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 
 	for (const module of modules) {
 		for (const reflection of module.children || []) {
-			const path = resolveReflectionUrl(reflection).replace("/docs/", "");
+			const path = resolveReflectionUrl(reflection)?.replace(
+				"/docs/",
+				"",
+			);
 			if (!path) {
 				throw new Error(`Failed to resolve URL for ${reflection.name}`);
 			}
