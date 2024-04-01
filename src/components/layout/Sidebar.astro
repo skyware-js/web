@@ -1,6 +1,7 @@
 ---
 import { GithubIcon } from "@/assets/icons/GithubIcon.tsx";
 import { Logo } from "@/assets/Logo.tsx";
+import { DocSearch } from "@docsearch/react";
 import { getCollection } from "astro:content";
 import { clsx } from "clsx/lite";
 import { type DeclarationReflection, ReflectionKind } from "typedoc";
@@ -23,8 +24,6 @@ interface Props {
 		types: Array<{ name: string; url: string }>;
 	};
 }
-
-export { Props as SidebarProps };
 
 export async function generateSidebar(
 	module: DeclarationReflection,
@@ -133,7 +132,12 @@ const githubUrl = `https://github.com/${
 	<div
 		class="w-full flex flex-col items-center justify-center px-8 py-6 gap-6"
 	>
-		<Search client:load />
+		<DocSearch
+			client:only="react"
+			appId="R2IYF7ETH7"
+			apiKey="599cec31baffa4868cae4e79f180729b"
+			indexName="docsearch"
+		/>
 		{
 			guides.length > 0 && (
 				<div class="w-full flex flex-col gap-2">
