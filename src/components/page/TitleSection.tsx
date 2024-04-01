@@ -18,7 +18,7 @@ export function TitleSection({ reflection }: { reflection: DeclarationReflection
 	const sourceUrl = resolveSourceUrl(reflection);
 
 	const heading = (
-		<CodeHeading level="h1" url={sourceUrl} id="title">
+		<CodeHeading level="h1" url={sourceUrl} id={reflection.name}>
 			<HighlightText kind={HighlightKind.Reference}>{kind}</HighlightText>{" "}
 			<HighlightText kind={HighlightKind.SkywareDeclaration}>{reflection.name}</HighlightText>
 		</CodeHeading>

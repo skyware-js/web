@@ -58,7 +58,7 @@
 }
 
 .DocSearch-Footer {
-    @apply bg-gray-100 shadow-none border-t border-gray-300 text-gray-700;
+    @apply bg-gray-100 shadow-none border-t border-gray-300 text-gray-700 items-center justify-center;
 }
 
 .DocSearch-Commands {

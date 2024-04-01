@@ -17,11 +17,6 @@
 }
 
 :root {
-    scrollbar-width: thin;
-    scrollbar-color: theme("colors.gray.300") theme("colors.gray.100");
-}
-
-:root {
     --twoslash-popup-bg: theme("colors.gray.100");
     --twoslash-border-color: theme("colors.gray.300");
     --twoslash-cursor-color: theme("colors.gray.700");
@@ -36,4 +31,9 @@ pre.shiki {
 
 pre.shiki .twoslash-hover {
     @apply static;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: theme("colors.gray.300") theme("colors.gray.100");
 }

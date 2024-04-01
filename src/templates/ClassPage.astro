@@ -31,6 +31,7 @@ const methods = reflection.getChildrenByKind(ReflectionKind.Method).filter((
 	{
 		ctor && ctor.signatures.some((sig) => sig.parameters?.length)
 		? (
+			<h2 class="w-1 h-1 -m-1 overflow-hidden">Constructor</h2>
 			<div class="w-full pl-4 py-8 border-t border-gray-300">
 				<FunctionDocumentation reflection={ctor} />
 			</div>
@@ -39,6 +40,9 @@ const methods = reflection.getChildrenByKind(ReflectionKind.Method).filter((
 	}
 	{
 		properties.length ? (
+			<h2 class="w-1 h-1 -m-1 overflow-hidden" id="properties">
+				Properties
+			</h2>
 			<div class="w-full pl-4 py-8 border-t border-gray-300">
 				<PropertyMembers properties={properties} />
 			</div>
@@ -46,6 +50,9 @@ const methods = reflection.getChildrenByKind(ReflectionKind.Method).filter((
 	}
 	{
 		accessors.length ? (
+			<h2 class="w-1 h-1 -m-1 overflow-hidden" id="accessors">
+				Accessors
+			</h2>
 			<div class="w-full pl-4 py-8 border-t border-gray-300">
 				<PropertyMembers properties={accessors} />
 			</div>
@@ -53,6 +60,9 @@ const methods = reflection.getChildrenByKind(ReflectionKind.Method).filter((
 	}
 	{
 		methods.length ? (
+			<h2 class="w-1 h-1 -m-1 overflow-hidden" id="methods">
+				Methods
+			</h2>
 			<div class="w-full pl-4 py-8 border-t border-gray-300">
 				<MethodMembers methods={methods} />
 			</div>

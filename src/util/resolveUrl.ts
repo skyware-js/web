@@ -6,9 +6,9 @@ export function resolveSourceUrl(reflection: Reflection & { sources?: Array<Sour
 
 	const { fileName, line } = source;
 
-	let module: Reflection;
-	for (module = reflection; module.kind !== ReflectionKind.Module; module = module.parent!) {}
-	if (!module.name) return null;
+	let module: Reflection | undefined;
+	for (module = reflection; module?.kind !== ReflectionKind.Module; module = module?.parent) {}
+	if (!module?.name) return null;
 
 	const repoName = module.name.split("/").pop();
 	if (!repoName) return null;
@@ -17,9 +17,9 @@ export function resolveSourceUrl(reflection: Reflection & { sources?: Array<Sour
 }
 
 export function resolveReflectionUrl(reflection: Reflection): string | null {
-	let module: Reflection;
-	for (module = reflection; module.kind !== ReflectionKind.Module; module = module.parent!) {}
-	if (!module.name) return null;
+	let module: Reflection | undefined;
+	for (module = reflection; module?.kind !== ReflectionKind.Module; module = module?.parent) {}
+	if (!module?.name) return null;
 
 	const repoName = module.name.split("/").pop()!;
 

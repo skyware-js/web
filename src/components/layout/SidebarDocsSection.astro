@@ -1,10 +1,17 @@
 ---
 import { clsx } from "clsx/lite";
+import type { DeclarationReflection } from "typedoc";
+import { generateTOC, TableOfContents } from "./TableOfContents";
+
 interface Props {
 	title: string;
 	section: Array<{ name: string; url: string }>;
+	reflection?: DeclarationReflection | null;
 }
-const { title, section } = Astro.props;
+
+const { title, section, reflection } = Astro.props;
+
+const toc = generateTOC(reflection) || null;
 
 const current = section.find(({ url }) => Astro.url.pathname.includes(url));
 ---
@@ -22,6 +29,14 @@ const current = section.find(({ url }) => Astro.url.pathname.includes(url));
 						url === current?.url ? "text-accent" : "text-gray-900",
 					)}
 				>{name}</a>
+				{
+					name === reflection?.name && toc ? (
+						<TableOfContents
+							toc={toc}
+							client:only="react"
+						/>
+					) : null
+				}
 			</li>
 		))
 	}

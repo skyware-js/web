@@ -12,7 +12,7 @@ export default function CodeHeading(
 		id: string;
 	} & HTMLProps<HTMLHeadingElement>,
 ) {
-	const HeadingComponent = level;
+	const HeadingComponent = level === "h1" ? "h1" : "h3"; // h2 is reserved for screen reader headings
 	const headingLevel = HeadingLevels[level];
 	return (
 		<HeadingComponent

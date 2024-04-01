@@ -17,11 +17,21 @@ interface Props {
 		}
 	>;
 	docs: {
-		classes: Array<{ name: string; url: string }>;
-		functions: Array<{ name: string; url: string }>;
-		enums: Array<{ name: string; url: string }>;
-		variables: Array<{ name: string; url: string }>;
-		types: Array<{ name: string; url: string }>;
+		classes: Array<
+			{ name: string; url: string; reflection: DeclarationReflection }
+		>;
+		functions: Array<
+			{ name: string; url: string; reflection: DeclarationReflection }
+		>;
+		enums: Array<
+			{ name: string; url: string; reflection: DeclarationReflection }
+		>;
+		variables: Array<
+			{ name: string; url: string; reflection: DeclarationReflection }
+		>;
+		types: Array<
+			{ name: string; url: string; reflection: DeclarationReflection }
+		>;
 	};
 }
 
@@ -42,7 +52,9 @@ export async function generateSidebar(
 	const docs = (module.children || []).reduce<
 		Record<
 			"classes" | "functions" | "enums" | "variables" | "types",
-			Array<{ name: string; url: string }>
+			Array<
+				{ name: string; url: string; reflection: DeclarationReflection }
+			>
 		>
 	>((acc, child) => {
 		const name = child.name;
@@ -51,18 +63,21 @@ export async function generateSidebar(
 				acc.classes.push({
 					name,
 					url: `/docs/${moduleName}/classes/${name}`,
+					reflection: child,
 				});
 				break;
 			case ReflectionKind.Function:
 				acc.functions.push({
 					name,
 					url: `/docs/${moduleName}/functions/${name}`,
+					reflection: child,
 				});
 				break;
 			case ReflectionKind.Enum:
 				acc.enums.push({
 					name,
 					url: `/docs/${moduleName}/enums/${name}`,
+					reflection: child,
 				});
 				break;
 			case ReflectionKind.TypeAlias:
@@ -70,12 +85,14 @@ export async function generateSidebar(
 				acc.types.push({
 					name,
 					url: `/docs/${moduleName}/types/${name}`,
+					reflection: child,
 				});
 				break;
 			case ReflectionKind.Variable:
 				acc.variables.push({
 					name,
 					url: `/docs/${moduleName}/variables/${name}`,
+					reflection: child,
 				});
 				break;
 		}
@@ -93,6 +110,10 @@ const currentModule = modules.find((mod) =>
 const currentGuide = guides.find(({ slug }) =>
 	Astro.url.pathname.includes(slug)
 );
+const currentReflection = Object.values(docs).flat().find(({ url }) =>
+	Astro.url.pathname.includes(url)
+)?.reflection;
+
 const githubUrl = `https://github.com/${
 	currentModule.name.replace("@skyware", "skyware-js")
 }`;
@@ -180,6 +201,7 @@ const githubUrl = `https://github.com/${
 							<SidebarDocsSection
 								title="Classes"
 								section={docs.classes}
+								reflection={Astro.url.pathname.includes("classes") && currentReflection}
 							/>
 						</li>
 					) : null
@@ -190,6 +212,7 @@ const githubUrl = `https://github.com/${
 							<SidebarDocsSection
 								title="Functions"
 								section={docs.functions}
+								reflection={Astro.url.pathname.includes("functions") && currentReflection}
 							/>
 						</li>
 					) : null
@@ -200,6 +223,7 @@ const githubUrl = `https://github.com/${
 							<SidebarDocsSection
 								title="Enums"
 								section={docs.enums}
+								reflection={Astro.url.pathname.includes("enums") && currentReflection}
 							/>
 						</li>
 					) : null
@@ -210,6 +234,7 @@ const githubUrl = `https://github.com/${
 							<SidebarDocsSection
 								title="Variables"
 								section={docs.variables}
+								reflection={Astro.url.pathname.includes("variables") && currentReflection}
 							/>
 						</li>
 					) : null
@@ -220,6 +245,7 @@ const githubUrl = `https://github.com/${
 							<SidebarDocsSection
 								title="Types"
 								section={docs.types}
+								reflection={Astro.url.pathname.includes("types") && currentReflection}
 							/>
 						</li>
 					) : null

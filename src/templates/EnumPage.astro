@@ -21,6 +21,9 @@ const properties = reflection.children.filter((child) =>
 	</div>
 	{
 		properties.length ? (
+			<h2 class="w-1 h-1 -m-1 overflow-hidden" id="properties">
+				Properties
+			</h2>
 			<div class="w-full pl-4 py-8 border-t border-gray-300">
 				<PropertyMembers properties={properties} />
 			</div>
