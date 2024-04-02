@@ -1,3 +1,4 @@
+import { reflectionShouldBeRendered } from "@/util/reflectionShouldBeRendered.ts";
 import { sortReflections } from "@/util/sortReflections.ts";
 import { type ReactNode, useEffect, useMemo } from "react";
 import type { DeclarationReflection } from "typedoc";
@@ -14,20 +15,28 @@ export function generateTOC(reflection?: DeclarationReflection | undefined | nul
 	if (!reflection?.children?.length) return null;
 
 	const ctor = reflection.getChildrenByKind(/* ReflectionKind.Constructor */ 512)[0];
+
 	const properties = sortReflections(
 		reflection.getChildrenByKind(
 			/* ReflectionKind.Property */ 1024 | /* ReflectionKind.EnumMember */ 16,
-		),
-	).filter(({ flags }) => !flags.isPrivate && !flags.isProtected && !flags.isExternal);
+		).filter(reflectionShouldBeRendered),
+	);
+
 	const accessors = sortReflections(
-		reflection.getChildrenByKind(/* ReflectionKind.Accessor */ 262144),
-	).filter(({ flags }) => !flags.isPrivate && !flags.isProtected && !flags.isExternal);
-	const methods = sortReflections(reflection.getChildrenByKind(/* ReflectionKind.Method */ 2048))
-		.filter(({ flags }) => !flags.isPrivate && !flags.isProtected && !flags.isExternal);
+		reflection.getChildrenByKind(/* ReflectionKind.Accessor */ 262144).filter((
+			{ signatures },
+		) => signatures?.length && signatures.some(reflectionShouldBeRendered)),
+	);
+
+	const methods = sortReflections(
+		reflection.getChildrenByKind(/* ReflectionKind.Method */ 2048).filter(({ signatures }) =>
+			signatures?.length && signatures.some(reflectionShouldBeRendered)
+		),
+	);
 
 	const toc: TOCList = { name: reflection.name };
 
-	if (ctor) toc.ctor = true;
+	if (ctor && ctor.signatures?.some(reflectionShouldBeRendered)) toc.ctor = true;
 	if (properties.length) toc.properties = properties.map((prop) => prop.name);
 	if (accessors.length) toc.accessors = accessors.map((prop) => prop.name);
 	if (methods.length) toc.methods = methods.map((method) => method.name);

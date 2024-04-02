@@ -111,7 +111,7 @@ const currentGuide = guides.find(({ slug }) =>
 	Astro.url.pathname.includes(slug)
 );
 const currentReflection = Object.values(docs).flat().find(({ url }) =>
-	Astro.url.pathname.includes(url)
+	Astro.url.pathname.endsWith(url)
 )?.reflection;
 
 const githubUrl = `https://github.com/${
