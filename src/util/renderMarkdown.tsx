@@ -4,7 +4,7 @@ import { Fragment, type ReactNode } from "react";
 import { type CommentDisplayPart, Reflection } from "typedoc";
 
 const plainLinkRegex =
-	/(?:^|\s|\(|\[)((?:https?:\/\/[\S]+)|(?:(?:[a-z][a-z0-9]*(?:\.[a-z0-9]+)+)[\S]*))/g;
+	/(?:^|\s|\(|\[)((?:https?:\/\/[\S]+)|(?:(?:[a-z][a-z0-9]*(?:\.[a-z0-9]+)+)(?!\.)[\S]*))/g;
 const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
 const blockCodeRegex = /`{3}([^]+?)\n*`{3}/g;
 const inlineCodeRegex = /`([^]+?)\n*`/g;
