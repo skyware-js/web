@@ -63,10 +63,17 @@ export function PropertyMembers({ properties }: { properties: Array<DeclarationR
 	return (
 		<div className="space-y-10">
 			{properties.map((property) => {
-				if (property.flags.isExternal) return null;
+				if (property.flags.isExternal || property.flags.isPrivate) return null;
 
 				const modifiers = (
 					<>
+						{property.flags.isAbstract
+							? (
+								<HighlightText kind={HighlightKind.Keyword}>
+									{"abstract "}
+								</HighlightText>
+							)
+							: null}
 						{property.flags.isStatic
 							? (
 								<HighlightText kind={HighlightKind.Keyword}>

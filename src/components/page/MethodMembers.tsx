@@ -5,7 +5,7 @@ export function MethodMembers({ methods }: { methods: Array<DeclarationReflectio
 	return (
 		<div className="space-y-12">
 			{methods.map((method) => {
-				if (method.flags.isExternal) return null;
+				if (method.flags.isExternal || method.flags.isPrivate) return null;
 				return <FunctionDocumentation reflection={method} key={method.name} />;
 			})}
 		</div>
