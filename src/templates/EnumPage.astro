@@ -3,6 +3,7 @@ import type { DeclarationReflection } from "typedoc";
 import DocsLayout from "../components/layout/DocsLayout.astro";
 import { PropertyMembers } from "../components/page/PropertyMembers";
 import { TitleSection } from "../components/page/TitleSection";
+import { reflectionShouldBeRendered } from "../util/reflectionShouldBeRendered";
 import { sortReflections as sort } from "../util/sortReflections";
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
 
 const { reflection } = Astro.props;
 
-const properties = sort(reflection.children);
+const properties = sort(reflection.children.filter(reflectionShouldBeRendered));
 ---
 
 <DocsLayout reflection={reflection}>

@@ -64,8 +64,6 @@ export function PropertyMembers({ properties }: { properties: Array<DeclarationR
 	return (
 		<div className="space-y-10">
 			{properties.map((property) => {
-				if (!reflectionShouldBeRendered(property)) return null;
-
 				const modifiers = (
 					<>
 						{property.flags.isAbstract

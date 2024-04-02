@@ -16,10 +16,22 @@ const { reflection } = Astro.props;
 
 const ctor = reflection.getChildrenByKind(ReflectionKind.Constructor)[0];
 const properties = sort(
-	reflection.getChildrenByKind(ReflectionKind.VariableOrProperty),
+	reflection.getChildrenByKind(ReflectionKind.VariableOrProperty).filter(
+		reflectionShouldBeRendered,
+	),
 );
-const accessors = sort(reflection.getChildrenByKind(ReflectionKind.Accessor));
-const methods = sort(reflection.getChildrenByKind(ReflectionKind.Method));
+const accessors = sort(
+	reflection.getChildrenByKind(ReflectionKind.Accessor).filter((accessor) =>
+		reflectionShouldBeRendered(accessor) && accessor.signatures?.length
+		&& accessor.signatures.some(reflectionShouldBeRendered)
+	),
+);
+const methods = sort(
+	reflection.getChildrenByKind(ReflectionKind.Method).filter((method) =>
+		reflectionShouldBeRendered(method) && method.signatures?.length
+		&& method.signatures.some(reflectionShouldBeRendered)
+	),
+);
 ---
 
 <DocsLayout reflection={reflection}>

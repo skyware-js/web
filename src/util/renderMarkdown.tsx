@@ -26,7 +26,6 @@ export function parseMarkdown(
 			parts.push({ text: text.slice(lastIndex, match.index) });
 		}
 		if (plainLink) {
-			console.log(plainLink);
 			parts.push({ text: plainLink, url: plainLink });
 		} else if (url) {
 			parts.push({ text: linkText, url });

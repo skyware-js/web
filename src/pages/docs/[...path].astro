@@ -10,6 +10,7 @@ import EnumPage from "../../templates/EnumPage.astro";
 import FunctionPage from "../../templates/FunctionPage.astro";
 import TypePage from "../../templates/TypePage.astro";
 import VariablePage from "../../templates/VariablePage.astro";
+import { reflectionShouldBeRendered } from "../../util/reflectionShouldBeRendered";
 import {
 	externalSymbolLinkMappings,
 	resolveReflectionUrl,
@@ -36,6 +37,8 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 
 	for (const module of modules) {
 		for (const reflection of module.children) {
+			if (!reflectionShouldBeRendered(reflection)) continue;
+
 			const path = resolveReflectionUrl(reflection)?.replace(
 				"/docs/",
 				"",

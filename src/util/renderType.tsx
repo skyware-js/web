@@ -69,7 +69,7 @@ function typeLinkKind(typeOrReflection?: SomeType | Reflection | null | undefine
 
 function sortTypes(types: Array<SomeType>) {
 	const sortLast = ["null", "undefined"];
-	const sorted = types.sort((a, b) => {
+	return types.sort((a, b) => {
 		const aName = resolveTypeName(a) || ("name" in a && a.name)
 			|| ("value" in a && `${a.value}`) || "";
 		const bName = resolveTypeName(b) || ("name" in b && b.name)
@@ -78,8 +78,6 @@ function sortTypes(types: Array<SomeType>) {
 		if (sortLast.includes(bName) && !sortLast.includes(aName)) return -1;
 		return (aName && bName) ? aName.localeCompare(bName) : 0;
 	});
-	console.log(types, sorted);
-	return sorted;
 }
 
 export function LinkIfPossible(

@@ -23,20 +23,27 @@ export function generateTOC(reflection?: DeclarationReflection | undefined | nul
 	);
 
 	const accessors = sortReflections(
-		reflection.getChildrenByKind(/* ReflectionKind.Accessor */ 262144).filter((
-			{ signatures },
-		) => signatures?.length && signatures.some(reflectionShouldBeRendered)),
+		reflection.getChildrenByKind(/* ReflectionKind.Accessor */ 262144).filter((accessor) =>
+			reflectionShouldBeRendered(accessor) && accessor.signatures?.length
+			&& accessor.signatures.some(reflectionShouldBeRendered)
+		),
 	);
 
 	const methods = sortReflections(
-		reflection.getChildrenByKind(/* ReflectionKind.Method */ 2048).filter(({ signatures }) =>
-			signatures?.length && signatures.some(reflectionShouldBeRendered)
+		reflection.getChildrenByKind(/* ReflectionKind.Method */ 2048).filter((method) =>
+			reflectionShouldBeRendered(method) && method.signatures?.length
+			&& method.signatures.some(reflectionShouldBeRendered)
 		),
 	);
 
 	const toc: TOCList = { name: reflection.name };
 
-	if (ctor && ctor.signatures?.some(reflectionShouldBeRendered)) toc.ctor = true;
+	if (
+		ctor && reflectionShouldBeRendered(ctor)
+		&& ctor.signatures?.length && ctor.signatures?.some((sig) =>
+			sig.parameters?.length && reflectionShouldBeRendered(sig)
+		)
+	) toc.ctor = true;
 	if (properties.length) toc.properties = properties.map((prop) => prop.name);
 	if (accessors.length) toc.accessors = accessors.map((prop) => prop.name);
 	if (methods.length) toc.methods = methods.map((method) => method.name);
