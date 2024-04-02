@@ -8,7 +8,7 @@ import { resolveSourceUrl } from "@/util/resolveUrl.ts";
 import type { ReactNode } from "react";
 import { type DeclarationReflection, ReflectionKind, type ReflectionType } from "typedoc";
 
-export function renderProperties(properties: Array<DeclarationReflection>) {
+export function renderChildProperties(properties: Array<DeclarationReflection>) {
 	return (
 		<div className="space-y-3">
 			<h4 className="font-medium text-docs-h3 text-gray-900">Properties</h4>
@@ -157,7 +157,7 @@ export function PropertyMembers({ properties }: { properties: Array<DeclarationR
 				const childProperties = ((accessorSignature || property).type as ReflectionType)
 					?.declaration?.children;
 				const properties = childProperties?.length
-					? renderProperties(childProperties)
+					? renderChildProperties(childProperties)
 					: null;
 
 				return (

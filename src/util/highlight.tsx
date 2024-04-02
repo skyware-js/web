@@ -1,6 +1,9 @@
-import { transformerTwoslash } from "@shikijs/twoslash";
+import { parseMarkdown } from "@/util/renderMarkdown.tsx";
+import { type RendererRichOptions, transformerTwoslash } from "@shikijs/twoslash";
 import { clsx } from "clsx/lite";
+import { toJsxRuntime } from "hast-util-to-jsx-runtime";
 import type { AllHTMLAttributes, ReactNode } from "react";
+import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import { getHighlighter } from "shiki/bundle/web";
 import theme from "shiki/themes/catppuccin-mocha.mjs";
 import { ReflectionKind } from "typedoc";
@@ -85,11 +88,48 @@ export function HighlightText(
 	);
 }
 
+const renderMarkdownInTwoslashHover: RendererRichOptions["renderMarkdown"] = (text) => {
+	const parsed = parseMarkdown(text);
+	return parsed.map((part) => {
+		if (part.url) {
+			return {
+				type: "element",
+				tagName: "a",
+				properties: { href: part.url, class: "text-accent" },
+				children: [{ type: "text", value: part.text }],
+			};
+		}
+		if (part.code) {
+			return {
+				type: "element",
+				tagName: "code",
+				properties: {},
+				children: [{ type: "text", value: part.text }],
+			};
+		}
+		return { type: "text", value: part.text };
+	});
+};
+
 export const highlighter = await getHighlighter({ themes: ["catppuccin-mocha"], langs: ["ts"] });
-export const codeToHtml = (code: string) => {
-	return highlighter.codeToHtml(code, {
+export const renderCode = (
+	code: string,
+	{ twoslash = true, inline = false }: { twoslash?: boolean; inline?: boolean } = {},
+) => {
+	const hast = highlighter.codeToHast(code, {
 		theme: "catppuccin-mocha",
 		lang: "ts",
-		transformers: [transformerTwoslash({ throws: false })],
+		meta: { inline: inline ? "true" : "false" },
+		transformers: twoslash
+			? [transformerTwoslash({
+				rendererRich: {
+					renderMarkdown: renderMarkdownInTwoslashHover,
+					renderMarkdownInline: renderMarkdownInTwoslashHover,
+				},
+			})]
+			: [],
 	});
+	if (inline && "tagName" in hast.children[0]) hast.children[0].tagName = "code";
+	// @ts-expect-error — doesn't like the types of jsx and jsxs
+	return toJsxRuntime(hast, { Fragment, jsx, jsxs });
 };

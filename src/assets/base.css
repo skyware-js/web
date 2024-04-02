@@ -24,11 +24,18 @@
     --twoslash-code-font: "Geist Mono Variable", monospace;
 }
 
+.twoslash .twoslash-popup-docs {
+    @apply text-gray-700 text-docs-base not-italic;
+}
+
 pre.shiki {
     @apply py-3 px-4 border border-gray-300 rounded-lg max-w-full h-fit overflow-x-auto overflow-y-visible;
     background-color: theme("colors.gray.100") !important;
 }
 
+code.shiki[inline=true] {
+    @apply inline m-0 p-1 border-none bg-gray-100 w-fit !important;
+}
 pre.shiki .twoslash-hover {
     @apply static;
 }
