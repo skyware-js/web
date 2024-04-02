@@ -67,6 +67,21 @@ function typeLinkKind(typeOrReflection?: SomeType | Reflection | null | undefine
 	return "internal";
 }
 
+function sortTypes(types: Array<SomeType>) {
+	const sortLast = ["null", "undefined"];
+	const sorted = types.sort((a, b) => {
+		const aName = resolveTypeName(a) || ("name" in a && a.name)
+			|| ("value" in a && `${a.value}`) || "";
+		const bName = resolveTypeName(b) || ("name" in b && b.name)
+			|| ("value" in b && `${b.value}`) || "";
+		if (sortLast.includes(aName) && !sortLast.includes(bName)) return 1;
+		if (sortLast.includes(bName) && !sortLast.includes(aName)) return -1;
+		return (aName && bName) ? aName.localeCompare(bName) : 0;
+	});
+	console.log(types, sorted);
+	return sorted;
+}
+
 export function LinkIfPossible(
 	{ type, reflection, children }:
 		| { type: SomeType; reflection?: undefined; children?: ReactNode }
@@ -163,7 +178,7 @@ export function renderType(type?: SomeType | undefined): ReactNode {
 		);
 	}
 	if (type instanceof IntersectionType) {
-		return type.types.map((t, i) => (
+		return sortTypes(type.types).map((t, i) => (
 			<Fragment key={i}>
 				{renderType(t)}
 				{i < type.types.length - 1 && (
@@ -381,9 +396,10 @@ export function renderType(type?: SomeType | undefined): ReactNode {
 		);
 	}
 	if (type instanceof UnionType) {
-		return type.types.map((t, i) => (
+		return sortTypes(type.types).map((t, i) => (
 			<Fragment key={i}>
 				{renderType(t)}
+
 				{i < type.types.length - 1 && (
 					<HighlightText kind={HighlightKind.Punctuation}>{" | "}</HighlightText>
 				)}

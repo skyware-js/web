@@ -107,7 +107,7 @@ function FunctionSignature({ signature }: { signature: SignatureReflection }): R
 					? <HighlightText kind={HighlightKind.Punctuation}>...</HighlightText>
 					: null}
 				<HighlightText kind={HighlightKind.Parameter}>{param.name}</HighlightText>
-				{param.flags.isOptional
+				{param.flags.isOptional || param.defaultValue
 					? <HighlightText kind={HighlightKind.Punctuation}>?</HighlightText>
 					: null}
 				{i < params.length - 1
