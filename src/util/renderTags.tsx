@@ -2,6 +2,16 @@ import { renderMarkdown } from "@/util/renderMarkdown.tsx";
 import type { ReactNode } from "react";
 import type { Comment, CommentTag } from "typedoc";
 
+export function renderDefaultTag(tag?: CommentTag | undefined): ReactNode {
+	if (!tag) return null;
+	return (
+		<span className="text-docs-base text-gray-900">
+			<span className="font-medium">{"Default: "}</span>
+			{renderMarkdown(tag.content, true)}
+		</span>
+	);
+}
+
 export function renderSeeTags(tags?: Array<CommentTag> | undefined): ReactNode {
 	if (!tags || !tags.length) return null;
 	const renderSeeTag = (tag: CommentTag) => (
@@ -32,8 +42,11 @@ export function renderExampleTags(tags?: Array<CommentTag> | undefined): ReactNo
 export function renderTags(comment?: Comment | null | undefined): ReactNode {
 	if (!comment) return null;
 
+	const defaultTag = comment.getTag("@default");
 	const seeTags = comment.getTags("@see");
 	const exampleTags = comment.getTags("@example");
 
-	return <>{renderSeeTags(seeTags)}{renderExampleTags(exampleTags)}</>;
+	return (
+		<>{renderDefaultTag(defaultTag)}{renderSeeTags(seeTags)}{renderExampleTags(exampleTags)}</>
+	);
 }
