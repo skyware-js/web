@@ -1,27 +1,36 @@
 ---
 import { DeclarationReflection } from "typedoc";
+import { generateMeta, type Meta } from "../../util/generateMeta";
 import { TitleSection } from "../page/TitleSection.tsx";
 import Page from "./Page.astro";
 import Sidebar, { generateSidebar } from "./Sidebar.astro";
 
 interface Props {
-	reflection: DeclarationReflection;
+	module?: DeclarationReflection | undefined;
+	meta?: Meta;
 }
 
-const { reflection } = Astro.props;
-const module = reflection.parent;
+let { module, meta } = Astro.props;
 
 if (!module || !module.isDeclaration()) {
 	throw new Error("Reflection has no parent module.");
 }
 
-const sidebar = await generateSidebar(module);
+if (!meta?.title || !meta?.description) {
+	if (module) {
+		meta = { ...(meta || {}), ...generateMeta(module) };
+	} else {
+		meta = {
+			...(meta || {}),
+			title: "Skyware | Documentation",
+			description: "Skyware is a collection of libraries for building on Bluesky."
+		}
+	}
+}
 
-const title = `${reflection.name} | ${module.name}`;
-const description = reflection.comment?.summary.join("")
-	|| `Documentation for ${reflection.name} in ${module.name}.`;
+const sidebar = await generateSidebar(module);
 ---
-<Page title={title} description={description}>
+<Page meta={meta}>
 	<div class="flex flex-row w-full">
 		<Sidebar {...sidebar} />
 		<main class="flex-grow min-w-0 w-full p-6">

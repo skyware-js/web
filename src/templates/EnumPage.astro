@@ -1,8 +1,9 @@
 ---
 import type { DeclarationReflection } from "typedoc";
-import DocsLayout from "../components/layout/DocsLayout.astro";
+import DocsLayout from "../components/layout/Layout.astro";
 import { PropertyMembers } from "../components/page/PropertyMembers";
 import { TitleSection } from "../components/page/TitleSection";
+import { generateMeta } from "../util/generateMeta";
 import { reflectionShouldBeRendered } from "../util/reflectionShouldBeRendered";
 import { sortReflections as sort } from "../util/sortReflections";
 
@@ -15,7 +16,7 @@ const { reflection } = Astro.props;
 const properties = sort(reflection.children.filter(reflectionShouldBeRendered));
 ---
 
-<DocsLayout reflection={reflection}>
+<DocsLayout module={reflection.parent} meta={generateMeta(reflection)}>
 	<div class="w-full">
 		<TitleSection reflection={reflection} />
 	</div>

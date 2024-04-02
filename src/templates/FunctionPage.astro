@@ -1,7 +1,8 @@
 ---
 import type { DeclarationReflection } from "typedoc";
-import DocsLayout from "../components/layout/DocsLayout.astro";
+import DocsLayout from "../components/layout/Layout.astro";
 import { FunctionDocumentation } from "../components/page/FunctionDocumentation";
+import { generateMeta } from "../util/generateMeta";
 
 interface Props {
 	reflection: DeclarationReflection;
@@ -10,7 +11,7 @@ interface Props {
 const { reflection } = Astro.props;
 ---
 
-<DocsLayout reflection={reflection}>
+<DocsLayout module={reflection.parent}>
 	<div class="w-full">
 		<FunctionDocumentation reflection={reflection} />
 	</div>

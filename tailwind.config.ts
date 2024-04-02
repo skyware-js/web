@@ -1,4 +1,5 @@
 import forms from "@tailwindcss/forms";
+import typography from "@tailwindcss/typography";
 import type { Config } from "tailwindcss";
 
 export default {
@@ -29,7 +30,32 @@ export default {
 				"docs-base": ["1rem", "1.625rem"],
 				"docs-aside": ["0.875rem", "1rem"],
 			},
+			typography: ({ theme }) => ({
+				DEFAULT: {
+					css: {
+						"--tw-prose-body": theme("colors.gray.900"),
+						"--tw-prose-headings": theme("colors.gray.900"),
+						"--tw-prose-lead": theme("colors.gray.500"),
+						"--tw-prose-links": theme("colors.accent"),
+						"--tw-prose-bold": theme("colors.gray.900"),
+						"--tw-prose-counters": theme("colors.gray.500"),
+						"--tw-prose-bullets": theme("colors.gray.700"),
+						"--tw-prose-hr": theme("colors.gray.700"),
+						"--tw-prose-quotes": theme("colors.gray.300"),
+						"--tw-prose-quote-borders": theme("colors.gray.700"),
+						"--tw-prose-captions": theme("colors.gray.500"),
+						"--tw-prose-kbd": theme("colors.gray.900"),
+						"--tw-prose-code": theme("colors.gray.900"),
+						"--tw-prose-pre-code": theme("colors.gray.100"),
+						"--tw-prose-pre-bg": theme("colors.gray.300") + "80",
+						"--tw-prose-th-borders": theme("colors.gray.700"),
+						"--tw-prose-td-borders": theme("colors.gray.700"),
+						h1: { fontWeight: 500 },
+						h2: { fontWeight: 500 },
+					},
+				},
+			}),
 		},
 	},
-	plugins: [forms],
+	plugins: [forms, typography],
 } satisfies Config;

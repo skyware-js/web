@@ -1,32 +1,44 @@
 ---
+import type { InferEntrySchema } from "astro:content";
 import { clsx } from "clsx/lite";
 import type { DeclarationReflection } from "typedoc";
 import { generateTOC, TableOfContents } from "./TableOfContents";
 
-interface Props {
+type Props = {
+	type: "docs";
 	title: string;
 	section: Array<{ name: string; url: string }>;
 	reflection?: DeclarationReflection | null;
-}
+} | {
+	type: "guides";
+	title: string;
+	section: Array<InferEntrySchema<"guides"> & { url: string }>;
+	reflection?: null;
+};
 
-const { title, section, reflection } = Astro.props;
+const { type, title, section, reflection } = Astro.props;
 
 const toc = generateTOC(reflection) || null;
 
 const current = section.find(({ url }) => Astro.url.pathname.endsWith(url));
 ---
-<h4 class="pl-4 text-gray-700 text-docs-base">{title}</h4>
+<h4 class="pl-4 text-gray-700 text-docs-aside">{title}</h4>
 <ul class="mt-1.5">
 	{
-		section.map(({ name, url }) => (
-			<li
-				class={clsx("py-1.5 pl-4", url === current?.url && "border-l border-l-accent")}
-			>
+		section.map((entry) => {
+		const name = "name" in entry ? entry.name : entry.title;
+		return (
+			<li>
 				<a
-					href={url}
+					href={"/" + entry.url}
 					class={clsx(
-						"font-mono text-code-h3",
-						url === current?.url ? "text-accent" : "text-gray-900",
+						"pl-4 py-1.5 block",
+						"text-code-h3",
+						type === "docs" ? "font-mono" : "font-sans",
+						entry.url === current?.url
+							? "border-l border-l-accent"
+							: "hover:border-l hover:border-l-gray-700 hover:-ml-px",
+						entry.url === current?.url ? "text-accent" : "text-gray-900",
 					)}
 				>{name}</a>
 				{
@@ -38,6 +50,7 @@ const current = section.find(({ url }) => Astro.url.pathname.endsWith(url));
 					) : null
 				}
 			</li>
-		))
+		);
+		})
 	}
 </ul>

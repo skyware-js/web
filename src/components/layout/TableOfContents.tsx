@@ -52,31 +52,25 @@ export function generateTOC(reflection?: DeclarationReflection | undefined | nul
 }
 
 export function TableOfContents({ toc }: { toc: TOCList }): ReactNode {
-	const observer = useMemo(() => {
-		return typeof window !== "undefined"
-			? new IntersectionObserver((entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) {
-						const id = entry.target.id;
-						const link = document.querySelector<HTMLAnchorElement>(
-							`.toc a[href="#${id}"]`,
-						);
-						if (link) {
-							link.setAttribute("data-visible", "true");
-						}
-					} else {
-						const id = entry.target.id;
-						const link = document.querySelector(`.toc a[href="#${id}"]`);
-						if (link) {
-							link.removeAttribute("data-visible");
-						}
-					}
-				});
-			}, { threshold: 0.5 })
-			: null;
-	}, []);
-
 	useEffect(() => {
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					const id = entry.target.id;
+					const link = document.querySelector<HTMLAnchorElement>(`.toc a[href="#${id}"]`);
+					if (link) {
+						link.setAttribute("data-visible", "true");
+					}
+				} else {
+					const id = entry.target.id;
+					const link = document.querySelector(`.toc a[href="#${id}"]`);
+					if (link) {
+						link.removeAttribute("data-visible");
+					}
+				}
+			});
+		}, { threshold: 0.5 });
+
 		const headers = Array.from(document.querySelectorAll("main h1, main h2, main h3"));
 		headers.forEach((header) => {
 			if (header.id) {

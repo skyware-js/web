@@ -3,17 +3,17 @@ import "@shikijs/twoslash/style-rich.css";
 import "@docsearch/css";
 import "../../assets/base.css";
 import "../../assets/docsearch.css";
+import type { Meta } from "../../util/generateMeta";
 
 interface Props {
-	title?: string;
-	description?: string;
+	meta?: Meta;
 }
 
 const {
 	title = "Docs | Skyware",
 	description =
 		"Skyware is a collection of libraries for developing on Bluesky.",
-} = Astro.props;
+} = Astro.props.meta || {};
 ---
 
 <!DOCTYPE html>

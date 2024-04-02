@@ -15,7 +15,7 @@
 .DocSearch-Button {
     border: 1px solid theme("colors.gray.300");
     height: unset;
-    @apply w-full m-0 px-3 py-1.5 font-normal text-gray-700 text-docs-base rounded-lg;
+    @apply w-full min-h-10 m-0 px-3 py-1.5 font-normal text-gray-700 text-docs-base rounded-lg;
     @apply hover:shadow-none focus:shadow-none hover:border-gray-500 focus:border-gray-500;
 }
 
@@ -28,6 +28,7 @@
 
 .DocSearch-Button-Placeholder {
     @apply mt-px;
+    @apply block !important;
 }
 
 .DocSearch-Button-Key, .DocSearch-Commands-Key {
@@ -37,6 +38,7 @@
 
 .DocSearch-Button-Keys {
     @apply items-center justify-end;
+    @apply flex !important;
 }
 
 .DocSearch-Modal {

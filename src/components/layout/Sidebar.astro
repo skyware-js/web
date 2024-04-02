@@ -2,19 +2,15 @@
 import { GithubIcon } from "@/assets/icons/GithubIcon.tsx";
 import { Logo } from "@/assets/Logo.tsx";
 import { DocSearch } from "@docsearch/react";
-import { getCollection } from "astro:content";
-import { clsx } from "clsx/lite";
+import { getCollection, type InferEntrySchema } from "astro:content";
 import { type DeclarationReflection, ReflectionKind } from "typedoc";
-import { Search } from "../Search.tsx";
 import SidebarDocsSection from "./SidebarDocsSection.astro";
 
 interface Props {
 	modules: Array<{ name: string; url: string }>;
-	guides: Array<
-		{
-			data: { title: string; description: string; module: string };
-			slug: string;
-		}
+	guides: Record<
+		string,
+		Array<{ data: InferEntrySchema<"guides">; slug: string }>
 	>;
 	docs: {
 		classes: Array<
@@ -38,16 +34,24 @@ interface Props {
 export async function generateSidebar(
 	module: DeclarationReflection,
 ): Promise<Props> {
-	const moduleName = module.name.split("/").pop()!;
+	const packageName = module.name.split("/").pop()!;
 
 	const modules = module.project.getChildrenByKind(ReflectionKind.Module).map(
-		(mod) => ({ name: mod.name, url: `/docs/${mod.name.split("/").pop()}` })
+		(mod) => ({ name: mod.name, url: `docs/${mod.name.split("/").pop()}` })
 	);
 
-	const guides = await getCollection(
-		"guides",
-		({ data }) => data.module === moduleName,
-	);
+	const guides =
+		(await getCollection(
+			"guides",
+			({ data }) => data.library === module.name,
+		)).reduce<Props["guides"]>((acc, guide) => {
+			const category = guide.data.category;
+			if (!acc[category]) {
+				acc[category] = [];
+			}
+			acc[category].push(guide);
+			return acc;
+		}, {});
 
 	const docs = (module.children || []).reduce<
 		Record<
@@ -62,21 +66,21 @@ export async function generateSidebar(
 			case ReflectionKind.Class:
 				acc.classes.push({
 					name,
-					url: `/docs/${moduleName}/classes/${name}`,
+					url: `docs/${packageName}/classes/${name}`,
 					reflection: child,
 				});
 				break;
 			case ReflectionKind.Function:
 				acc.functions.push({
 					name,
-					url: `/docs/${moduleName}/functions/${name}`,
+					url: `docs/${packageName}/functions/${name}`,
 					reflection: child,
 				});
 				break;
 			case ReflectionKind.Enum:
 				acc.enums.push({
 					name,
-					url: `/docs/${moduleName}/enums/${name}`,
+					url: `/ocs/${packageName}/enums/${name}`,
 					reflection: child,
 				});
 				break;
@@ -84,14 +88,14 @@ export async function generateSidebar(
 			case ReflectionKind.Interface:
 				acc.types.push({
 					name,
-					url: `/docs/${moduleName}/types/${name}`,
+					url: `docs/${packageName}/types/${name}`,
 					reflection: child,
 				});
 				break;
 			case ReflectionKind.Variable:
 				acc.variables.push({
 					name,
-					url: `/docs/${moduleName}/variables/${name}`,
+					url: `docs/${packageName}/variables/${name}`,
 					reflection: child,
 				});
 				break;
@@ -107,19 +111,18 @@ const { modules, guides, docs } = Astro.props;
 const currentModule = modules.find((mod) =>
 	Astro.url.pathname.includes(mod.url)
 );
-const currentGuide = guides.find(({ slug }) =>
-	Astro.url.pathname.includes(slug)
-);
 const currentReflection = Object.values(docs).flat().find(({ url }) =>
 	Astro.url.pathname.endsWith(url)
 )?.reflection;
 
-const githubUrl = `https://github.com/${
-	currentModule.name.replace("@skyware", "skyware-js")
-}`;
+const githubUrl = currentModule
+	? `https://github.com/${
+		currentModule.name.replace("@skyware", "skyware-js")
+	}`
+	: "https://github.com/skyware-js";
 ---
 <nav
-	class="w-[26rem] border-r border-r-gray-300 h-screen sticky top-0 left-0 overflow-y-auto overflow-x-hidden"
+	class="w-96 min-w-fit border-r border-r-gray-300 h-screen sticky top-0 left-0 overflow-y-auto overflow-x-hidden"
 >
 	<div
 		class="w-full h-fit flex flex-col items-center justify-center px-8 py-6 gap-6 border-b border-b-gray-300"
@@ -160,29 +163,20 @@ const githubUrl = `https://github.com/${
 			indexName="docsearch"
 		/>
 		{
-			guides.length > 0 && (
+			Object.values(guides).length > 0 && (
 				<div class="w-full flex flex-col gap-2">
 					<h3 class="text-docs-h3 text-gray-900 font-medium">
 						Guides
 					</h3>
-					<ul class="w-full py-2 border-l border-l-gray-300">
+					<ul class="w-full gap-8 py-2 border-l border-l-gray-300">
 						{
-							guides.map(({ data, slug }) => (
-								<li
-									class={clsx(
-										"w-full pl-4",
-										currentGuide?.slug === slug && "border-l- border-l-accent",
-									)}
-								>
-									<a
-										href={`/guides/${slug}`}
-										class={clsx(
-											"text-gray-900 hover:text-accent",
-											currentGuide?.slug === slug && "text-accent",
-										)}
-									>
-										{data.title}
-									</a>
+							Object.entries(guides).map(([category, items]) => (
+								<li class="w-full">
+									<SidebarDocsSection
+										type="guides"
+										title={category}
+										section={items.map(({ slug, data }) => ({ ...data, url: "guides/" + slug }))}
+									/>
 								</li>
 							))
 						}
@@ -199,9 +193,10 @@ const githubUrl = `https://github.com/${
 					docs.classes.length ? (
 						<li class="w-full">
 							<SidebarDocsSection
+								type="docs"
 								title="Classes"
 								section={docs.classes}
-								reflection={Astro.url.pathname.includes("classes") && currentReflection}
+								reflection={Astro.url.pathname.includes("classes") && currentReflection || null}
 							/>
 						</li>
 					) : null
@@ -210,9 +205,10 @@ const githubUrl = `https://github.com/${
 					docs.functions.length ? (
 						<li class="w-full">
 							<SidebarDocsSection
+								type="docs"
 								title="Functions"
 								section={docs.functions}
-								reflection={Astro.url.pathname.includes("functions") && currentReflection}
+								reflection={Astro.url.pathname.includes("functions") && currentReflection || null}
 							/>
 						</li>
 					) : null
@@ -221,9 +217,10 @@ const githubUrl = `https://github.com/${
 					docs.enums.length ? (
 						<li class="w-full">
 							<SidebarDocsSection
+								type="docs"
 								title="Enums"
 								section={docs.enums}
-								reflection={Astro.url.pathname.includes("enums") && currentReflection}
+								reflection={Astro.url.pathname.includes("enums") && currentReflection || null}
 							/>
 						</li>
 					) : null
@@ -232,9 +229,10 @@ const githubUrl = `https://github.com/${
 					docs.variables.length ? (
 						<li class="w-full">
 							<SidebarDocsSection
+								type="docs"
 								title="Variables"
 								section={docs.variables}
-								reflection={Astro.url.pathname.includes("variables") && currentReflection}
+								reflection={Astro.url.pathname.includes("variables") && currentReflection || null}
 							/>
 						</li>
 					) : null
@@ -243,9 +241,10 @@ const githubUrl = `https://github.com/${
 					docs.types.length ? (
 						<li class="w-full">
 							<SidebarDocsSection
+								type="docs"
 								title="Types"
 								section={docs.types}
-								reflection={Astro.url.pathname.includes("types") && currentReflection}
+								reflection={Astro.url.pathname.includes("types") && currentReflection || null}
 							/>
 						</li>
 					) : null

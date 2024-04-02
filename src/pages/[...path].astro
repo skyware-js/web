@@ -1,0 +1,120 @@
+---
+import type { GetStaticPathsResult } from "astro";
+import { type CollectionEntry, getCollection } from "astro:content";
+import {
+	Application,
+	type DeclarationReflection,
+	ReflectionKind,
+} from "typedoc";
+import Layout from "../components/layout/Layout.astro";
+import ClassPage from "../templates/ClassPage.astro";
+import EnumPage from "../templates/EnumPage.astro";
+import FunctionPage from "../templates/FunctionPage.astro";
+import TypePage from "../templates/TypePage.astro";
+import VariablePage from "../templates/VariablePage.astro";
+import { reflectionShouldBeRendered } from "../util/reflectionShouldBeRendered";
+import {
+	externalSymbolLinkMappings,
+	resolveReflectionUrl,
+} from "../util/resolveUrl";
+import { serializeSources } from "../util/typedocSerializeSources";
+
+export async function getStaticPaths(): Promise<GetStaticPathsResult> {
+	const app = await Application.bootstrap({
+		entryPointStrategy: "packages",
+		entryPoints: ["packages/*"],
+		excludeExternals: true,
+		excludeInternal: true,
+		excludePrivate: true,
+		excludeProtected: true,
+		externalSymbolLinkMappings,
+	});
+	serializeSources(app);
+	const project = await app.convert();
+	if (!project) throw new Error("Failed to generate documentation.");
+
+	const modules = project.getChildrenByKind(ReflectionKind.Module);
+
+	const pages: GetStaticPathsResult = [];
+
+	for (const module of modules) {
+		for (const reflection of module.children || []) {
+			if (!reflectionShouldBeRendered(reflection)) continue;
+
+			let path = resolveReflectionUrl(reflection);
+			if (!path) {
+				throw new Error(`Failed to resolve URL for ${reflection.name}`);
+			}
+			if (path.startsWith("/")) {
+				path = path.slice(1);
+			}
+			if (
+				reflection.kindOf([
+					ReflectionKind.Class,
+					ReflectionKind.Interface,
+					ReflectionKind.TypeAlias,
+					ReflectionKind.Enum,
+					ReflectionKind.Function,
+					ReflectionKind.Variable,
+				])
+			) {
+				pages.push({ params: { path }, props: { reflection } });
+			}
+		}
+	}
+
+	const guides = await getCollection("guides");
+	for (const guide of guides) {
+		const module = modules.find((m) => m.name === guide.data.library);
+		if (!module) {
+			throw new Error(
+				`Failed to resolve module ${guide.data.library} for guide "${guide.data.title}".`,
+			);
+		}
+		pages.push({
+			params: { path: "guides/" + guide.slug },
+			props: { guide, module },
+		});
+	}
+
+	return pages;
+}
+
+type DocsTemplate =
+	| typeof ClassPage
+	| typeof TypePage
+	| typeof EnumPage
+	| typeof FunctionPage
+	| typeof VariablePage;
+
+const DocsTemplates: Partial<Record<ReflectionKind, DocsTemplate>> = {
+	[ReflectionKind.Class]: ClassPage,
+	[ReflectionKind.Interface]: TypePage,
+	[ReflectionKind.TypeAlias]: TypePage,
+	[ReflectionKind.Enum]: EnumPage,
+	[ReflectionKind.Function]: FunctionPage,
+	[ReflectionKind.Variable]: VariablePage,
+};
+
+interface Props {
+	reflection?: DeclarationReflection;
+	guide?: CollectionEntry<"guides">;
+	module?: DeclarationReflection;
+}
+
+const { reflection, guide, module } = Astro.props;
+
+const DocsTemplate = reflection ? DocsTemplates[reflection.kind] : null;
+const { Content: GuideContent = null } = guide ? await guide.render() : {};
+---
+{
+	DocsTemplate ? <DocsTemplate reflection={reflection!} /> : GuideContent ? (
+		<Layout module={module}>
+			<div class="prose mt-4">
+				<GuideContent />
+			</div>
+		</Layout>
+	): ((() => {
+		throw new Error("This shouldn't have happened.");
+	})())
+}
