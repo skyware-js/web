@@ -2,6 +2,7 @@ import { ChevronLeftIcon } from "@/assets/icons/ChevronLeftIcon.tsx";
 import { ChevronRightIcon } from "@/assets/icons/ChevronRightIcon.tsx";
 import CodeHeading from "@/components/page/CodeHeading.tsx";
 import { HighlightKind, HighlightText } from "@/util/highlight.tsx";
+import { reflectionShouldBeRendered } from "@/util/reflectionShouldBeRendered.ts";
 import { renderMarkdown } from "@/util/renderMarkdown.tsx";
 import { renderSummary } from "@/util/renderSummary.tsx";
 import { renderTags } from "@/util/renderTags.tsx";
@@ -91,6 +92,8 @@ function renderReturns(signature: SignatureReflection) {
 }
 
 function FunctionSignature({ signature }: { signature: SignatureReflection }): ReactNode {
+	if (!reflectionShouldBeRendered(signature)) return null;
+
 	const reflection = signature.parent;
 
 	const params = signature.parameters || [];
@@ -151,11 +154,16 @@ function FunctionSignature({ signature }: { signature: SignatureReflection }): R
 }
 
 function FunctionOverloads({ overloads }: { overloads: Array<SignatureReflection> }) {
-	const signatures = overloads.filter((overload) => !overload.flags.isExternal).sort((a, b) =>
-		a.id > b.id ? 1 : -1
-	);
+	const overloadSignatures = overloads.filter((overload) => !overload.flags.isExternal).sort((
+		a,
+		b,
+	) => a.id > b.id ? 1 : -1);
 
-	const id = signatures[0].parent.name + signatures[0].parent.id.toString();
+	const signatures = overloadSignatures.map((signature) => (
+		<FunctionSignature key={signature.id} signature={signature} />
+	)).filter((signature) => signature !== null);
+
+	const id = overloadSignatures[0].parent.name + overloadSignatures[0].parent.id.toString();
 
 	return (
 		<div id={id} className="overloads">
@@ -163,7 +171,7 @@ function FunctionOverloads({ overloads }: { overloads: Array<SignatureReflection
 				<button id={id + "-button-left"} className="fill-gray-700 hover:fill-gray-900">
 					<ChevronLeftIcon className="h-4" />
 				</button>
-				<span id={id + "-label"}>Overload 1/{signatures.length}</span>
+				<span id={id + "-label"}>Overload 1/{overloadSignatures.length}</span>
 				<button
 					id={id + "-button-right"}
 					className="cursor-pointer fill-gray-700 hover:fill-gray-900"
@@ -171,9 +179,7 @@ function FunctionOverloads({ overloads }: { overloads: Array<SignatureReflection
 					<ChevronRightIcon className="h-4" />
 				</button>
 			</span>
-			{signatures.map((signature) => (
-				<FunctionSignature key={signature.id} signature={signature} />
-			))}
+			{signatures}
 		</div>
 	);
 }

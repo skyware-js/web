@@ -4,10 +4,10 @@ import type { DeclarationReflection } from "typedoc";
 export function MethodMembers({ methods }: { methods: Array<DeclarationReflection> }) {
 	return (
 		<div className="space-y-12">
-			{methods.map((method) => {
-				if (method.flags.isExternal || method.flags.isPrivate) return null;
-				return <FunctionDocumentation reflection={method} key={method.name} />;
-			})}
+			{methods.map((method) => <FunctionDocumentation
+				reflection={method}
+				key={method.name}
+			/>)}
 		</div>
 	);
 }

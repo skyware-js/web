@@ -1,6 +1,7 @@
 import CodeHeading from "@/components/page/CodeHeading.tsx";
 import { renderParameters } from "@/components/page/FunctionDocumentation.tsx";
 import { HighlightKind, HighlightText } from "@/util/highlight.tsx";
+import { reflectionShouldBeRendered } from "@/util/reflectionShouldBeRendered.ts";
 import { renderSummary } from "@/util/renderSummary.tsx";
 import { renderTags } from "@/util/renderTags.tsx";
 import { renderType } from "@/util/renderType.tsx";
@@ -63,7 +64,7 @@ export function PropertyMembers({ properties }: { properties: Array<DeclarationR
 	return (
 		<div className="space-y-10">
 			{properties.map((property) => {
-				if (property.flags.isExternal || property.flags.isPrivate) return null;
+				if (!reflectionShouldBeRendered(property)) return null;
 
 				const modifiers = (
 					<>

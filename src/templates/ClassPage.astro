@@ -5,6 +5,7 @@ import { FunctionDocumentation } from "../components/page/FunctionDocumentation"
 import { MethodMembers } from "../components/page/MethodMembers";
 import { PropertyMembers } from "../components/page/PropertyMembers";
 import { TitleSection } from "../components/page/TitleSection";
+import { reflectionShouldBeRendered } from "../util/reflectionShouldBeRendered";
 import { sortReflections as sort } from "../util/sortReflections";
 
 interface Props {
@@ -26,7 +27,9 @@ const methods = sort(reflection.getChildrenByKind(ReflectionKind.Method));
 		<TitleSection reflection={reflection} />
 	</div>
 	{
-		ctor && ctor.signatures.some((sig) => sig.parameters?.length)
+		ctor && ctor.signatures.some((sig) =>
+			sig.parameters?.length && reflectionShouldBeRendered(sig)
+		)
 		? (
 			<h2 class="w-1 h-1 -m-1 overflow-hidden">Constructor</h2>
 			<div class="w-full pl-4 py-8 border-t border-gray-300">
