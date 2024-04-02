@@ -75,6 +75,8 @@ function renderReturns(signature: SignatureReflection) {
 	const returns = signature.type;
 	if (!returns) return null;
 
+	if (signature.kindOf(ReflectionKind.ConstructorSignature)) return null;
+
 	if (["void", "Promise<void>"].includes(returns.stringify("none"))) return null;
 
 	const description = renderMarkdown(signature.comment?.getTag("@returns")?.content);
