@@ -7,7 +7,9 @@ import { renderMarkdownInTwoslashHover } from "./src/util/renderMarkdown";
 
 // https://astro.build/config
 export default defineConfig({
-	site: "https://skyware.js.org",
+	site: "https://skyware-js.github.io",
+	base: "/web",
+
 	redirects: {
 		"/docs/bot": "/guides/bot/introduction/getting-started",
 		"/docs/firehose": "/guides/firehose/introduction/getting-started",

@@ -14,7 +14,9 @@ interface Props {
 
 const { reflection } = Astro.props;
 
-const properties = sort(reflection.children.filter(reflectionShouldBeRendered));
+const properties = sort(
+	reflection.children?.filter(reflectionShouldBeRendered) || [],
+);
 ---
 
 <DocsLayout module={reflection.parent} meta={generateMeta(reflection)}>
