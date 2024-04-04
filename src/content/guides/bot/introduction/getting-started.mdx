@@ -8,7 +8,6 @@ sort: 1
 import { HighlightText, HighlightKind } from "../../../../util/highlight";
 
 # Getting Started
-
 `@skyware/bot` makes it easy to build bots for Bluesky. This guide will walk you through logging in and making your first post.
 
 ## Setting up
@@ -17,7 +16,7 @@ Note that you will need an existing [Bluesky](https://bsky.app) account for the 
 
 Once you have created an account and taken note of your credentials, it's recommended to store them in a `.env` file in the root of your project. You can use the [`dotenv`](https://www.npmjs.com/package/dotenv) package to load these credentials into your project.
 
-```env
+```
 BSKY_USERNAME=user.bsky.social
 BSKY_PASSWORD=your-password
 ```
@@ -37,6 +36,13 @@ await bot.login({
 	password: process.env.BSKY_PASSWORD,
 });
 ```
+
+When calling `new Bot()`, you may choose to pass an optional <HighlightText kind={HighlightKind.Interface} as="a" href="/docs/bot/types/BotPostOptions" className="no-underline">BotPostOptions</HighlightText> object to configure the bot. This object can contain the following properties:
+
+- `service`: The [PDS](/guides/bot/glossary#pds-personal-data-server) to log into. Defaults to `https://bsky.social`.
+- `langs`: An array of two-letter language codes signifying the languages the bot will post in. Clients may use this information to show users posts in languages they understand, and to offer the option to translate a post. Defaults to `["en"]`.
+- `emitEvents`: Whether the bot should emit events. You'll learn more about this in [Listening to events](/guides/bot/events/listening-to-events). Defaults to `true`.
+- and various other configuration options — refer to the <HighlightText kind={HighlightKind.Interface} as="a" href="/docs/bot/types/BotPostOptions" className="no-underline">BotPostOptions</HighlightText> documentation for the full list.
 
 ## Posting
 
