@@ -7,6 +7,8 @@ import { renderMarkdownInTwoslashHover } from "./src/util/renderMarkdown";
 
 // https://astro.build/config
 export default defineConfig({
+	site: "https://skyware.js.org",
+
 	integrations: [tailwind({ applyBaseStyles: false }), react(), mdx()],
 	markdown: {
 		shikiConfig: {
