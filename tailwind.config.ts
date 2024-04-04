@@ -14,6 +14,7 @@ export default {
 				900: "#E6E8E9",
 			},
 			accent: "#70BAFF",
+			external: "#CBA6F7",
 			current: "currentColor",
 			transparent: "transparent",
 		},

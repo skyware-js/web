@@ -51,3 +51,13 @@ pre > code > .line > span {
     scrollbar-width: thin;
     scrollbar-color: theme("colors.gray.300") theme("colors.gray.100");
 }
+
+.prose a[href^="http://"]:not([href*="skyware"]),
+.prose a[href^="https://"]:not([href*="skyware"]) {
+    @apply text-external;
+    &:after {
+        content: ' ↗';
+        font-size: 0.75em;
+        margin-right: 0.25em;
+    }
+}

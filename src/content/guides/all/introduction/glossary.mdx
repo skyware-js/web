@@ -1,0 +1,105 @@
+---
+title: "Glossary"
+description: "Your one-stop AT Protocol dictionary"
+category: "Introduction"
+library: "all"
+sort: 2
+---
+# Glossary
+
+This glossary provides quick definitions for terms you might encounter while developing on the AT Protocol. It's [always open for contributions](https://github.com/skyware-js/web/tree/main/src/content/guides/all/introduction/glossary.md)!
+
+## AT Protocol (atproto, ATP)
+
+The [AT (Authenticated Transfer) Protocol](https://atproto.com/) is the underlying technology that Bluesky is built on. You can read more about it [here](https://atproto.com/guides/overview).
+
+## App View
+
+The App View is one of the primary components of the AT Protocol network. It is responsible for consuming data from one or more Relays and assembling a feed of data for a user to view.
+
+It understands and interprets specific [Lexicons](#lexicon) in the context of an application. For instance, the Bluesky App View understands the `app.bsky.feed.like` record and can map it to a like count on a post.
+
+## AT URI
+
+An AT URI is a unique identifier for a [record](#record) in a user [repository](#repository). It can look like:
+
+- `at://did:plc:ragtjsm2j2vknwkz3zp4oxrd/app.bsky.feed.post/3jvz2442yt32g`
+or
+- `at://pfrazee.com/app.bsky.feed.post/3jvz2442yt32g`
+or
+- `at://pfrazee.com`
+
+An AT URI consists of up to three parts:
+
+- A user identifier (required); either a [DID](#did), or a domain name (`did:plc:ragtjsm2j2vknwkz3zp4oxrd` or `pfrazee.com`)
+- The name of the [collection](#lexicon) that the linked record belongs to (`app.bsky.feed.post`)
+- The [rkey](#record-key-rkey) of the linked record (`3jvz2442yt32g`)
+
+You can find specifics on the AT URI syntax at the [AT Protocol documentation](https://atproto.com/specs/at-uri-scheme).
+
+## CID
+
+The AT Protocol uses [Content Identifiers](https://atproto.com/specs/data-model#link-and-cid-formats/) (CIDs) to uniquely identify records based on their content. A CID will look something like this: `bafyreih6grmlhtho64bgpi2b6uto5efpcvpp6gag6dd3chguzg7sqsmfxy`.
+
+While an AT URI references a [record](#record) by its location in a repository, it makes no guarantees as to the contents of that record. A CID is a hash of a record's content that can be used to verify its integrity.
+
+### StrongRef
+
+A StrongRef is an object in the form of `{ uri: string; cid: string }` that contains both an AT URI and a CID. Together, these values provide an immutable reference to a record.
+
+## DID
+
+The AT Protocol uses [Decentralized Identifiers](https://atproto.com/specs/did#at-protocol-dids) (DIDs) to uniquely identify user accounts. There are currently two types of DIDs, or DID methods, that the AT Protocol supports:
+
+- [`did:plc`](https://github.com/did-method-plc/did-method-plc) is a DID method developed by Bluesky that uses rotatable key pairs to give users control over their identity.
+    - Example: `did:plc:uu5axsmbm2or2dngy4gwchec`
+- [`did:web`](https://w3c-ccg.github.io/did-method-web/) is a DID method that uses a user's domain name to identify them.
+    - Example: `did:web:retr0.id`
+
+### DID Document
+
+All DIDs point to a DID document, which contains information about the user's identity. This document will include:
+- `id`: The DID string.
+- `alsoKnownAs`: An array of strings, containing at least one AT URI representing the user's handle(s) (e.g. `["at://pfrazee.com"]`). Only the first handle in the array is considered to be the user's handle.
+- `verificationMethods`: A list of public keys that can be used to verify the user's identity.
+- `services`: A list of services associated with the user account, such as their [PDS](pds-personal-data-server) and any [labeler](#labeler) the account may provide.
+
+## Feed Generator
+
+A feed generator is a service that provides a list of posts based on an algorithm of the developer's choosing. A client can request a feed from a feed generator, and the feed generator will return a list of references to posts.
+
+## Labeler
+
+A labeler is a service that applies labels to records. A label is a piece of metadata that describes a record. For example, a label might indicate that a post contains sensitive content. A user can subscribe to up to 10 labelers, and any labels applied by those labelers will be returned in API responses.
+
+## Lexicon
+
+A Lexicon defines the structure of a record, including the fields it contains, the types of those fields, and any additional constraints (e.g. maximum post body length).
+
+A Lexicon is identified by an [NSID](https://atproto.com/specs/nsid), which is a hostname in reverse domain name notation.
+
+## PDS (Personal Data Server)
+
+The PDS is one of the primary components of the AT Protocol network. It is a server that stores & serves a user's [repository](#repository), handles user authentication, and emits events when a repository is updated.
+
+The PDS also acts as the user's proxy between clients and other AT Protocol services, such as [feed generators](#feed-generator) and [labelers](#labeler).
+
+## Relay
+
+The Relay (often referred to as a "firehose") is one of the primary components of the AT Protocol network. It crawls PDSes for new data and outputs a WebSocket stream ("firehose") of events across the network.
+
+## Record
+
+A record is a piece of public content stored in a user's [repository](#repository). A user profile, a post, and a follow are all examples of records. A record should follow a schema defined by a [Lexicon](#lexicon).
+
+## Record Key (rkey)
+
+An rkey is a unique identifier for a [record](#record) within a user's [repository](#repository). An rkey is unique within a particular collection in a repository.
+
+While an rkey can be any string (provided it meets the fairly loose [syntax constraints](https://atproto.com/specs/record-key#record-key-syntax)), the most common form of rkey you will encounter is a [TID](https://atproto.com/specs/record-key#record-key-type-tid), or timestamp identifier. A TID is a 13-character base32 string that encodes a 64 bit integer representing the time at which the record was created.
+
+## Repository
+
+A repository is a collection of signed data that stores a user's [records](#record). A repository is identified by a [DID](#did), and is stored on a [PDS](#pds-personal-data-server).
+
+Records in a repository are organized into [collections](#lexicon).

@@ -1,0 +1,58 @@
+---
+title: "Getting Started"
+description: "Getting started with @skyware/bot."
+category: "Introduction"
+library: "@skyware/bot"
+sort: 1
+---
+import { HighlightText, HighlightKind } from "../../../../util/highlight";
+
+# Getting Started
+
+`@skyware/bot` makes it easy to build bots for Bluesky. This guide will walk you through logging in and making your first post.
+
+## Setting up
+
+Note that you will need an existing [Bluesky](https://bsky.app) account for the bot to log in to.
+
+Once you have created an account and taken note of your credentials, it's recommended to store them in a `.env` file in the root of your project. You can use the [`dotenv`](https://www.npmjs.com/package/dotenv) package to load these credentials into your project.
+
+```env
+BSKY_USERNAME=user.bsky.social
+BSKY_PASSWORD=your-password
+```
+
+## Logging in
+
+To log in,
+
+```ts twoslash
+if (!process.env.BSKY_USERNAME || !process.env.BSKY_PASSWORD) throw "";
+// ---cut---
+import { Bot } from "@skyware/bot";
+
+const bot = new Bot();
+await bot.login({
+	identifier: process.env.BSKY_USERNAME,
+	password: process.env.BSKY_PASSWORD,
+});
+```
+
+## Posting
+
+Making a post is just as simple.
+
+```ts twoslash
+declare const bot: import("@skyware/bot").Bot;
+// ---cut---
+const post = await bot.post({
+	text: "hello, sky!"
+});
+console.log(post.uri);
+```
+
+Refer to the <HighlightText kind={HighlightKind.Method} as="a" href="/docs/bot/classes/Bot#post" className="no-underline">Bot#post</HighlightText> method documentation for more information on the available options.
+
+If the post is successful, you should see its URI logged to your console.
+
+You may notice that the URI begins with `at://`. This is an AT URI, used by [AT Protocol](/guides/bot/glossary#at-protocol-atproto-atp) applications to refer to data, such as posts, follows, and lists. More on this in the [glossary](/guides/bot/glossary#at-uri)!
