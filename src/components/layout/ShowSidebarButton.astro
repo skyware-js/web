@@ -1,0 +1,12 @@
+---
+import { MenuIcon } from "../../assets/icons/MenuIcon";
+---
+
+<button
+	type="button"
+	class="w-10 h-10 z-10 rounded-full fixed md:hidden top-0 right-0 mt-6 mr-6 bg-gray-100 border border-gray-300 flex items-center justify-center"
+	aria-label="Toggle sidebar"
+	onclick="document.body.toggleAttribute('data-menu-open')"
+>
+	<MenuIcon className="w-5 h-5 fill-gray-500" />
+</button>

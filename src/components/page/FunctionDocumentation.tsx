@@ -168,13 +168,14 @@ function FunctionOverloads({ overloads }: { overloads: Array<SignatureReflection
 	return (
 		<div id={id} className="overloads">
 			<span className="inline-flex items-center mb-2 gap-0.5 text-gray-700 text-docs-aside font-medium leading-6">
-				<button id={id + "-button-left"} className="fill-gray-700 hover:fill-gray-900">
+				<button id={id + "-button-left"} className="fill-gray-700 hover:fill-gray-900" aria-label="View previous overload">
 					<ChevronLeftIcon className="h-4" />
 				</button>
 				<span id={id + "-label"}>Overload 1/{overloadSignatures.length}</span>
 				<button
 					id={id + "-button-right"}
 					className="cursor-pointer fill-gray-700 hover:fill-gray-900"
+					aria-label="View next overload"
 				>
 					<ChevronRightIcon className="h-4" />
 				</button>

@@ -1,6 +1,7 @@
 import forms from "@tailwindcss/forms";
 import typography from "@tailwindcss/typography";
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 export default {
 	content: ["./src/**/*.{md,mdx,ts,tsx,astro}"],
@@ -58,5 +59,11 @@ export default {
 			}),
 		},
 	},
-	plugins: [forms, typography],
+	plugins: [
+		forms,
+		typography,
+		plugin(({ addVariant }) => {
+			addVariant("menu-open", "body[data-menu-open] &");
+		}),
+	],
 } satisfies Config;

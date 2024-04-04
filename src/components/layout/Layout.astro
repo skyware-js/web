@@ -34,7 +34,9 @@ const sidebar = await generateSidebar(module);
 <Page meta={meta}>
 	<div class="flex flex-row w-full">
 		<Sidebar {...sidebar} />
-		<main class="flex-grow min-w-0 w-full p-6 relative overflow-clip">
+		<main
+			class="menu-open:hidden flex-grow min-w-0 w-full p-6 relative overflow-clip"
+		>
 			<div class="max-w-5xl mx-auto flex flex-row">
 				<div class="flex-grow max-w-full">
 					<slot />

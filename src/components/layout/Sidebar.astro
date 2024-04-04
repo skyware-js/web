@@ -4,6 +4,7 @@ import { Logo } from "@/assets/Logo.tsx";
 import { DocSearch } from "@docsearch/react";
 import { getCollection, type InferEntrySchema } from "astro:content";
 import { type DeclarationReflection, ReflectionKind } from "typedoc";
+import ShowSidebarButton from "./ShowSidebarButton.astro";
 import SidebarDocsSection from "./SidebarDocsSection.astro";
 
 interface Props {
@@ -130,8 +131,9 @@ const githubUrl = currentModule
 	}`
 	: "https://github.com/skyware-js";
 ---
+<ShowSidebarButton />
 <nav
-	class="w-96 bg-gray-100 min-w-fit border-r border-r-gray-300 h-screen sticky top-0 left-0 overflow-y-auto overflow-x-hidden"
+	class="w-full md:w-96 hidden menu-open:block md:block bg-gray-100 min-w-fit border-r border-r-gray-300 h-screen sticky top-0 left-0 overflow-y-auto overflow-x-hidden"
 >
 	<div
 		class="w-full h-fit flex flex-col items-center justify-center px-8 py-6 gap-6 border-b border-b-gray-300"
@@ -143,14 +145,14 @@ const githubUrl = currentModule
 			<label for="module-switcher" class="sr-only">Select module</label>
 			<select
 				id="module-switcher"
-				class="w-full block bg-gray-100 px-3 py-1.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-0 hover:border-gray-500 focus:border-gray-500 text-docs-base leading-6 text-gray-700"
-				onchange="window.location.href = this.value"
+				class="w-full min-w-52 block bg-gray-100 px-3 py-1.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-0 hover:border-gray-500 focus:border-gray-500 text-docs-base leading-6 text-gray-700"
+				onchange="window.location.assign(this.value)"
 			>
 				{
 					modules.map(({ name, url }) => (
 						<option
-							value={url}
-							selected={currentModule?.name === name}
+							value={"/" + url}
+							selected={Astro.url.pathname.split("/")[2] === url.split("/")[1]}
 						>
 							{name}
 						</option>

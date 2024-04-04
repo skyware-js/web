@@ -55,9 +55,11 @@ pre > code > .line > span {
 .prose a[href^="http://"]:not([href*="skyware"]),
 .prose a[href^="https://"]:not([href*="skyware"]) {
     @apply text-external;
-    &:after {
-        content: ' ↗';
-        font-size: 0.75em;
-        margin-right: 0.25em;
-    }
+}
+
+.prose a[href^="http://"]:not([href*="skyware"]):after,
+.prose a[href^="https://"]:not([href*="skyware"]):after {
+    content: ' ↗';
+    font-size: 0.75em;
+    margin-right: 0.25em;
 }
