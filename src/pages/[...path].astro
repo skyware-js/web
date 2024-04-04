@@ -12,6 +12,7 @@ import EnumPage from "../templates/EnumPage.astro";
 import FunctionPage from "../templates/FunctionPage.astro";
 import TypePage from "../templates/TypePage.astro";
 import VariablePage from "../templates/VariablePage.astro";
+import { generateMeta } from "../util/generateMeta";
 import { reflectionShouldBeRendered } from "../util/reflectionShouldBeRendered";
 import {
 	externalSymbolLinkMappings,
@@ -65,16 +66,24 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 
 	const guides = await getCollection("guides");
 	for (const guide of guides) {
-		const module = modules.find((m) => m.name === guide.data.library);
-		if (!module) {
-			throw new Error(
-				`Failed to resolve module ${guide.data.library} for guide "${guide.data.title}".`,
-			);
+		if (guide.data.library === "all") {
+			for (const module of modules) {
+				const packageName = module.name.split("/")[1];
+				const path = `guides/${guide.slug.replace("all", packageName)}`;
+				pages.push({ params: { path }, props: { guide, module } });
+			}
+		} else {
+			const module = modules.find((m) => m.name === guide.data.library);
+			if (!module) {
+				throw new Error(
+					`Failed to resolve module ${guide.data.library} for guide "${guide.data.title}".`,
+				);
+			}
+			pages.push({
+				params: { path: "guides/" + guide.slug },
+				props: { guide, module },
+			});
 		}
-		pages.push({
-			params: { path: "guides/" + guide.slug },
-			props: { guide, module },
-		});
 	}
 
 	return pages;
@@ -109,8 +118,8 @@ const { Content: GuideContent = null } = guide ? await guide.render() : {};
 ---
 {
 	DocsTemplate ? <DocsTemplate reflection={reflection!} /> : GuideContent ? (
-		<Layout module={module}>
-			<div class="prose mt-4">
+		<Layout module={module} meta={generateMeta(module, guide)}>
+			<div class="prose contents">
 				<GuideContent />
 			</div>
 		</Layout>

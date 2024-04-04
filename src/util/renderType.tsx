@@ -1,10 +1,3 @@
-import { ExternalIcon } from "@/assets/icons/ExternalIcon.tsx";
-import { HighlightKind, HighlightText } from "@/util/highlight.tsx";
-import {
-	parseAtprotoLexiconPath,
-	resolveReflectionUrl,
-	resolveTypeUrl,
-} from "@/util/resolveUrl.ts";
 import { Fragment, type ReactNode } from "react";
 import {
 	ArrayType,
@@ -30,6 +23,9 @@ import {
 	TypeOperatorType,
 	UnionType,
 } from "typedoc";
+import { ExternalIcon } from "../assets/icons/ExternalIcon";
+import { HighlightKind, HighlightText } from "./highlight";
+import { parseAtprotoLexiconPath, resolveReflectionUrl, resolveTypeUrl } from "./resolveUrl";
 
 function resolveAtprotoLexiconTypeName(type: ReferenceType): string {
 	if (!type.symbolId?.fileName) return type.name;

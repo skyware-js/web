@@ -1,10 +1,5 @@
-import { parseMarkdown } from "@/util/renderMarkdown.tsx";
-import { type RendererRichOptions, transformerTwoslash } from "@shikijs/twoslash";
 import { clsx } from "clsx/lite";
-import { toJsxRuntime } from "hast-util-to-jsx-runtime";
 import type { AllHTMLAttributes, ReactNode } from "react";
-import { Fragment, jsx, jsxs } from "react/jsx-runtime";
-import { getHighlighter } from "shiki/bundle/web";
 import theme from "shiki/themes/catppuccin-mocha.mjs";
 import { ReflectionKind } from "typedoc";
 
@@ -76,7 +71,7 @@ export function HighlightText(
 			style={{ "--color": color, "--color-dim": color + "33" }}
 			{...props}
 			className={clsx(
-				"text-[var(--color)]",
+				"text-[var(--color)] font-mono",
 				Element === "a"
 					&& `relative border-b border-b-[var(--color)] border-dotted hover:border-b-transparent\
  before:content-[''] before:absolute before:block before:left-1/2 before:-translate-x-1/2 before:top-1/2 before:-translate-y-1/2 before:w-[105%] before:h-[120%] before:hover:bg-[var(--color-dim)] before:rounded-sm`,
@@ -87,49 +82,3 @@ export function HighlightText(
 		</Element>
 	);
 }
-
-const renderMarkdownInTwoslashHover: RendererRichOptions["renderMarkdown"] = (text) => {
-	const parsed = parseMarkdown(text);
-	return parsed.map((part) => {
-		if (part.url) {
-			return {
-				type: "element",
-				tagName: "a",
-				properties: { href: part.url, class: "text-accent" },
-				children: [{ type: "text", value: part.text }],
-			};
-		}
-		if (part.code) {
-			return {
-				type: "element",
-				tagName: "code",
-				properties: {},
-				children: [{ type: "text", value: part.text }],
-			};
-		}
-		return { type: "text", value: part.text };
-	});
-};
-
-export const highlighter = await getHighlighter({ themes: ["catppuccin-mocha"], langs: ["ts"] });
-export const renderCode = (
-	code: string,
-	{ twoslash = true, inline = false }: { twoslash?: boolean; inline?: boolean } = {},
-) => {
-	const hast = highlighter.codeToHast(code, {
-		theme: "catppuccin-mocha",
-		lang: "ts",
-		meta: { inline: inline ? "true" : "false" },
-		transformers: twoslash
-			? [transformerTwoslash({
-				rendererRich: {
-					renderMarkdown: renderMarkdownInTwoslashHover,
-					renderMarkdownInline: renderMarkdownInTwoslashHover,
-				},
-			})]
-			: [],
-	});
-	if (inline && "tagName" in hast.children[0]) hast.children[0].tagName = "code";
-	// @ts-expect-error — doesn't like the types of jsx and jsxs
-	return toJsxRuntime(hast, { Fragment, jsx, jsxs });
-};

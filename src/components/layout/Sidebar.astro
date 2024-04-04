@@ -43,15 +43,24 @@ export async function generateSidebar(
 	const guides =
 		(await getCollection(
 			"guides",
-			({ data }) => data.library === module.name,
+			({ data }) =>
+				data.library === module.name || data.library === "all",
 		)).reduce<Props["guides"]>((acc, guide) => {
 			const category = guide.data.category;
 			if (!acc[category]) {
 				acc[category] = [];
 			}
+			if (guide.slug.startsWith("all")) {
+				guide.slug = module.name.split("/")[1] + "/"
+					+ guide.slug.slice(4);
+			}
 			acc[category].push(guide);
 			return acc;
 		}, {});
+
+	for (const category of Object.values(guides)) {
+		category.sort((a, b) => (a.data.sort || 0) - (b.data.sort || 0));
+	}
 
 	const docs = (module.children || []).reduce<
 		Record<
@@ -122,7 +131,7 @@ const githubUrl = currentModule
 	: "https://github.com/skyware-js";
 ---
 <nav
-	class="w-96 min-w-fit border-r border-r-gray-300 h-screen sticky top-0 left-0 overflow-y-auto overflow-x-hidden"
+	class="w-96 bg-gray-100 min-w-fit border-r border-r-gray-300 h-screen sticky top-0 left-0 overflow-y-auto overflow-x-hidden"
 >
 	<div
 		class="w-full h-fit flex flex-col items-center justify-center px-8 py-6 gap-6 border-b border-b-gray-300"

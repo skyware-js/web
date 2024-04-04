@@ -37,6 +37,7 @@
 		"react-dom": "^18.2.0"
 	},
 	"dependencies": {
+		"@astrojs/mdx": "^2.2.3",
 		"@docsearch/css": "^3.6.0",
 		"@docsearch/react": "^3.5.2",
 		"clsx": "^2.1.0"

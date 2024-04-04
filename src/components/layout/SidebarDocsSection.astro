@@ -32,12 +32,12 @@ const current = section.find(({ url }) => Astro.url.pathname.endsWith(url));
 				<a
 					href={"/" + entry.url}
 					class={clsx(
-						"pl-4 py-1.5 block",
+						"pl-4 py-1.5 block -ml-px",
 						"text-code-h3",
 						type === "docs" ? "font-mono" : "font-sans",
 						entry.url === current?.url
 							? "border-l border-l-accent"
-							: "hover:border-l hover:border-l-gray-700 hover:-ml-px",
+							: "hover:border-l hover:border-l-gray-700",
 						entry.url === current?.url ? "text-accent" : "text-gray-900",
 					)}
 				>{name}</a>
