@@ -1,0 +1,45 @@
+---
+import { ChevronRightIcon } from "../assets/icons/ChevronRightIcon";
+import { Logo } from "../assets/Logo";
+import Page from "../components/layout/Page.astro";
+import { join } from "../util/util";
+
+console.log(import.meta.env.BASE_URL);
+---
+<Page>
+	<main
+		class="w-full h-screen flex flex-col items-center justify-center gap-8 p-12"
+	>
+		<Logo className="w-72 sm:w-96 max-w-full fill-accent" />
+		<div
+			class="w-full max-w-3xl flex flex-col md:flex-row items-center justify-center gap-4"
+		>
+			<a
+				href={join(import.meta.env.BASE_URL, "/docs/bot")}
+				class="relative group w-full md:w-auto basis-1/2 px-8 py-4 flex flex-col bg-gray-100 hover:bg-gray-300 border border-gray-300 rounded-lg gap-2 overflow-x-hidden"
+			>
+				<span
+					class="font-medium text-gray-900 text-xl"
+				>@skyware/bot</span>
+				<span class="font-medium text-gray-700">v0.2.0</span>
+				<ChevronRightIcon
+					className="absolute right-8 top-1/2 transform -translate-y-1/2 w-6 h-6 fill-gray-700 group-hover:fill-gray-900"
+					aria-hidden="true"
+				/>
+			</a>
+			<a
+				href={join(import.meta.env.BASE_URL, "/docs/firehose")}
+				class="relative group w-full md:w-auto basis-1/2 pl-8 pr-24 py-4 flex flex-col bg-gray-100 hover:bg-gray-300 border border-gray-300 rounded-lg gap-2 overflow-x-hidden"
+			>
+				<span
+					class="font-medium text-gray-900 text-xl"
+				>@skyware/firehose</span>
+				<span class="font-medium text-gray-700">v0.1.5</span>
+				<ChevronRightIcon
+					className="absolute right-8 top-1/2 transform -translate-y-1/2 w-6 h-6 fill-gray-700 group-hover:fill-gray-900"
+					aria-hidden="true"
+				/>
+			</a>
+		</div>
+	</main>
+</Page>

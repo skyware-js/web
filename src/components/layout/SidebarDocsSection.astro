@@ -2,6 +2,7 @@
 import type { InferEntrySchema } from "astro:content";
 import { clsx } from "clsx/lite";
 import type { DeclarationReflection } from "typedoc";
+import { join } from "../../util/util";
 import { generateTOC, TableOfContents } from "./TableOfContents";
 
 type Props = {
@@ -30,7 +31,7 @@ const current = section.find(({ url }) => Astro.url.pathname.endsWith(url));
 		return (
 			<li>
 				<a
-					href={"/" + entry.url}
+					href={join(import.meta.env.BASE_URL, entry.url)}
 					class={clsx(
 						"pl-4 py-1.5 block -ml-px",
 						"text-code-h3",

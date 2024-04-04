@@ -122,7 +122,9 @@ const { Content: GuideContent = null } = guide ? await guide.render() : {};
 {
 	DocsTemplate ? <DocsTemplate reflection={reflection!} /> : GuideContent ? (
 		<Layout module={module} meta={generateMeta(module, guide)}>
-			<div class="prose contents hover:prose-a:no-underline">
+			<div
+				class="prose contents prose-h1:mb-[0.2em] hover:prose-a:no-underline"
+			>
 				<GuideContent components={{ h1: H1, h2: H2, h3: H3 }} />
 			</div>
 		</Layout>

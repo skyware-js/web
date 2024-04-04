@@ -5,6 +5,7 @@ import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import { getHighlighter } from "shiki/bundle/web";
 import { type CommentDisplayPart, Reflection } from "typedoc";
 import { LinkIfPossible } from "./renderType";
+import { join } from "./util";
 
 const plainLinkRegex =
 	/(?:^|\s|\(|\[)((?:https?:\/\/[\S]+)|(?:(?:[a-z][a-z0-9]*(?:\.[a-z0-9]+)+)(?!\.)[\S]*))/g;
@@ -61,7 +62,12 @@ export const renderMarkdownInTwoslashHover: RendererRichOptions["renderMarkdown"
 			return {
 				type: "element",
 				tagName: "a",
-				properties: { href: part.url, class: "text-accent" },
+				properties: {
+					href: part.url.startsWith("http")
+						? part.url
+						: join(import.meta.env.BASE_URL, part.url),
+					class: "text-accent",
+				},
 				children: [{ type: "text", value: part.text }],
 			};
 		}
@@ -111,7 +117,7 @@ export function renderMarkdown(
 				? (
 					<a
 						key={url}
-						href={url}
+						href={url.startsWith("http") ? url : join(import.meta.env.BASE_URL, url)}
 						className="text-accent underline hover:no-underline"
 						target="_blank"
 						rel="noopener noreferrer"

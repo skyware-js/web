@@ -5,14 +5,16 @@ import { rendererRich, transformerTwoslash } from "@shikijs/twoslash";
 import { defineConfig } from "astro/config";
 import { renderMarkdownInTwoslashHover } from "./src/util/renderMarkdown";
 
+const base = "/web";
+
 // https://astro.build/config
 export default defineConfig({
 	site: "https://skyware-js.github.io",
-	base: "/web",
+	base,
 
 	redirects: {
-		"/docs/bot": "/guides/bot/introduction/getting-started",
-		"/docs/firehose": "/guides/firehose/introduction/getting-started",
+		"/docs/bot": base + "/guides/bot/introduction/getting-started",
+		"/docs/firehose": base + "/guides/firehose/introduction/getting-started",
 	},
 
 	integrations: [tailwind({ applyBaseStyles: false }), react(), mdx()],
