@@ -23,9 +23,13 @@ import {
 	TypeOperatorType,
 	UnionType,
 } from "typedoc";
-import { ExternalIcon } from "../assets/icons/ExternalIcon";
-import { HighlightKind, HighlightText } from "./highlight";
-import { parseAtprotoLexiconPath, resolveReflectionUrl, resolveTypeUrl } from "./resolveUrl";
+import { ExternalIcon } from "../../assets/icons/ExternalIcon.tsx";
+import {
+	parseAtprotoLexiconPath,
+	resolveReflectionUrl,
+	resolveTypeUrl,
+} from "../util/resolveUrl.ts";
+import { HighlightKind, HighlightText } from "./highlight.tsx";
 
 function resolveAtprotoLexiconTypeName(type: ReferenceType): string {
 	if (!type.symbolId?.fileName) return type.name;

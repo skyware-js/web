@@ -1,4 +1,4 @@
-import { renderMarkdown } from "@/util/renderMarkdown.tsx";
+import { renderMarkdown } from "@/lib/rendering/renderMarkdown.tsx";
 import type { ReactNode } from "react";
 import type { Comment } from "typedoc";
 

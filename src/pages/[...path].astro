@@ -10,18 +10,18 @@ import Layout from "../components/layout/Layout.astro";
 import H1 from "../components/markdown/H1.astro";
 import H2 from "../components/markdown/H2.astro";
 import H3 from "../components/markdown/H3.astro";
+import { reflectionShouldBeRendered } from "../lib/rendering/reflectionShouldBeRendered";
+import { generateMeta } from "../lib/util/generateMeta";
+import {
+	externalSymbolLinkMappings,
+	resolveReflectionUrl,
+} from "../lib/util/resolveUrl";
+import { serializeSources } from "../lib/util/typedocSerializeSources";
 import ClassPage from "../templates/ClassPage.astro";
 import EnumPage from "../templates/EnumPage.astro";
 import FunctionPage from "../templates/FunctionPage.astro";
 import TypePage from "../templates/TypePage.astro";
 import VariablePage from "../templates/VariablePage.astro";
-import { generateMeta } from "../util/generateMeta";
-import { reflectionShouldBeRendered } from "../util/reflectionShouldBeRendered";
-import {
-	externalSymbolLinkMappings,
-	resolveReflectionUrl,
-} from "../util/resolveUrl";
-import { serializeSources } from "../util/typedocSerializeSources";
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 	const app = await Application.bootstrap({

@@ -5,9 +5,9 @@ import { FunctionDocumentation } from "../components/page/FunctionDocumentation"
 import { MethodMembers } from "../components/page/MethodMembers";
 import { PropertyMembers } from "../components/page/PropertyMembers";
 import { TitleSection } from "../components/page/TitleSection";
-import { generateMeta } from "../util/generateMeta";
-import { reflectionShouldBeRendered } from "../util/reflectionShouldBeRendered";
-import { sortReflections as sort } from "../util/sortReflections";
+import { reflectionShouldBeRendered } from "../lib/rendering/reflectionShouldBeRendered";
+import { generateMeta } from "../lib/util/generateMeta";
+import { sortReflections as sort } from "../lib/util/sortReflections";
 
 interface Props {
 	reflection: DeclarationReflection;
@@ -82,4 +82,4 @@ const methods = sort(
 		) : null
 	}
 </DocsLayout>
-<script src="../util/handleOverloadInteractivity.ts"></script>
+<script src="../lib/util/handleOverloadInteractivity.ts"></script>

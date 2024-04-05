@@ -1,6 +1,6 @@
-import { HighlightKind, HighlightText } from "@/util/highlight.tsx";
-import { renderSummary } from "@/util/renderSummary.tsx";
-import { resolveSourceUrl } from "@/util/resolveUrl.ts";
+import { HighlightKind, HighlightText } from "@/lib/rendering/highlight.tsx";
+import { renderSummary } from "@/lib/rendering/renderSummary.tsx";
+import { resolveSourceUrl } from "@/lib/util/resolveUrl.ts";
 import { type DeclarationReflection, ReflectionKind } from "typedoc";
 import CodeHeading from "./CodeHeading.tsx";
 

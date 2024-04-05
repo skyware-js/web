@@ -3,7 +3,7 @@ import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import { rendererRich, transformerTwoslash } from "@shikijs/twoslash";
 import { defineConfig } from "astro/config";
-import { renderMarkdownInTwoslashHover } from "./src/util/renderMarkdown";
+import { renderMarkdownInTwoslashHover } from "./src/lib/rendering/renderMarkdown.tsx";
 
 const base = "/web";
 

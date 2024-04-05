@@ -1,13 +1,13 @@
 import { ChevronLeftIcon } from "@/assets/icons/ChevronLeftIcon.tsx";
 import { ChevronRightIcon } from "@/assets/icons/ChevronRightIcon.tsx";
 import CodeHeading from "@/components/page/CodeHeading.tsx";
-import { HighlightKind, HighlightText } from "@/util/highlight.tsx";
-import { reflectionShouldBeRendered } from "@/util/reflectionShouldBeRendered.ts";
-import { renderMarkdown } from "@/util/renderMarkdown.tsx";
-import { renderSummary } from "@/util/renderSummary.tsx";
-import { renderTags } from "@/util/renderTags.tsx";
-import { renderType } from "@/util/renderType.tsx";
-import { resolveSourceUrl } from "@/util/resolveUrl.ts";
+import { HighlightKind, HighlightText } from "@/lib/rendering/highlight.tsx";
+import { reflectionShouldBeRendered } from "@/lib/rendering/reflectionShouldBeRendered.ts";
+import { renderMarkdown } from "@/lib/rendering/renderMarkdown.tsx";
+import { renderSummary } from "@/lib/rendering/renderSummary.tsx";
+import { renderTags } from "@/lib/rendering/renderTags.tsx";
+import { renderType } from "@/lib/rendering/renderType.tsx";
+import { resolveSourceUrl } from "@/lib/util/resolveUrl.ts";
 import { Fragment, type ReactNode } from "react";
 import {
 	type DeclarationReflection,
@@ -168,7 +168,11 @@ function FunctionOverloads({ overloads }: { overloads: Array<SignatureReflection
 	return (
 		<div id={id} className="overloads">
 			<span className="inline-flex items-center mb-2 gap-0.5 text-gray-700 text-docs-aside font-medium leading-6">
-				<button id={id + "-button-left"} className="fill-gray-700 hover:fill-gray-900" aria-label="View previous overload">
+				<button
+					id={id + "-button-left"}
+					className="fill-gray-700 hover:fill-gray-900"
+					aria-label="View previous overload"
+				>
 					<ChevronLeftIcon className="h-4" />
 				</button>
 				<span id={id + "-label"}>Overload 1/{overloadSignatures.length}</span>

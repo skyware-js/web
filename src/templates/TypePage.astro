@@ -4,9 +4,9 @@ import DocsLayout from "../components/layout/Layout.astro";
 import { PropertyMembers } from "../components/page/PropertyMembers";
 import { TitleSection } from "../components/page/TitleSection";
 import { TypeAliasTitleSection } from "../components/page/TypeAliasTitleSection";
-import { generateMeta } from "../util/generateMeta";
-import { reflectionShouldBeRendered } from "../util/reflectionShouldBeRendered";
-import { sortReflections as sort } from "../util/sortReflections";
+import { reflectionShouldBeRendered } from "../lib/rendering/reflectionShouldBeRendered";
+import { generateMeta } from "../lib/util/generateMeta";
+import { sortReflections as sort } from "../lib/util/sortReflections";
 
 interface Props {
 	reflection: DeclarationReflection;

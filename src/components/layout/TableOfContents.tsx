@@ -1,5 +1,5 @@
-import { reflectionShouldBeRendered } from "@/util/reflectionShouldBeRendered.ts";
-import { sortReflections } from "@/util/sortReflections.ts";
+import { reflectionShouldBeRendered } from "@/lib/rendering/reflectionShouldBeRendered.ts";
+import { sortReflections } from "@/lib/util/sortReflections.ts";
 import { type ReactNode, useEffect, useMemo } from "react";
 import type { DeclarationReflection } from "typedoc";
 

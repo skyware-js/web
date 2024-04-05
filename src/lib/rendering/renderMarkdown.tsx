@@ -4,8 +4,8 @@ import type { ReactNode } from "react";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import { getHighlighter } from "shiki/bundle/web";
 import { type CommentDisplayPart, Reflection } from "typedoc";
-import { LinkIfPossible } from "./renderType";
-import { join } from "./util";
+import { join } from "../util/util.ts";
+import { LinkIfPossible } from "./renderType.tsx";
 
 const plainLinkRegex =
 	/(?:^|\s|\(|\[)((?:https?:\/\/[\S]+)|(?:(?:[a-z][a-z0-9]*(?:\.[a-z0-9]+)+)(?!\.)[\S]*))/g;
