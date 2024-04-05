@@ -2,10 +2,11 @@
 	"name": "@skyware/web",
 	"type": "module",
 	"private": true,
+	"license": "MPL-2.0",
 	"scripts": {
 		"dev": "astro dev",
 		"build": "astro build",
-		"build-full": "tsx scripts/pullRepos.ts && astro build",
+		"pull": "tsx scripts/pullRepos.ts",
 		"preview": "astro preview"
 	},
 	"devDependencies": {
