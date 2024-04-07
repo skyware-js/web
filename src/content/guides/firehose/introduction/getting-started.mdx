@@ -5,5 +5,71 @@ category: "Introduction"
 library: "@skyware/firehose"
 sort: 1
 ---
+import { HighlightText, HighlightKind } from "../../../../lib/rendering/highlight.js";
 
-TODO: write this
+# Getting Started
+
+`@skyware/firehose` is a utility library for consuming data from an [AT Protocol Relay](/guides/firehose/introduction/glossary#relay).
+
+## Setup
+
+```ts twoslash
+import { Firehose } from "@skyware/firehose";
+
+const firehose = new Firehose();
+```
+
+The `Firehose` class takes two optional parameters.
+
+- The first is the URL of the Relay to connect to. This defaults to `wss://bsky.network`, the Relay run by Bluesky.
+- The second is an `options` object, which lets you provide:
+- `cursor`: The cursor to start listening from. A cursor is included in every event emitted by the Relay. If you don't provide a cursor, the Firehose will start listening from the most recent event.
+- `setCursorInterval`: By default, the Firehose class will keep track of the latest cursor under thr `cursor` property every 5 seconds. This allows you to save the cursor or resume from that point in case of an error. You can change this interval by providing a number of milliseconds.
+
+## Handling events
+
+```ts twoslash
+declare const firehose: import("@skyware/firehose").Firehose;
+// ---cut---
+firehose.on("commit", (message) => {
+	for (const op of message.ops) {
+		const uri = "at://" + message.repo + "/" + op.path;
+		console.log("URI:", uri);
+	}
+});
+```
+
+A Relay listens for changes to user [repositories](/guides/firehose/introduction/glossary#repository) and emits events when changes occur. You can listen for these events by calling the `on` method with a callback. Full documentation on the data you will receive with each event can be found in the <HighlightText kind={HighlightKind.Method} as="a" href="/docs/firehose/classes/Firehose#on" className="no-underline">Firehose#on</HighlightText> method documentation.
+
+The most common event you will receive is a `commit` event, which represents a commit to a user's repository, similar to a Git commit.
+
+A commit may contain one or more operations, representing changes to the repository. Each operation contains an action and a path. The action can be one of `create`, `update`, or `delete`. The path is the path to the record affected (e.g. `app.bsky.feed.post/3jvz2442yt32g`).
+
+If the operation is `create` or `update`, it will also contain the following properties:
+
+- `cid`: The [CID](/guides/firehose/introduction/glossary#cid) of the created or updated record.
+- `record`: The record itself.
+
+## Event Reference
+
+The `Firehose` class may emit the following events:
+
+### Relay events
+
+| Event            | Description                                                                                                                  |
+|------------------|------------------------------------------------------------------------------------------------------------------------------|
+| `commit`         | Represents a commit to a user's repository.                                                                                  |
+| `identity`       | Represents a change to an account's identity. Could be an updated handle, signing key, or PDS hosting endpoint.              |
+| `handle`         | Represents an update of an account's handle, or transition to/from invalid state (may be deprecated in favor of `identity`). |
+| `tombstone`      | Indicates that an account has been deleted (may be deprecated in favor of `identity` or a future `account` event).           |
+| `info`           | An informational message from the relay.                                                                                     |
+| `unknown`        | Emitted when an unknown event is emitted by the relay.                                                                       |
+
+### System events
+
+| Event            | Description                                                                                                                  |
+|------------------|------------------------------------------------------------------------------------------------------------------------------|
+| `open`           | Emitted when the websocket connection is opened.                                                                             |
+| `close`          | Emitted when the websocket connection is closed.                                                                             |
+| `error`          | Emitted when an error occurs while handling a message.                                                                       |
+| `websocketError` | Emitted when an error occurs with the websocket connection.                                                                  |
