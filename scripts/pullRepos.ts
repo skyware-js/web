@@ -3,6 +3,7 @@ import { $, argv, cd, path, within } from "zx";
 import config from "../config.json";
 
 const base = path.resolve(import.meta.dirname, "..");
+await $`mkdir -p ${path.join(base, "packages")}`;
 
 for (const library of config.packages) {
 	const dirname = library.repo.split("/")[1];
@@ -14,15 +15,15 @@ for (const library of config.packages) {
 	const packageDir = path.join(base, "packages", dirname);
 
 	if (fs.existsSync(packageDir)) {
-		if (argv.overwrite) {
+		const pullExitCode = await within(async () => {
+			cd(packageDir);
+			return await $`git pull`.exitCode
+		});
+		if (pullExitCode !== 0 || argv.overwrite) {
 			await $`rm -rf ${packageDir}`;
-		} else {
-			continue;
+			await $`git clone https://github.com/${library.repo}.git ${packageDir}`;
 		}
 	}
-
-	await $`mkdir -p ${path.join(base, "packages")}`;
-	await $`git clone https://github.com/${library.repo}.git ${packageDir}`;
 
 	await within(async () => {
 		cd(packageDir);
