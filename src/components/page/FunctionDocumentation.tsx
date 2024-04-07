@@ -166,7 +166,7 @@ function FunctionOverloads({ overloads }: { overloads: Array<SignatureReflection
 	const id = overloadSignatures[0].parent.name + overloadSignatures[0].parent.id.toString();
 
 	return (
-		<div id={id} className="overloads">
+		<div id={id} className="overloads [&>div]:hidden">
 			<span className="inline-flex items-center mb-2 gap-0.5 text-gray-700 text-docs-aside font-medium leading-6">
 				<button
 					id={id + "-button-left"}

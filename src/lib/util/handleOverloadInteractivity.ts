@@ -1,5 +1,6 @@
-const overloadedFunctions = document.querySelectorAll(".overloads");
-overloadedFunctions.forEach(({ id }) => {
+const overloadedFunctions = document.querySelectorAll<HTMLDivElement>(".overloads");
+overloadedFunctions.forEach((containerDiv) => {
+	const { id } = containerDiv;
 	const signatures = document.querySelectorAll(`#${id} > div`);
 	const buttons = document.querySelectorAll(`#${id}-button-left, #${id}-button-right`);
 	const label = document.querySelector(`#${id}-label`);
@@ -11,15 +12,11 @@ overloadedFunctions.forEach(({ id }) => {
 		return;
 	}
 
-	signatures.forEach((signature, i) => {
-		signature.classList.toggle("hidden", i !== 0);
-	});
-
 	let index = 0;
 	const setIndex = (i: number) => {
 		index = i;
-		signatures.forEach((signature, i) => {
-			signature.classList.toggle("hidden", i !== index);
+		signatures.forEach((signature, signatureIndex) => {
+			signature.classList.toggle("!block", signatureIndex === index);
 		});
 		if (label) label.textContent = `Overload ${index + 1}/${signatures.length}`;
 	};

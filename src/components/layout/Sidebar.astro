@@ -1,9 +1,9 @@
 ---
 import { GithubIcon } from "@/assets/icons/GithubIcon.tsx";
 import { Logo } from "@/assets/Logo.tsx";
-import { DocSearch } from "@docsearch/react";
 import { getCollection, type InferEntrySchema } from "astro:content";
 import { type DeclarationReflection, ReflectionKind } from "typedoc";
+import { DocSearch } from "./DocSearch.tsx";
 import ShowSidebarButton from "./ShowSidebarButton.astro";
 import SidebarDocsSection from "./SidebarDocsSection.astro";
 
@@ -168,7 +168,7 @@ const githubUrl = currentModule
 		class="w-full flex flex-col items-center justify-center px-8 py-6 gap-6"
 	>
 		<DocSearch
-			client:only="react"
+			client:load
 			appId="R2IYF7ETH7"
 			apiKey="599cec31baffa4868cae4e79f180729b"
 			indexName="docsearch"
