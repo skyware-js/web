@@ -2,8 +2,6 @@ import fs from "fs";
 import { $, argv, cd, path, within } from "zx";
 import config from "../config.json";
 
-$.shell = "zsh";
-
 const base = path.resolve(import.meta.dirname, "..");
 await $`mkdir -p ${path.join(base, "packages")}`;
 
