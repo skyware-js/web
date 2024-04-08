@@ -2,6 +2,8 @@ import fs from "fs";
 import { $, argv, cd, path, within } from "zx";
 import config from "../config.json";
 
+$.shell = "zsh";
+
 const base = path.resolve(import.meta.dirname, "..");
 await $`mkdir -p ${path.join(base, "packages")}`;
 
@@ -13,16 +15,22 @@ for (const library of config.packages) {
 	}
 
 	const packageDir = path.join(base, "packages", dirname);
+	const gitDir = path.join(packageDir, ".git");
 
-	if (fs.existsSync(packageDir)) {
-		const pullExitCode = await within(async () => {
+	if (fs.existsSync(gitDir)) {
+		await within(async () => {
 			cd(packageDir);
-			return await $`git pull`.exitCode
+			await $`git fetch --all`;
+			if (argv.overwrite) {
+				await $`git reset --hard origin/main`;
+			} else {
+				await $`git pull`;
+			}
 		});
-		if (pullExitCode !== 0 || argv.overwrite) {
-			await $`rm -rf ${packageDir}`;
-			await $`git clone https://github.com/${library.repo}.git ${packageDir}`;
-		}
+	} else {
+		await $`mkdir -p ${packageDir}`;
+		await $`rm -rf ${packageDir}`;
+		await $`git clone https://github.com/${library.repo}.git ${packageDir}`;
 	}
 
 	await within(async () => {
