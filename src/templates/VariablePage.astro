@@ -3,15 +3,19 @@ import type { DeclarationReflection } from "typedoc";
 import DocsLayout from "../components/layout/Layout.astro";
 import { TitleSection } from "../components/page/TitleSection";
 import { generateMeta } from "../lib/util/generateMeta";
+import Sidebar, { generateSidebar } from "src/components/layout/Sidebar.astro";
 
 interface Props {
 	reflection: DeclarationReflection;
 }
 
 const { reflection } = Astro.props;
+
+const sidebar = await generateSidebar(reflection.parent);
 ---
 
-<DocsLayout module={reflection.parent} meta={generateMeta(reflection)}>
+<DocsLayout meta={generateMeta(reflection)}>
+	<Sidebar {...sidebar} slot="sidebar" />
 	<div class="w-full">
 		<TitleSection reflection={reflection} />
 	</div>

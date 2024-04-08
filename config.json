@@ -8,5 +8,25 @@
 			"repo": "skyware-js/firehose",
 			"packageName": "@skyware/firehose"
 		}
-	]
+	],
+	"guides": {
+		"@skyware/bot": [
+			{
+				"category": "Introduction",
+				"guides": [
+					"bot/introduction/getting-started",
+					"misc/glossary"
+				]
+			}
+		],
+		"@skyware/firehose": [
+			{
+				"category": "Introduction",
+				"guides": [
+					"firehose/introduction/getting-started",
+					"misc/glossary"
+				]
+			}
+		]
+	}
 }

@@ -22,6 +22,9 @@ import EnumPage from "../templates/EnumPage.astro";
 import FunctionPage from "../templates/FunctionPage.astro";
 import TypePage from "../templates/TypePage.astro";
 import VariablePage from "../templates/VariablePage.astro";
+import config from "../../config.json";
+import { getEntry } from "astro:content";
+import Sidebar, { generateSidebar } from "src/components/layout/Sidebar.astro";
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 	const app = await Application.bootstrap({
@@ -67,25 +70,16 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 		}
 	}
 
-	const guides = await getCollection("guides");
-	for (const guide of guides) {
-		if (guide.data.library === "all") {
-			for (const module of modules) {
-				const packageName = module.name.split("/")[1];
-				const path = `guides/${guide.slug.replace("all", packageName)}`;
-				pages.push({ params: { path }, props: { guide, module } });
+	for (const [pkg, categories] of Object.entries(config.guides)) {
+		const module = modules.find((m) => m.name === pkg);
+		if (!module) {
+			throw new Error(`Failed to resolve module ${pkg} for guides.`);
+		}
+		for (const { guides } of categories) {
+			for (const slug of guides) {
+				const path = slug.startsWith("misc") ? slug.replace("misc", `guides/${module.name.split("/")[1]}`) : `guides/${slug}`;
+				pages.push({ params: { path }, props: { guide: await getEntry("guides", slug), module } });
 			}
-		} else {
-			const module = modules.find((m) => m.name === guide.data.library);
-			if (!module) {
-				throw new Error(
-					`Failed to resolve module ${guide.data.library} for guide "${guide.data.title}".`,
-				);
-			}
-			pages.push({
-				params: { path: "guides/" + guide.slug },
-				props: { guide, module },
-			});
 		}
 	}
 
@@ -120,15 +114,18 @@ const DocsTemplate = reflection ? DocsTemplates[reflection.kind] : null;
 const { Content: GuideContent = null } = guide ? await guide.render() : {};
 ---
 {
-	DocsTemplate ? <DocsTemplate reflection={reflection!} /> : GuideContent ? (
-		<Layout module={module} meta={generateMeta(module, guide)}>
+	DocsTemplate ? <DocsTemplate reflection={reflection!} /> : GuideContent ? ((async () => {
+		const sidebar = await generateSidebar(module!);
+		return (<Layout meta={generateMeta(module!, guide)}>
+			<Sidebar {...sidebar} slot="sidebar"  />
 			<div
 				class="prose contents first:prose-h1:pt-8 last:prose-p:pb-16 prose-h1:mb-[0.2em] hover:prose-a:no-underline"
 			>
 				<GuideContent components={{ h1: H1, h2: H2, h3: H3 }} />
 			</div>
 		</Layout>
-	): ((() => {
+		)
+	})()) : ((() => {
 		throw new Error("This shouldn't have happened.");
 	})())
 }

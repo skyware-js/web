@@ -1,17 +1,22 @@
 ---
-import { GithubIcon } from "@/assets/icons/GithubIcon.tsx";
-import { Logo } from "@/assets/Logo.tsx";
-import { getCollection, type InferEntrySchema } from "astro:content";
-import { type DeclarationReflection, ReflectionKind } from "typedoc";
+import { getEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import {
+	DeclarationReflection,
+	type Reflection,
+	ReflectionKind,
+} from "typedoc";
+import config from "../../../config.json";
+import { GithubIcon } from "../../assets/icons/GithubIcon.tsx";
+import { Logo } from "../../assets/Logo.tsx";
 import { DocSearch } from "./DocSearch.tsx";
 import ShowSidebarButton from "./ShowSidebarButton.astro";
 import SidebarDocsSection from "./SidebarDocsSection.astro";
 
 interface Props {
 	modules: Array<{ name: string; url: string }>;
-	guides: Record<
-		string,
-		Array<{ data: InferEntrySchema<"guides">; slug: string }>
+	guides: Array<
+		{ category: string; entries: Array<CollectionEntry<"guides">> }
 	>;
 	docs: {
 		classes: Array<
@@ -30,38 +35,39 @@ interface Props {
 			{ name: string; url: string; reflection: DeclarationReflection }
 		>;
 	};
+	module: DeclarationReflection;
 }
 
 export async function generateSidebar(
-	module: DeclarationReflection,
+	module?: Reflection | undefined,
 ): Promise<Props> {
+	if (!module || !(module instanceof DeclarationReflection)) {
+		throw new Error("Tried to generate sidebar without a module.");
+	}
+
 	const packageName = module.name.split("/").pop()!;
 
 	const modules = module.project.getChildrenByKind(ReflectionKind.Module).map(
 		(mod) => ({ name: mod.name, url: `docs/${mod.name.split("/").pop()}` })
 	);
 
-	const guides =
-		(await getCollection(
-			"guides",
-			({ data }) =>
-				data.library === module.name || data.library === "all",
-		)).reduce<Props["guides"]>((acc, guide) => {
-			const category = guide.data.category;
-			if (!acc[category]) {
-				acc[category] = [];
-			}
-			if (guide.slug.startsWith("all")) {
-				guide.slug = module.name.split("/")[1] + "/"
-					+ guide.slug.slice(4);
-			}
-			acc[category].push(guide);
-			return acc;
-		}, {});
-
-	for (const category of Object.values(guides)) {
-		category.sort((a, b) => (a.data.sort || 0) - (b.data.sort || 0));
-	}
+	const guides = await Promise.all(
+		(config.guides[module.name as keyof typeof config.guides] || []).map(
+			async ({ category, guides }) => ({
+				category,
+				entries: (await Promise.all(guides.map(async (guide) => {
+					const entry = await getEntry("guides", guide);
+					if (!entry) return undefined;
+					return {
+						...entry,
+						slug: entry.slug.replace("misc", packageName),
+					};
+				}))).filter((guide): guide is CollectionEntry<"guides"> =>
+					guide !== undefined
+				),
+			})
+		),
+	);
 
 	const docs = (module.children || []).reduce<
 		Record<
@@ -113,22 +119,17 @@ export async function generateSidebar(
 		return acc;
 	}, { classes: [], functions: [], enums: [], types: [], variables: [] });
 
-	return { modules, guides, docs };
+	return { modules, guides, docs, module };
 }
 
-const { modules, guides, docs } = Astro.props;
+const { modules, guides, docs, module } = Astro.props;
 
-const currentModule = modules.find((mod) =>
-	Astro.url.pathname.includes(mod.url)
-);
 const currentReflection = Object.values(docs).flat().find(({ url }) =>
 	Astro.url.pathname.endsWith(url)
 )?.reflection;
 
-const githubUrl = currentModule
-	? `https://github.com/${
-		currentModule.name.replace("@skyware", "skyware-js")
-	}`
+const githubUrl = module
+	? `https://github.com/${module.name.replace("@skyware", "skyware-js")}`
 	: "https://github.com/skyware-js";
 ---
 <ShowSidebarButton />
@@ -152,7 +153,7 @@ const githubUrl = currentModule
 					modules.map(({ name, url }) => (
 						<option
 							value={"/" + url}
-							selected={Astro.url.pathname.split("/")[2] === url.split("/")[1]}
+							selected={module.name === name}
 						>
 							{name}
 						</option>
@@ -174,19 +175,19 @@ const githubUrl = currentModule
 			indexName="docsearch"
 		/>
 		{
-			Object.values(guides).length > 0 && (
+			guides.length > 0 && (
 				<div class="w-full flex flex-col gap-2">
 					<h3 class="text-docs-h3 text-gray-900 font-medium">
 						Guides
 					</h3>
 					<ul class="w-full gap-8 py-2 border-l border-l-gray-300">
 						{
-							Object.entries(guides).map(([category, items]) => (
+							guides.map(({ category, entries }) => (
 								<li class="w-full">
 									<SidebarDocsSection
 										type="guides"
 										title={category}
-										section={items.map(({ slug, data }) => ({ ...data, url: "guides/" + slug }))}
+										section={entries.map(({ slug, data }) => ({ ...data, url: "guides/" + slug }))}
 									/>
 								</li>
 							))

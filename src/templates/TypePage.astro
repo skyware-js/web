@@ -7,34 +7,42 @@ import { TypeAliasTitleSection } from "../components/page/TypeAliasTitleSection"
 import { reflectionShouldBeRendered } from "../lib/rendering/reflectionShouldBeRendered";
 import { generateMeta } from "../lib/util/generateMeta";
 import { sortReflections as sort } from "../lib/util/sortReflections";
+import Sidebar, { generateSidebar } from "src/components/layout/Sidebar.astro";
 
 interface Props {
-	reflection: DeclarationReflection;
+    reflection: DeclarationReflection;
 }
 
 const { reflection } = Astro.props;
 
 const properties = sort(
-	reflection.children?.filter(reflectionShouldBeRendered) || [],
+    reflection.children?.filter(reflectionShouldBeRendered) || [],
 );
+
+const sidebar = await generateSidebar(reflection.parent);
 ---
 
-<DocsLayout module={reflection.parent} meta={generateMeta(reflection)}>
-	<div class="w-full">
-		{
-			properties?.length ? <TitleSection reflection={reflection} /> : (
-				<TypeAliasTitleSection reflection={reflection} />
-			)
-		}
-	</div>
-	{
-		properties?.length ? (
-			<h2 class="w-1 h-1 -m-1 overflow-hidden" id="properties">
-				Properties
-			</h2>
-			<div class="w-full pl-4 py-8 border-t border-gray-300">
-				<PropertyMembers properties={properties} />
-			</div>
-		) : null
-	}
+<DocsLayout meta={generateMeta(reflection)}>
+    <Sidebar {...sidebar} slot="sidebar" />
+    <div class="w-full">
+        {
+            properties?.length ? (
+                <TitleSection reflection={reflection} />
+            ) : (
+                <TypeAliasTitleSection reflection={reflection} />
+            )
+        }
+    </div>
+    {
+        properties?.length ? (
+            <>
+                <h2 class="w-1 h-1 -m-1 overflow-hidden" id="properties">
+                    Properties
+                </h2>
+                <div class="w-full pl-4 py-8 border-t border-gray-300">
+                    <PropertyMembers properties={properties} />
+                </div>
+            </>
+        ) : null
+    }
 </DocsLayout>

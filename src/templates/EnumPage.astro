@@ -6,6 +6,7 @@ import { TitleSection } from "../components/page/TitleSection";
 import { reflectionShouldBeRendered } from "../lib/rendering/reflectionShouldBeRendered";
 import { generateMeta } from "../lib/util/generateMeta";
 import { sortReflections as sort } from "../lib/util/sortReflections";
+import Sidebar, { generateSidebar } from "src/components/layout/Sidebar.astro";
 
 interface Props {
 	reflection: DeclarationReflection;
@@ -16,9 +17,12 @@ const { reflection } = Astro.props;
 const properties = sort(
 	reflection.children?.filter(reflectionShouldBeRendered) || [],
 );
+
+const sidebar = await generateSidebar(reflection.parent);
 ---
 
-<DocsLayout module={reflection.parent} meta={generateMeta(reflection)}>
+<DocsLayout meta={generateMeta(reflection)}>
+	<Sidebar {...sidebar} slot="sidebar" />
 	<div class="w-full">
 		<TitleSection reflection={reflection} />
 	</div>
