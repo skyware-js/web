@@ -1,7 +1,7 @@
-import { AnchorIcon } from "@/assets/icons/AnchorIcon.tsx";
-import { ExternalIcon } from "@/assets/icons/ExternalIcon.tsx";
 import { clsx } from "clsx/lite";
 import type { HTMLProps } from "react";
+import { AnchorIcon } from "../../assets/icons/AnchorIcon.tsx";
+import { ExternalIcon } from "../../assets/icons/ExternalIcon.tsx";
 
 const HeadingLevels = { h1: "text-code-h1", h2: "text-code-h2", h3: "text-code-h3" };
 

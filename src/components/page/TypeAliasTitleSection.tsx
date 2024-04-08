@@ -1,10 +1,10 @@
-import { PageKinds } from "@/components/page/TitleSection.tsx";
-import { HighlightKind, HighlightText } from "@/lib/rendering/highlight.tsx";
-import { renderSummary } from "@/lib/rendering/renderSummary.tsx";
-import { renderType } from "@/lib/rendering/renderType.tsx";
-import { resolveSourceUrl } from "@/lib/util/resolveUrl.ts";
 import { type DeclarationReflection } from "typedoc";
+import { HighlightKind, HighlightText } from "../../lib/rendering/highlight.tsx";
+import { renderSummary } from "../../lib/rendering/renderSummary.tsx";
+import { renderType } from "../../lib/rendering/renderType.tsx";
+import { resolveSourceUrl } from "../../lib/util/resolveUrl.ts";
 import CodeHeading from "./CodeHeading.tsx";
+import { PageKinds } from "./TitleSection.tsx";
 
 export function TypeAliasTitleSection({ reflection }: { reflection: DeclarationReflection }) {
 	const kind = PageKinds[reflection.kind];

@@ -1,6 +1,6 @@
-import { renderMarkdown } from "@/lib/rendering/renderMarkdown.tsx";
 import type { ReactNode } from "react";
 import type { Comment, CommentTag } from "typedoc";
+import { renderMarkdown } from "./renderMarkdown.tsx";
 
 export function renderDefaultTag(tag?: CommentTag | undefined): ReactNode {
 	if (!tag) return null;

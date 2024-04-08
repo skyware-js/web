@@ -1,6 +1,6 @@
-import { renderMarkdown } from "@/lib/rendering/renderMarkdown.tsx";
 import type { ReactNode } from "react";
 import type { Comment } from "typedoc";
+import { renderMarkdown } from "./renderMarkdown.tsx";
 
 export function renderSummary(comment?: Comment | null | undefined): ReactNode {
 	return comment?.summary

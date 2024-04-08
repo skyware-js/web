@@ -21,10 +21,7 @@
 		"noImplicitReturns": true,
 		"exactOptionalPropertyTypes": true,
 
-		"baseUrl": ".",
-		"paths": {
-			"@/*": ["./src/*"]
-		}
+		"baseUrl": "."
 	},
 	"exclude": ["dist"]
 }

@@ -1,5 +1,5 @@
-import { FunctionDocumentation } from "@/components/page/FunctionDocumentation.tsx";
 import type { DeclarationReflection } from "typedoc";
+import { FunctionDocumentation } from "./FunctionDocumentation.tsx";
 
 export function MethodMembers({ methods }: { methods: Array<DeclarationReflection> }) {
 	return (

@@ -1,13 +1,3 @@
-import { ChevronLeftIcon } from "@/assets/icons/ChevronLeftIcon.tsx";
-import { ChevronRightIcon } from "@/assets/icons/ChevronRightIcon.tsx";
-import CodeHeading from "@/components/page/CodeHeading.tsx";
-import { HighlightKind, HighlightText } from "@/lib/rendering/highlight.tsx";
-import { reflectionShouldBeRendered } from "@/lib/rendering/reflectionShouldBeRendered.ts";
-import { renderMarkdown } from "@/lib/rendering/renderMarkdown.tsx";
-import { renderSummary } from "@/lib/rendering/renderSummary.tsx";
-import { renderTags } from "@/lib/rendering/renderTags.tsx";
-import { renderType } from "@/lib/rendering/renderType.tsx";
-import { resolveSourceUrl } from "@/lib/util/resolveUrl.ts";
 import { Fragment, type ReactNode } from "react";
 import {
 	type DeclarationReflection,
@@ -15,6 +5,16 @@ import {
 	ReflectionKind,
 	SignatureReflection,
 } from "typedoc";
+import { ChevronLeftIcon } from "../../assets/icons/ChevronLeftIcon.tsx";
+import { ChevronRightIcon } from "../../assets/icons/ChevronRightIcon.tsx";
+import CodeHeading from "../../components/page/CodeHeading.tsx";
+import { HighlightKind, HighlightText } from "../../lib/rendering/highlight.tsx";
+import { reflectionShouldBeRendered } from "../../lib/rendering/reflectionShouldBeRendered.ts";
+import { renderMarkdown } from "../../lib/rendering/renderMarkdown.tsx";
+import { renderSummary } from "../../lib/rendering/renderSummary.tsx";
+import { renderTags } from "../../lib/rendering/renderTags.tsx";
+import { renderType } from "../../lib/rendering/renderType.tsx";
+import { resolveSourceUrl } from "../../lib/util/resolveUrl.ts";
 
 export function renderParameters(parameters: Array<ParameterReflection>) {
 	return (

@@ -1,7 +1,7 @@
-import { HighlightKind, HighlightText } from "@/lib/rendering/highlight.tsx";
-import { renderSummary } from "@/lib/rendering/renderSummary.tsx";
-import { resolveSourceUrl } from "@/lib/util/resolveUrl.ts";
 import { type DeclarationReflection, ReflectionKind } from "typedoc";
+import { HighlightKind, HighlightText } from "../../lib/rendering/highlight.tsx";
+import { renderSummary } from "../../lib/rendering/renderSummary.tsx";
+import { resolveSourceUrl } from "../../lib/util/resolveUrl.ts";
 import CodeHeading from "./CodeHeading.tsx";
 
 export const PageKinds: Partial<Record<ReflectionKind, string>> = {

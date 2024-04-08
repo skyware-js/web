@@ -1,13 +1,12 @@
-import CodeHeading from "@/components/page/CodeHeading.tsx";
-import { renderParameters } from "@/components/page/FunctionDocumentation.tsx";
-import { HighlightKind, HighlightText } from "@/lib/rendering/highlight.tsx";
-import { reflectionShouldBeRendered } from "@/lib/rendering/reflectionShouldBeRendered.ts";
-import { renderSummary } from "@/lib/rendering/renderSummary.tsx";
-import { renderTags } from "@/lib/rendering/renderTags.tsx";
-import { renderType } from "@/lib/rendering/renderType.tsx";
-import { resolveSourceUrl } from "@/lib/util/resolveUrl.ts";
 import type { ReactNode } from "react";
 import { type DeclarationReflection, ReflectionKind, type ReflectionType } from "typedoc";
+import CodeHeading from "../../components/page/CodeHeading.tsx";
+import { HighlightKind, HighlightText } from "../../lib/rendering/highlight.tsx";
+import { renderSummary } from "../../lib/rendering/renderSummary.tsx";
+import { renderTags } from "../../lib/rendering/renderTags.tsx";
+import { renderType } from "../../lib/rendering/renderType.tsx";
+import { resolveSourceUrl } from "../../lib/util/resolveUrl.ts";
+import { renderParameters } from "./FunctionDocumentation.tsx";
 
 export function renderChildProperties(properties: Array<DeclarationReflection>) {
 	return (
