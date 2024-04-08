@@ -1,6 +1,7 @@
 import { type DeclarationReflection, ReflectionKind } from "typedoc";
 import { HighlightKind, HighlightText } from "../../lib/rendering/highlight.tsx";
 import { renderSummary } from "../../lib/rendering/renderSummary.tsx";
+import { renderType } from "../../lib/rendering/renderType.tsx";
 import { resolveSourceUrl } from "../../lib/util/resolveUrl.ts";
 import CodeHeading from "./CodeHeading.tsx";
 
@@ -27,7 +28,22 @@ export function TitleSection({ reflection }: { reflection: DeclarationReflection
 		</CodeHeading>
 	);
 
+	const extended = reflection.extendedTypes?.length
+		? (
+			<CodeHeading level="h3" className="-mt-2">
+				<HighlightText kind={HighlightKind.Text}>{"extends "}</HighlightText>
+				{reflection.extendedTypes.map((type) => renderType(type))}
+			</CodeHeading>
+		)
+		: null;
+
 	const summary = renderSummary(reflection.comment);
 
-	return <div className="p-2 pt-4 pb-8 space-y-3 group">{heading}{summary}</div>;
+	return (
+		<div className="flex flex-col p-2 pt-4 pb-8 gap-y-3 group">
+			{heading}
+			{extended}
+			{summary}
+		</div>
+	);
 }

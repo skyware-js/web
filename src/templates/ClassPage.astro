@@ -1,6 +1,7 @@
 ---
 import { DeclarationReflection, ReflectionKind } from "typedoc";
 import DocsLayout from "../components/layout/Layout.astro";
+import Sidebar, { generateSidebar } from "../components/layout/Sidebar.astro";
 import { FunctionDocumentation } from "../components/page/FunctionDocumentation";
 import { MethodMembers } from "../components/page/MethodMembers";
 import { PropertyMembers } from "../components/page/PropertyMembers";
@@ -8,7 +9,6 @@ import { TitleSection } from "../components/page/TitleSection";
 import { reflectionShouldBeRendered } from "../lib/rendering/reflectionShouldBeRendered";
 import { generateMeta } from "../lib/util/generateMeta";
 import { sortReflections as sort } from "../lib/util/sortReflections";
-import Sidebar, { generateSidebar } from "../components/layout/Sidebar.astro";
 
 interface Props {
 	reflection: DeclarationReflection;
@@ -22,6 +22,8 @@ const properties = sort(
 		reflectionShouldBeRendered,
 	),
 );
+console.log(reflection.getChildrenByKind(ReflectionKind.VariableOrProperty));
+
 const accessors = sort(
 	reflection.getChildrenByKind(ReflectionKind.Accessor).filter((accessor) =>
 		reflectionShouldBeRendered(accessor) && accessor.signatures?.length

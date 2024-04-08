@@ -9,7 +9,7 @@ export default function CodeHeading(
 	{ className, level, url, children, ...props }: {
 		level: keyof typeof HeadingLevels;
 		url?: string | null | undefined;
-		id: string;
+		id?: string;
 	} & HTMLProps<HTMLHeadingElement>,
 ) {
 	const HeadingComponent = level === "h1" ? "h1" : "h3"; // h2 is reserved for screen reader headings
@@ -26,24 +26,30 @@ export default function CodeHeading(
 			{...props}
 		>
 			<span>{children}</span>
-			<a
-				className="text-gray-700 hover:text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity"
-				href={`#${props.id}`}
-				aria-label="Anchor link to the page title"
-			>
-				<AnchorIcon className="h-4 w-4 fill-current" />
-			</a>
-			{url && (
-				<a
-					href={url}
-					className="text-gray-700 hover:text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity"
-					target="_blank"
-					rel="noopener noreferrer"
-					aria-label="View source on GitHub"
-				>
-					<ExternalIcon className="h-4 w-4 fill-current" />
-				</a>
-			)}
+			{props.id
+				? (
+					<a
+						className="text-gray-700 hover:text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity"
+						href={`#${props.id}`}
+						aria-label="Anchor link to the page title"
+					>
+						<AnchorIcon className="h-4 w-4 fill-current" />
+					</a>
+				)
+				: null}
+			{url
+				? (
+					<a
+						href={url}
+						className="text-gray-700 hover:text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label="View source on GitHub"
+					>
+						<ExternalIcon className="h-4 w-4 fill-current" />
+					</a>
+				)
+				: null}
 		</HeadingComponent>
 	);
 }

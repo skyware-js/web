@@ -1,6 +1,15 @@
 import type { DeclarationReflection } from "typedoc";
 
 const sorts: Record<string, (a: DeclarationReflection, b: DeclarationReflection) => boolean> = {
+	"inherited-first"(a, b) {
+		if (a.inheritedFrom && !b.inheritedFrom) {
+			return true;
+		}
+		if (b.inheritedFrom && !a.inheritedFrom) {
+			return false;
+		}
+		return false;
+	},
 	"source-order"(a, b) {
 		const aSymbol = a.project.getSymbolIdFromReflection(a);
 		const bSymbol = b.project.getSymbolIdFromReflection(b);
@@ -36,7 +45,13 @@ const sorts: Record<string, (a: DeclarationReflection, b: DeclarationReflection)
 	},
 };
 
-const strategies = ["source-order", "visibility", "external-last", "alphabetical"];
+const strategies = [
+	"inherited-first",
+	"source-order",
+	"visibility",
+	"external-last",
+	"alphabetical",
+];
 
 export function sortReflections(reflections: Array<DeclarationReflection>) {
 	return reflections.sort((a, b) => {
