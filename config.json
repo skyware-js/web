@@ -15,7 +15,7 @@
 				"category": "Introduction",
 				"guides": [
 					"bot/introduction/getting-started",
-					"misc/glossary"
+					"global/glossary"
 				]
 			}
 		],
@@ -24,7 +24,7 @@
 				"category": "Introduction",
 				"guides": [
 					"firehose/introduction/getting-started",
-					"misc/glossary"
+					"global/glossary"
 				]
 			}
 		]

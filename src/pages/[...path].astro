@@ -1,11 +1,14 @@
 ---
 import type { GetStaticPathsResult } from "astro";
 import { type CollectionEntry, getCollection } from "astro:content";
+import { getEntry } from "astro:content";
+import Sidebar, { generateSidebar } from "src/components/layout/Sidebar.astro";
 import {
 	Application,
 	type DeclarationReflection,
 	ReflectionKind,
 } from "typedoc";
+import config from "../../config.json";
 import Layout from "../components/layout/Layout.astro";
 import H1 from "../components/markdown/H1.astro";
 import H2 from "../components/markdown/H2.astro";
@@ -22,9 +25,6 @@ import EnumPage from "../templates/EnumPage.astro";
 import FunctionPage from "../templates/FunctionPage.astro";
 import TypePage from "../templates/TypePage.astro";
 import VariablePage from "../templates/VariablePage.astro";
-import config from "../../config.json";
-import { getEntry } from "astro:content";
-import Sidebar, { generateSidebar } from "src/components/layout/Sidebar.astro";
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 	const app = await Application.bootstrap({
@@ -77,8 +77,16 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 		}
 		for (const { guides } of categories) {
 			for (const slug of guides) {
-				const path = slug.startsWith("misc") ? slug.replace("misc", `guides/${module.name.split("/")[1]}`) : `guides/${slug}`;
-				pages.push({ params: { path }, props: { guide: await getEntry("guides", slug), module } });
+				const path = slug.startsWith("global")
+					? slug.replace(
+						"global",
+						`guides/${module.name.split("/")[1]}`,
+					)
+					: `guides/${slug}`;
+				pages.push({
+					params: { path },
+					props: { guide: await getEntry("guides", slug), module },
+				});
 			}
 		}
 	}
@@ -114,18 +122,21 @@ const DocsTemplate = reflection ? DocsTemplates[reflection.kind] : null;
 const { Content: GuideContent = null } = guide ? await guide.render() : {};
 ---
 {
-	DocsTemplate ? <DocsTemplate reflection={reflection!} /> : GuideContent ? ((async () => {
-		const sidebar = await generateSidebar(module!);
-		return (<Layout meta={generateMeta(module!, guide)}>
-			<Sidebar {...sidebar} slot="sidebar"  />
+	DocsTemplate ? <DocsTemplate reflection={reflection!} />: GuideContent
+		? ((async () => {
+			const sidebar = await generateSidebar(module!);
+			return (
+		<Layout meta={generateMeta(module!, guide)}>
+			<Sidebar {...sidebar} slot="sidebar" />
 			<div
 				class="prose contents first:prose-h1:pt-8 last:prose-p:pb-16 prose-h1:mb-[0.2em] hover:prose-a:no-underline"
 			>
 				<GuideContent components={{ h1: H1, h2: H2, h3: H3 }} />
 			</div>
 		</Layout>
-		)
-	})()) : ((() => {
+	);
+	})())
+	: ((() => {
 		throw new Error("This shouldn't have happened.");
 	})())
 }

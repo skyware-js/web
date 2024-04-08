@@ -6,7 +6,7 @@ import { HighlightText, HighlightKind } from "../../../../lib/rendering/highligh
 
 # Getting Started
 
-`@skyware/firehose` is a utility library for consuming data from an [AT Protocol Relay](/guides/firehose/introduction/glossary#relay).
+`@skyware/firehose` is a utility library for consuming data from an [AT Protocol Relay](/guides/firehose/glossary#relay).
 
 ## Setup
 
@@ -36,7 +36,7 @@ firehose.on("commit", (message) => {
 });
 ```
 
-A Relay listens for changes to user [repositories](/guides/firehose/introduction/glossary#repository) and emits events when changes occur. You can listen for these events by calling the `on` method with a callback. Full documentation on the data you will receive with each event can be found in the <HighlightText kind={HighlightKind.Method} as="a" href="/docs/firehose/classes/Firehose#on" className="no-underline">Firehose#on</HighlightText> method documentation.
+A Relay listens for changes to user [repositories](/guides/firehose/glossary#repository) and emits events when changes occur. You can listen for these events by calling the `on` method with a callback. Full documentation on the data you will receive with each event can be found in the <Reference to="/docs/firehose/classes/Firehose#on" /> method documentation.
 
 The most common event you will receive is a `commit` event, which represents a commit to a user's repository, similar to a Git commit.
 
@@ -44,7 +44,7 @@ A commit may contain one or more operations, representing changes to the reposit
 
 If the operation is `create` or `update`, it will also contain the following properties:
 
-- `cid`: The [CID](/guides/firehose/introduction/glossary#cid) of the created or updated record.
+- `cid`: The [CID](/guides/firehose/glossary#cid) of the created or updated record.
 - `record`: The record itself.
 
 ## Event Reference

@@ -60,7 +60,7 @@ export async function generateSidebar(
 					if (!entry) return undefined;
 					return {
 						...entry,
-						slug: entry.slug.replace("misc", packageName),
+						slug: entry.slug.replace("global", packageName),
 					};
 				}))).filter((guide): guide is CollectionEntry<"guides"> =>
 					guide !== undefined
