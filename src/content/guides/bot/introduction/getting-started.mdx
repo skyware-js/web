@@ -2,7 +2,7 @@
 title: "Getting Started"
 description: "Build a Bluesky bot in 5 minutes or your money back."
 ---
-import { HighlightText, HighlightKind } from "../../../../lib/rendering/highlight.js";
+import { Reference } from "../../../../components/markdown/Reference.js";
 
 # Getting Started
 `@skyware/bot` makes it easy to build bots for Bluesky. This guide will walk you getting set up and making your first post.
@@ -34,12 +34,12 @@ await bot.login({
 });
 ```
 
-When calling `new Bot()`, you may choose to pass an optional <HighlightText kind={HighlightKind.Interface} as="a" href="/docs/bot/types/BotPostOptions" className="no-underline">BotPostOptions</HighlightText> object to configure the bot. This object can contain the following properties:
+When calling `new Bot()`, you may choose to pass an optional <Reference to="/docs/bot/types/BotPostOptions" /> object to configure the bot. This object can contain the following properties:
 
 - `service`: The [PDS](/guides/bot/glossary#pds-personal-data-server) to log into. Defaults to `https://bsky.social`.
 - `langs`: An array of two-letter language codes signifying the languages the bot will post in. Clients may use this information to show users posts in languages they understand, and to offer the option to translate a post. Defaults to `["en"]`.
-- `emitEvents`: Whether the bot should emit events. You'll learn more about this in [Listening to events](/guides/bot/events/listening-to-events). Defaults to `true`.
-- and various other configuration options — refer to the <HighlightText kind={HighlightKind.Interface} as="a" href="/docs/bot/types/BotPostOptions" className="no-underline">BotPostOptions</HighlightText> documentation for the full list.
+- `emitEvents`: Whether the bot should emit events. You'll learn more about this in [Listening to events](/guides/bot/event-handling/listening-to-events). Defaults to `true`.
+- and various other configuration options — refer to the <Reference to="/docs/bot/types/BotPostOptions" /> documentation for the full list.
 
 ## Posting
 
@@ -54,7 +54,7 @@ const post = await bot.post({
 console.log(post.uri);
 ```
 
-Refer to the <HighlightText kind={HighlightKind.Method} as="a" href="/docs/bot/classes/Bot#post" className="no-underline">Bot#post</HighlightText> method documentation for more information on the available options.
+Refer to the <Reference to="/docs/bot/classes/Bot#post" /> method documentation for more information on the available options.
 
 If the post is successful, you should see its URI logged to your console.
 

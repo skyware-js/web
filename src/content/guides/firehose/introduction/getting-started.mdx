@@ -2,7 +2,7 @@
 title: "Getting Started"
 description: "Getting started with @skyware/firehose."
 ---
-import { HighlightText, HighlightKind } from "../../../../lib/rendering/highlight.js";
+import { Reference } from "../../../../components/markdown/Reference.js";
 
 # Getting Started
 
@@ -36,7 +36,7 @@ firehose.on("commit", (message) => {
 });
 ```
 
-A Relay listens for changes to user [repositories](/guides/firehose/glossary#repository) and emits events when changes occur. You can listen for these events by calling the `on` method with a callback. Full documentation on the data you will receive with each event can be found in the <Reference to="/docs/firehose/classes/Firehose#on" /> method documentation.
+A Relay listens for changes to user [repositories](/guides/firehose/glossary#repository) and emits events when changes occur. You can listen for these events by calling the `on` method with a callback. Full documentation on the data you will receive with each event can be found in the <Reference to="/docs/firehose/classes/Firehose#on" type="method" /> method documentation.
 
 The most common event you will receive is a `commit` event, which represents a commit to a user's repository, similar to a Git commit.
 

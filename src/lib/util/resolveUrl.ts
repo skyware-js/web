@@ -24,6 +24,23 @@ export const externalSymbolLinkMappings = {
 	"quick-lru": { "*": "https://www.npmjs.com/package/quick-lru" },
 };
 
+export const UrlCategories: Partial<Record<ReflectionKind, string>> = {
+	[ReflectionKind.Class]: "classes",
+	[ReflectionKind.Interface]: "types",
+	[ReflectionKind.TypeAlias]: "types",
+	[ReflectionKind.Function]: "functions",
+	[ReflectionKind.Variable]: "variables",
+	[ReflectionKind.Enum]: "enums",
+};
+
+export const UrlCategoriesReverse: Record<string, ReflectionKind> = {
+	classes: ReflectionKind.Class,
+	types: ReflectionKind.Interface,
+	functions: ReflectionKind.Function,
+	variables: ReflectionKind.Variable,
+	enums: ReflectionKind.Enum,
+};
+
 export function parseAtprotoLexiconPath(fileName: string): Array<string> | null {
 	const lexiconMatch = fileName.match(/client\/types\/(\w+)\/(\w+)\/(\w+)\/(\w+)\.ts/);
 	if (!lexiconMatch) return null;
@@ -96,16 +113,7 @@ export function resolveReflectionUrl(reflection?: Reflection | null | undefined)
 
 	const repoName = module.name.split("/").pop()!;
 
-	const categories: Partial<Record<ReflectionKind, string>> = {
-		[ReflectionKind.Class]: "classes",
-		[ReflectionKind.Interface]: "types",
-		[ReflectionKind.TypeAlias]: "types",
-		[ReflectionKind.Function]: "functions",
-		[ReflectionKind.Variable]: "variables",
-		[ReflectionKind.Enum]: "enums",
-	};
-
-	const category = reflection.kind in categories ? categories[reflection.kind] : null;
+	const category = UrlCategories[reflection.kind];
 	if (category) return `/docs/${repoName}/${category}/${reflection.name}`;
 
 	if (reflection.kindOf([ReflectionKind.ClassMember, ReflectionKind.SomeMember])) {
