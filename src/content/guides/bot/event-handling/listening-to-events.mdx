@@ -1,0 +1,83 @@
+---
+title: "Listening to Events"
+description: "Respond to interactions in real-time with event listeners."
+---
+import { Reference } from "../../../../components/markdown/Reference.js";
+
+# Listening to Events
+
+In many cases, you'll want your bot to respond to user interactions such as replies and mentions. The <Reference to="/docs/bot/classes/Bot" /> class is preconfigured to emit events whenever the bot account receives a like, mention, follow, reply, repost, or quote post. You can listen to these events by calling the <Reference to="/docs/bot/classes/Bot#on" type="Method">on</Reference> method on your bot instance.
+
+```ts twoslash
+declare const bot: import("@skyware/bot").Bot;
+// ---cut---
+bot.on("reply", async (reply) => {
+	await reply.like();
+	await reply.reply({ text: "Thanks for the reply!" });
+})
+```
+
+In this example, the bot listens for replies and responds by liking the reply and replying with a message. The full list of events you can listen to are:
+
+- `like`: Emitted when the bot receives a like.
+- `mention`: Emitted when the bot is mentioned.
+- `follow`: Emitted when the bot is followed.
+- `reply`: Emitted when the bot receives a reply.
+- `repost`: Emitted when the bot receives a repost.
+- `quote`: Emitted when one of the bot's posts is quoted.
+
+The documentation for the `Bot#on` method provides more information on the data you can receive for each event.
+
+## Configuration
+
+By default, the bot uses a polling mechanism to listen for events. This means that the bot will periodically check for new events via the same endpoint used by client applications to receive notifications. You can configure the polling interval by passing an <Reference to="/docs/bot/types/BotEventEmitterOptions">`eventEmitterOptions`</Reference> object to the Bot <Reference to="/docs/bot/classes/Bot#constructor" type="Constructor">constructor</Reference>.
+
+```ts twoslash
+// @noErrors: 2741
+import { Bot } from "@skyware/bot";
+// ---cut---
+const bot = new Bot({
+    eventEmitterOptions: {
+        pollingInterval: 10 // Poll every 10 seconds
+    }
+});
+```
+
+By default, the bot will poll every 5 seconds. Keep in mind that the total rate limit available to an account, as of writing, is 3000 requests per 5 minutes. If you expect to receive a high volume of events or will be doing several actions for each event, you may want to increase the polling interval to avoid hitting the rate limit.
+
+The `eventEmitterOptions` object also takes a `processFrom` `Date` object, allowing you to ignore notifications that occurred before a certain time. This can be useful if you want to avoid processing old notifications when your bot starts up.
+
+## Firehose
+
+If real-time updates are important to your bot, you can configure your `Bot` instance to listen for events directly via a WebSocket connection to the [Relay](/guides/bot/glossary#relay).
+
+Be aware that this will mean maintainng an open WebSocket connection that will receive all events occuring on the Bluesky network. This can be resource-intensive compared to polling.
+
+To begin, you will need to install the `@skyware/firehose` package:
+
+```bash
+npm install @skyware/firehose
+```
+
+Then, you'll need to set the `strategy` option accordingly:
+
+```ts twoslash
+import { Bot, EventStrategy } from "@skyware/bot";
+const bot = new Bot({
+    eventEmitterOptions: {
+        strategy: EventStrategy.Firehose
+    }
+});
+```
+
+Alongside the `strategy` option, you can optionally pass a <Reference to="/docs/firehose/types/FirehoseOptions">`firehoseOptions`</Reference> object within `eventEmitterOptions`, which will allow you to set a `cursor` to resume from a specific point in the event stream.
+
+After the initial setup, use of the `Bot#on` method remains the same.
+
+## Shutting Down
+
+When you're done listening for events, you can call the <Reference to="/docs/bot/classes/Bot#off" type="Method" /> method to remove an event listener, or the <Reference to="/docs/bot/classes/Bot#removeAllListeners" type="Method" /> method to stop listening for events entirely. It is recommended to shut down the bot gracefully using these methods, especially if you are using the firehose strategy.
+
+## Next Steps
+
+Now that you know how to listen for events, you can start building interactivity into your bot. Continue to the next guide to learn how to [parse user commands](/guides/bot/event-handling/receiving-commands) and respond to them.

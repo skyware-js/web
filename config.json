@@ -17,6 +17,12 @@
 					"bot/introduction/getting-started",
 					"global/glossary"
 				]
+			},
+			{
+				"category": "Event Handling",
+				"guides": [
+					"bot/event-handling/listening-to-events"
+				]
 			}
 		],
 		"@skyware/firehose": [
