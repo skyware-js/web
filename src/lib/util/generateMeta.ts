@@ -4,6 +4,7 @@ import type { DeclarationReflection } from "typedoc";
 export interface Meta {
 	title: string;
 	description: string;
+	ogImage: string;
 }
 
 export function generateMeta(
@@ -22,5 +23,9 @@ export function generateMeta(
 			?? `Documentation for ${reflection.name}` + (packageName ? ` in ${packageName}` : "");
 	}
 
-	return { title, description };
+	let ogImage = `/og/`;
+	if (packageName) ogImage += `${packageName.split("/").pop()}.png`;
+	else ogImage += `og.png`;
+
+	return { title, description, ogImage };
 }

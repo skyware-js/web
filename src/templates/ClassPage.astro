@@ -22,7 +22,6 @@ const properties = sort(
 		reflectionShouldBeRendered,
 	),
 );
-console.log(reflection.getChildrenByKind(ReflectionKind.VariableOrProperty));
 
 const accessors = sort(
 	reflection.getChildrenByKind(ReflectionKind.Accessor).filter((accessor) =>
