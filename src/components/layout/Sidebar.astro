@@ -96,7 +96,7 @@ export async function generateSidebar(
 			case ReflectionKind.Enum:
 				acc.enums.push({
 					name,
-					url: `/ocs/${packageName}/enums/${name}`,
+					url: `docs/${packageName}/enums/${name}`,
 					reflection: child,
 				});
 				break;
