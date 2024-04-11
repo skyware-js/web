@@ -21,7 +21,7 @@ const { type, title, section, reflection } = Astro.props;
 
 const toc = generateTOC(reflection) || null;
 
-const current = section.find(({ url }) => Astro.url.pathname.endsWith(url));
+const current = section.find(({ url }) => Astro.url.pathname.includes(url));
 ---
 <h4 class="pl-4 text-gray-700 text-docs-aside">{title}</h4>
 <ul class="mt-1.5">

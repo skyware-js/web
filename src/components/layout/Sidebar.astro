@@ -125,7 +125,7 @@ export async function generateSidebar(
 const { modules, guides, docs, module } = Astro.props;
 
 const currentReflection = Object.values(docs).flat().find(({ url }) =>
-	Astro.url.pathname.endsWith(url)
+	Astro.url.pathname.includes(url)
 )?.reflection;
 
 const githubUrl = module
