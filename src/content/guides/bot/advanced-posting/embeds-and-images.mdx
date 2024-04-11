@@ -13,7 +13,7 @@ Text posts are great, but you can do better. This guide will walk you through em
 
 Or, more generally, embedding a link to a record in your post. This can be a quote post or an embedded link to a feed generator or list.
 
-You can use the <Reference to="/docs/bot/types/PostPayload#quoted">quoted</Reference> property when creating a post to pass in a reference to the record you would like to quote. This can be an class instance, or any object with a `uri` and `cid`.
+You can use the <Reference to="/docs/bot/types/PostPayload#quoted" type="Property">quoted</Reference> property when creating a post to pass in a reference to the record you would like to quote. This can be an class instance, or any object with a `uri` and `cid`.
 
 ```ts twoslash
 declare const bot: import("@skyware/bot").Bot;
@@ -32,7 +32,7 @@ await bot.post({
 
 ## Embedding images
 
-You can embed up to 4 images in a post using the <Reference to="/docs/bot/types/PostPayload#images">images</Reference> property.
+You can embed up to 4 images in a post using the <Reference to="/docs/bot/types/PostPayload#images" type="Property">images</Reference> property.
 
 ```ts twoslash
 declare const bot: import("@skyware/bot").Bot;
@@ -52,7 +52,7 @@ await bot.post({
 
 ## Embedding external links
 
-Moving on to embedding external links in your posts. The <Reference to="/docs/bot/types/PostPayload#external">external</Reference> property allows you to specify a link or object to embed in your post.
+Moving on to embedding external links in your posts. The <Reference to="/docs/bot/types/PostPayload#external" type="Property">external</Reference> property allows you to specify a link or object to embed in your post.
 
 ```ts twoslash
 declare const bot: import("@skyware/bot").Bot;

@@ -30,7 +30,7 @@ The documentation for the `Bot#on` method provides more information on the data 
 
 ## Configuration
 
-By default, the bot uses a polling mechanism to listen for events. This means that the bot will periodically check for new events via the same endpoint used by client applications to receive notifications. You can configure the polling interval by passing an <Reference to="/docs/bot/types/BotEventEmitterOptions">`eventEmitterOptions`</Reference> object to the Bot <Reference to="/docs/bot/classes/Bot#constructor" type="Constructor">constructor</Reference>.
+The bot uses a polling mechanism to listen for events. This means that the bot will periodically check for new events via the same endpoint used by client applications to receive notifications. You can configure the polling interval by passing an <Reference to="/docs/bot/types/BotEventEmitterOptions">`eventEmitterOptions`</Reference> object to the Bot <Reference to="/docs/bot/classes/Bot#constructor" type="Constructor">constructor</Reference>.
 
 ```ts twoslash
 // @noErrors: 2741
@@ -43,7 +43,7 @@ const bot = new Bot({
 });
 ```
 
-By default, the bot will poll every 5 seconds. Keep in mind that the total rate limit available to an account, as of writing, is 3000 requests per 5 minutes. If you expect to receive a high volume of events or will be doing several actions for each event, you may want to increase the polling interval to avoid hitting the rate limit.
+By default, the bot will poll every 5 seconds. Keep in mind that the total rate limit available to an account, as of writing, is 3000 requests per 5 minutes. Polling for notifications uses 60 requests per 5 minutes under the default interval. If you expect to receive a high volume of events or will be doing several actions for each event, you may want to increase the polling interval to avoid hitting the rate limit.
 
 The `eventEmitterOptions` object also takes a `processFrom` `Date` object, allowing you to ignore notifications that occurred before a certain time. This can be useful if you want to avoid processing old notifications when your bot starts up.
 
@@ -51,7 +51,7 @@ The `eventEmitterOptions` object also takes a `processFrom` `Date` object, allow
 
 If real-time updates are important to your bot, you can configure your `Bot` instance to listen for events directly via a WebSocket connection to the [Relay](/guides/bot/glossary#relay).
 
-Be aware that this will mean maintainng an open WebSocket connection that will receive all events occuring on the Bluesky network. This can be resource-intensive compared to polling.
+Be aware that this will mean maintaining an open WebSocket connection that will receive all events occurring on the Bluesky network. This can be resource-intensive compared to polling.
 
 To begin, you will need to install the `@skyware/firehose` package:
 
