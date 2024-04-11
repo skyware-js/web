@@ -129,7 +129,7 @@ const { Content: GuideContent = null } = guide ? await guide.render() : {};
 		<Layout meta={generateMeta(module!, guide)}>
 			<Sidebar {...sidebar} slot="sidebar" />
 			<div
-				class="prose contents first:prose-h1:pt-8 last:prose-p:pb-16 prose-h1:mb-[0.2em] hover:prose-a:no-underline"
+				class="prose contents first:prose-h1:pt-8 last:prose-p:pb-16 prose-h1:mb-[0.2em] prose-h2:mt-[1em] prose-img:w-4/5 prose-img:mx-auto hover:prose-a:no-underline"
 			>
 				<GuideContent components={{ h1: H1, h2: H2, h3: H3 }} />
 			</div>

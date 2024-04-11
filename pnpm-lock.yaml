@@ -29,8 +29,8 @@ devDependencies:
     specifier: ^1.2.2
     version: 1.2.2(typescript@5.4.3)
   '@skyware/bot':
-    specifier: ^0.1.6
-    version: 0.1.6
+    specifier: ^0.1.9
+    version: 0.1.9
   '@skyware/firehose':
     specifier: ^0.1.5
     version: 0.1.5
@@ -1766,12 +1766,12 @@ packages:
       - typescript
     dev: true
 
-  /@skyware/bot@0.1.6:
-    resolution: {integrity: sha512-UJwVlrg+dBEzWOgjEWAVrre3PFUoWwEldqOtldHxSazSwoZhhZgxtX3HBi1+/DmijXuCMXAN0Ijwg708e6cJKg==}
+  /@skyware/bot@0.1.9:
+    resolution: {integrity: sha512-/DRReAwDGfHgyGwhPvonl0mwvvtsMvVPSFMFE54s9q3R7o5dFO2t7Gv2W3mQPdWGkpCJ0GZPbCND+he05nwd2w==}
     dependencies:
       '@atproto/api': 0.12.2
-      limiter: 2.0.1
       quick-lru: 7.0.0
+      rate-limit-threshold: 0.1.5
     optionalDependencies:
       '@skyware/firehose': 0.1.5
     transitivePeerDependencies:
@@ -4148,10 +4148,6 @@ packages:
       graceful-fs: 4.2.11
     dev: true
 
-  /just-performance@4.2.0:
-    resolution: {integrity: sha512-4TikKSf+Gb+Et5SnA4ppyrxLSf9qWFq+SqfdDdrgHE1KLwSch/Zi1AQB0TrE4ppYjZdUrHnwdx+6dyx0cx/HyA==}
-    dev: true
-
   /keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
     dependencies:
@@ -4189,12 +4185,6 @@ packages:
   /lilconfig@3.1.1:
     resolution: {integrity: sha512-O18pf7nyvHTckunPWCV1XUNXU1piu01y2b7ATJ0ppkUkk8ocqVWBrYjJBCwHDjD/ZWcfyrA0P4gKhzWGi5EINQ==}
     engines: {node: '>=14'}
-    dev: true
-
-  /limiter@2.0.1:
-    resolution: {integrity: sha512-OhORJ29edCj2WVLYEou3AVRYZmobyTOy2A9yvDuwL68teu+vWLLlnJxEBMH4gDXIKlkyCTBL9JDEygSPOiwfMg==}
-    dependencies:
-      just-performance: 4.2.0
     dev: true
 
   /lines-and-columns@1.2.4:
@@ -5528,6 +5518,11 @@ packages:
   /range-parser@1.2.1:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
+    dev: true
+
+  /rate-limit-threshold@0.1.5:
+    resolution: {integrity: sha512-75vpvXC/ZqQJrFDp0dVtfoXZi8kxQP2eBuxVYFvGDfnHhcgE+ZG870u4ItQhWQh54Y6nNwOaaq5g3AL9n27lTg==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dev: true
 
   /rate-limiter-flexible@2.4.2:

@@ -1,0 +1,70 @@
+---
+title: "Embeds and Images"
+description: "Embedding posts, images, and links in your posts."
+---
+
+import { Reference } from "../../../../components/markdown/Reference.js";
+
+# Embeds and Images
+
+Text posts are great, but you can do better. This guide will walk you through embedding posts, images, and links in your posts.
+
+## Embedding posts
+
+Or, more generally, embedding a link to a record in your post. This can be a quote post or an embedded link to a feed generator or list.
+
+You can use the <Reference to="/docs/bot/types/PostPayload#quoted">quoted</Reference> property when creating a post to pass in a reference to the record you would like to quote. This can be an class instance, or any object with a `uri` and `cid`.
+
+```ts twoslash
+declare const bot: import("@skyware/bot").Bot;
+// ---cut---
+const post = await bot.getPost(
+  "at://did:plc:ragtjsm2j2vknwkz3zp4oxrd/app.bsky.feed.post/3jvz2442yt32g"
+);
+
+await bot.post({
+  text: "Check out this post!",
+  quoted: post,
+});
+```
+
+![A quote post by @skyware.js.org reading "Check out this post!". The quoted post is a post by @pfrazee.com with text and an image.](/img/embeds/quote-post.png)
+
+## Embedding images
+
+You can embed up to 4 images in a post using the <Reference to="/docs/bot/types/PostPayload#images">images</Reference> property.
+
+```ts twoslash
+declare const bot: import("@skyware/bot").Bot;
+// ---cut---
+await bot.post({
+	text: "Check out this image!",
+	images: [
+		{
+			data: "https://http.cat/images/418.jpg",
+			alt: "A cat in a teapot, with the caption '418 I'm a teapot'",
+		},
+	],
+});
+```
+
+![A post by @skyware.js.org reading "Check out this image!". The post contains an image of a cat in a teapot, with the caption "418 I'm a teapot".](/img/embeds/image-post.png)
+
+## Embedding external links
+
+Moving on to embedding external links in your posts. The <Reference to="/docs/bot/types/PostPayload#external">external</Reference> property allows you to specify a link or object to embed in your post.
+
+```ts twoslash
+declare const bot: import("@skyware/bot").Bot;
+// ---cut---
+await bot.post({
+    text: "Check out this link!",
+    external: "https://skyware.js.org"
+});
+```
+
+![A post by @skyware.js.org reading "Check out this link!". The post contains an embedded link with a title, description, and preview image.](/img/embeds/external-embed.png)
+
+-----
+
+That's it! You can also combine the `quoted` and `images` property to embed both a post and images in your post, but an external link will override any other embeds. Go on and spice up your posts!

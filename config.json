@@ -18,6 +18,13 @@
 					"global/glossary",
 					"bot/introduction/listening-to-events"
 				]
+			},
+			{
+				"category": "Advanced Posting",
+				"guides": [
+					"bot/advanced-posting/rich-text",
+					"bot/advanced-posting/embeds-and-images"
+				]
 			}
 		],
 		"@skyware/firehose": [

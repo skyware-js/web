@@ -1,0 +1,96 @@
+---
+title: "Rich Text"
+description: "Learn to use the RichText class to mark up post text."
+---
+import { Reference } from "../../../../components/markdown/Reference.js";
+
+# Rich Text
+
+By default, when you create a post, `@skyware/bot` parses your post's text to identify any mentions, hashtags, and URLs. However, in some cases, you may want more control over how a post is displayed. The <Reference to="/docs/bot/classes/RichText" /> class provides a convenient interface for constructing a post containing rich text.
+
+## Usage
+
+To start, import the `RichText` class from `@skyware/bot`:
+
+```ts twoslash
+import { RichText } from "@skyware/bot";
+```
+
+You can then build a rich text string as follows:
+
+```ts twoslash
+import { RichText, Bot } from "@skyware/bot";
+declare const bot: Bot;
+// ---cut---
+const richText = new RichText()
+    .text("Hey, check out this library: ")
+    .link("https://skyware.js.org")
+    .text("! ")
+    .tag("#atdev");
+
+await bot.post({ text: richText })
+```
+
+You'll notice that the `Bot#post` method can accept either `RichText` or a string. Your post will look something like:
+
+![A post by user @skyware.js.org with the text "Hey, check out this library: skyware.js.org! #atdev". The link and the hashtag are highlighted blue.](/img/rich-text/rt-basic.png)
+
+## Mentions
+
+When you're manually constructing `RichText`, mentioning a user requires you to know the user's handle and DID. You can then use the `mention` method to add a mention to your post:
+
+```ts twoslash
+import { RichText, Bot } from "@skyware/bot";
+declare const bot: Bot;
+// ---cut---
+const richText = new RichText()
+    .text("Hey, ")
+    .mention("@skyware.js.org", "did:plc:ith6w2xyj2qy3rcvmlsem6fz")
+    .text("!");
+
+await bot.post({ text: richText })
+```
+
+Note that the DID provided *could* differ from the mentioned handle — a mention is really just a hyperlink! Use this power for good.
+
+## Hyperlinks
+
+Speaking of hyperlinks, mentions aren't the only way to have text act as a link. The `.link` method we previously used can also take two parameters: text and a URL.
+
+```ts twoslash
+import { RichText, Bot } from "@skyware/bot";
+declare const bot: Bot;
+// ---cut---
+const richText = new RichText()
+    .text("Hey, check out ")
+    .link("Skyware", "https://skyware.js.org")
+    .text("!");
+
+await bot.post({ text: richText })
+```
+
+![A post by user @skyware.js.org with the text "Hey, check out Skyware!". The word "Skyware" is highlighted blue.](/img/rich-text/rt-hyperlink.png)
+
+## Detecting facets yourself
+
+Alternatively, the `RichText` class contains a <Reference to="/docs/bot/classes/RichText#detectFacets">detectFacets</Reference> static method that will handle detecting all mentions, links, and tags, and automatically resolve mentions to DIDs.
+
+The `post` method and others such as `reply` and `quote` will automatically detect facets for you if you pass a string. However, if you want to detect facets from an existing string but exclude certain facets, the `RichText.detectFacets` method offers greater control.
+
+```ts twoslash
+import { RichText, Bot } from "@skyware/bot";
+declare const bot: Bot;
+// ---cut---
+const text = "Hey, @skyware.js.org! #atdev";
+const facets = await RichText.detectFacets(text, bot);
+
+await bot.post({ text, facets });
+```
+
+You must pass your `bot` instance in to `RichText.detectFacets` so that it can resolve mentions. If you pass `facets` into `post`, only those facets will be used.
+
+## Moving on
+
+You may notice that adding a link to a post doesn't automatically add an embedded preview. Learn more about that in [Embeds and Images](/guides/bot/advanced-posting/embeds-and-images)!
+
+![A post by @skyware.js.org reading "Check out this link!". The post contains an embedded link with a title, description, and preview image.](/img/embeds/external-embed.png)
