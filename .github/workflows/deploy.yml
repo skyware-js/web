@@ -43,7 +43,7 @@ jobs:
         uses: withastro/action@v2
         with:
           path: .
-          package-manager: pnpm@latest
+          package-manager: pnpm@8.15.6
 
   deploy:
     needs: build
