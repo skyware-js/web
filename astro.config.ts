@@ -5,6 +5,8 @@ import { rendererRich, transformerTwoslash } from "@shikijs/twoslash";
 import { defineConfig } from "astro/config";
 import { renderMarkdownInTwoslashHover } from "./src/lib/rendering/renderMarkdown.tsx";
 
+import sitemap from "@astrojs/sitemap";
+
 // https://astro.build/config
 export default defineConfig({
 	site: "https://skyware.js.org",
@@ -14,7 +16,7 @@ export default defineConfig({
 		"/docs/firehose": "/guides/firehose/introduction/getting-started",
 	},
 
-	integrations: [tailwind({ applyBaseStyles: false }), react(), mdx()],
+	integrations: [tailwind({ applyBaseStyles: false }), react(), mdx(), sitemap({})],
 	markdown: {
 		shikiConfig: {
 			theme: "catppuccin-mocha",
