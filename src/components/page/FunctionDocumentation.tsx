@@ -57,14 +57,12 @@ export function renderParameters(parameters: Array<ParameterReflection>) {
 
 				return (
 					<div key={param.name} className="space-y-2 ml-4">
-						<p className="font-mono text-code-h3">
+						<h5 className="font-mono text-code-h3">
 							{paramName}
 							{paramType}
 							{paramDefault}
-						</p>
-						{paramSummary
-							? <p className="text-docs-base text-gray-900">{paramSummary}</p>
-							: null}
+						</h5>
+						{paramSummary}
 					</div>
 				);
 			})}

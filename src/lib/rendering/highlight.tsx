@@ -74,7 +74,7 @@ export function HighlightText(
 				"text-[var(--color)] font-mono",
 				Element === "a"
 					&& `relative border-b border-b-[var(--color)] border-dotted hover:border-b-transparent\
- before:content-[''] before:absolute before:block before:left-1/2 before:-translate-x-1/2 before:top-1/2 before:-translate-y-1/2 before:w-[105%] before:h-[120%] before:hover:bg-[var(--color-dim)] before:rounded-sm`,
+ before:content-[''] before:absolute before:block before:left-1/2 before:-translate-x-1/2 before:top-1/2 before:-translate-y-1/2 before:w-[104%] before:h-[110%] before:hover:bg-[var(--color-dim)] before:rounded-md`,
 				props.className,
 			)}
 		>
