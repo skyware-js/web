@@ -23,7 +23,15 @@ const toc = generateTOC(reflection) || null;
 
 const current = section.find(({ url }) => Astro.url.pathname.includes(url));
 ---
-<h4 class="pl-4 text-gray-700 text-docs-aside">{title}</h4>
+<h4
+	class={clsx(
+		"pl-4 text-docs-aside",
+		!!current ? "text-accent/70" : "text-gray-700",
+	)}
+	data-current-category={!!current}
+>
+	{title}
+</h4>
 <ul class="mt-1.5">
 	{
 		section.map((entry) => {
@@ -41,6 +49,7 @@ const current = section.find(({ url }) => Astro.url.pathname.includes(url));
 							: "hover:border-l hover:border-l-gray-700",
 						entry.url === current?.url ? "text-accent" : "text-gray-900",
 					)}
+					data-current={entry.url === current?.url}
 				>{name}</a>
 				{
 					name === reflection?.name && toc ? (
