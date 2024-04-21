@@ -83,8 +83,8 @@ function renderReturns(signature: SignatureReflection) {
 	return (
 		<div className="space-y-2">
 			<h4 className="font-medium text-docs-h3 text-gray-900">Returns</h4>
-			<p className="font-mono text-code-h3 ml-2">{renderType(returns)}</p>
-			<span className="ml-2 block">{description}</span>
+			<h5 className="font-mono text-code-h3 ml-2">{renderType(returns)}</h5>
+			<p className="ml-2 block">{description}</p>
 		</div>
 	);
 }
