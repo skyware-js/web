@@ -16,7 +16,8 @@
 				"guides": [
 					"bot/introduction/getting-started",
 					"global/glossary",
-					"bot/introduction/listening-to-events"
+					"bot/introduction/listening-to-events",
+					"bot/introduction/chatting-with-users"
 				]
 			},
 			{

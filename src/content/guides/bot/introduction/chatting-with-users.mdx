@@ -1,0 +1,158 @@
+---
+title: "Chatting with Users"
+description: "Receive and respond to chat messages."
+---
+import { Reference } from "../../../../components/markdown/Reference.tsx";
+
+# Chatting with Users
+
+Not all conversations are meant to be public. You can create a chat conversation to interact with users in private.
+
+*Note: Your bot should never interact with users without obtaining their consent. Be extra careful to avoid potentially spammy behaviour in private conversations!*
+
+## Accepting Messages
+
+By default, your bot account will only receive messages from users it follows. To receive messages from any (or no) user, you can use the <Reference to="/docs/bot/classes/Bot#setChatPreference" type="Method" /> method.
+
+Valid options for this method are:
+
+- <Reference to="/docs/bot/enums/IncomingChatPreference#None" type="EnumMember">IncomingChatPreference.None</Reference> - Your bot will not receive any new messages. Existing conversations will be unaffected.
+- <Reference to="/docs/bot/enums/IncomingChatPreference#Following" type="EnumMember">IncomingChatPreference.Following</Reference> - Your bot will only receive messages from users it follows. This is the default setting.
+- <Reference to="/docs/bot/enums/IncomingChatPreference#All" type="EnumMember">IncomingChatPreference.All</Reference> - Your bot will receive messages from any user.
+
+```ts twoslash
+import { Bot, IncomingChatPreference } from "@skyware/bot";
+// ---cut---
+const bot = new Bot();
+await bot.setChatPreference(IncomingChatPreference.All);
+```
+
+This only needs to be set once for your bot account. You can change it at any time.
+
+## Starting a Conversation
+
+To chat with a user, you need a <Reference to="/docs/bot/classes/Conversation" /> object.
+
+If you know the DID(s) of the user(s) you want to chat with, you can use the <Reference to="/docs/bot/classes/Bot#getConversationForMembers" type="Method" /> method.
+
+```ts twoslash
+import { Bot } from "@skyware/bot";
+declare const bot: Bot;
+// ---cut---
+const conversation = await bot.getConversationForMembers(["did:plc:ith6w2xyj2qy3rcvmlsem6fz"]);
+```
+
+This method will fetch an existing conversation if one exists, or create a new one if it doesn't.
+
+You can obtain a list of all conversations the bot is a part of by calling the <Reference to="/docs/bot/classes/Bot#listConversations" type="Method" /> method.
+
+```ts twoslash
+import { Bot } from "@skyware/bot";
+declare const bot: Bot;
+// ---cut---
+const { cursor, conversations } = await bot.listConversations();
+
+// The method only returns 100 conversations at a time — use the cursor to fetch more conversations
+const { conversations: moreConversations } = await bot.listConversations({ cursor });
+```
+
+## Sending and Reading Messages
+
+Start by obtaining the <Reference to="/docs/bot/classes/Conversation" /> object for the user you want to chat with. You can then send messages to the user and read their responses.
+
+```ts twoslash
+import { Bot } from "@skyware/bot";
+declare const bot: Bot;
+// ---cut---
+const conversation = await bot.getConversationForMembers(["skyware.js.org"]);
+```
+
+You can read chat history by calling the <Reference to="/docs/bot/classes/Conversation#getMessages" type="Method" /> method. This will return an array of <Reference to="/docs/bot/classes/ChatMessage" /> and <Reference to="/docs/bot/classes/DeletedChatMessage" /> objects.
+
+```ts twoslash
+import { Conversation } from "@skyware/bot";
+declare const conversation: Conversation;
+// ---cut---
+const { cursor, messages } = await conversation.getMessages();
+
+// You'll only receive up to 100 messages at a time — you can use the cursor to fetch messages further into the past!
+const { messages: moreMessages } = await conversation.getMessages(cursor);
+```
+
+You can send messages to the user by calling the <Reference to="/docs/bot/classes/Conversation#sendMessage" type="Method" /> method.
+
+```ts twoslash
+import { Conversation } from "@skyware/bot";
+declare const conversation: Conversation;
+// ---cut---
+await conversation.sendMessage({ text: "Hello, world!" });
+```
+
+Like posts, you can use a <Reference to="/docs/bot/classes/RichText" /> instance to send rich text messages containing links and mentions. More on that in [Rich Text](/docs/bot/guides/advanced-posting/rich-text).
+
+```ts twoslash
+import { Conversation } from "@skyware/bot";
+declare const conversation: Conversation;
+// ---cut---
+import { RichText } from "@skyware/bot";
+await conversation.sendMessage({
+    text: new RichText().text("I love ").link("Skyware", "https://skyware.js.org").text("!")
+});
+```
+
+If you already have a <Reference to="/docs/bot/classes/Profile" /> object, you can skip the <Reference to="/docs/bot/classes/Conversation" /> object and send and read messages directly.
+
+```ts twoslash
+import { Profile } from "@skyware/bot";
+declare const profile: Profile;
+// ---cut---
+await profile.sendMessage({ text: "Hello, world!" });
+const { messages } = await profile.getMessages();
+```
+
+## Receiving Message Events
+
+Of course, you won't usually know in advance who you want to message. You may want your bot to respond to private messages from any user.
+
+To start, you'll want to initialize your bot with <Reference to="/docs/bot/types/BotOptions#emitChatEvents" type="Property">emitChatEvents</Reference> set to `true`.
+
+```ts twoslash
+import { Bot } from "@skyware/bot";
+// ---cut---
+const bot = new Bot({ emitChatEvents: true });
+```
+
+Your bot will now emit an event whenever a message is received, which you can handle as follows:
+
+```ts twoslash
+import { Bot, type ChatMessage } from "@skyware/bot";
+declare const bot: Bot;
+// ---cut---
+bot.on("message", async (message: ChatMessage) => {
+	console.log(`Received message: ${message.text}`);
+});
+```
+
+You can access a reference to the sender's profile and the conversation the message was sent in by calling the <Reference to="/docs/bot/classes/ChatMessage#getSender"  type="Method">getSender</Reference> and <Reference to="/docs/bot/classes/ChatMessage#getConversation"  type="Method">getConversation</Reference> methods.
+
+```ts twoslash
+import { Bot, type ChatMessage } from "@skyware/bot";
+declare const bot: Bot;
+// ---cut---
+bot.on("message", async (message: ChatMessage) => {
+    const sender = await message.getSender();
+	console.log(`Received message from @${sender.handle}: ${message.text}`);
+
+    const conversation = await message.getConversation();
+    if (conversation) {
+		// It may not always be possible to resolve the conversation the message was sent in!
+		await conversation.sendMessage({ text: "Hey there, " + sender.displayName + "!" });
+	}
+});
+```
+
+-----
+
+## With Great Power...
+
+...comes great responsibility. People don't like unsolicited messages. It's your responsibility to ensure your bot is well-behaved and makes Bluesky a better place for everyone.
