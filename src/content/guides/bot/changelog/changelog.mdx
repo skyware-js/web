@@ -1,0 +1,31 @@
+---
+title: "Changelog"
+description: "Nobody's born perfect — not even a JS library."
+---
+import { Reference } from "../../../../components/markdown/Reference.tsx";
+
+## 0.2.0
+
+- **NEW:** Chat!
+  - Initialize your bot with `emitChatEvents: true` in order to listen for chat messages with `bot.on("message", (message) => {})`. Read more about it in [Chatting with Users](/guides/bot/introduction/chatting-with-users)!
+  - The <Reference to="/docs/bot/classes/Conversation" /> class represents a conversation with a user.
+  - The <Reference to="/docs/bot/classes/ChatMessage" /> and <Reference to="/docs/bot/classes/DeletedChatMessage" /> classes represent chat messages.
+  - New properties/methods on <Reference to="/docs/bot/classes/Profile" />: `incomingChatPreference`, `getConversation()`, `getMessages()`, `sendMessage()`.
+  - New methods on <Reference to="/docs/bot/classes/Bot" /> `getConversationForMembers()`, `getConversation()`, `listConversations()`, `getConversationMessages()`, `sendMessage()`, `sendMessages()`, `leaveConversation()`, `setChatPreference()`.
+- **NEW:** Labeling!
+  - The <Reference to="/docs/bot/classes/Labeler" /> class represents a labeler service.
+  - New properties/methods on <Reference to="/docs/bot/classes/Profile" />: `isLabeler`, `getLabeler()`, `labelAccount()`, `negateAccountLabels()`, `labelProfile()`, `negateProfileLabels()`.
+  - New methods on <Reference to="/docs/bot/classes/PostReference" /> and <Reference to="/docs/bot/classes/Post" />: `label()`, `negateLabels()`.
+  - New methods on <Reference to="/docs/bot/classes/List" />: `label()`, `negateLabels()`.
+  - New methods on <Reference to="/docs/bot/classes/FeedGenerator" />: `label()`, `negateLabels()`.
+  - New methods on <Reference to="/docs/bot/classes/Bot" />: `getLabeler()`, `getLabelers()`, `addLabeler()`, `removeLabeler()`, `label()`, `negateLabels()`, `declareLabeler()`, `deleteLabelerDeclaration()`.
+- Now uses file headers to determine content type when an image URL is used in a post.
+- Embeds now correctly link to the specified URL.
+- `@` will be automatically prepended to mentions created with the <Reference to="/docs/bot/classes/RichText" /> class.
+- Added the <Reference to="/docs/bot/classes/Bot#putRecord" type="Method" /> method.
+- Several redundant interfaces for `Bot` methods have been replaced with <Reference to="/docs/bot/types/BaseBotGetMethodOptions" />.
+
+
+## 0.1.0
+
+Release!

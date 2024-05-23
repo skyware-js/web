@@ -12,6 +12,12 @@
 	"guides": {
 		"@skyware/bot": [
 			{
+				"category": "Changelog",
+				"guides": [
+					"bot/changelog/changelog"
+				]
+			},
+			{
 				"category": "Introduction",
 				"guides": [
 					"bot/introduction/getting-started",
