@@ -32,8 +32,8 @@ devDependencies:
     specifier: ^1.2.2
     version: 1.2.2(typescript@5.4.3)
   '@skyware/bot':
-    specifier: ^0.1.9
-    version: 0.1.9
+    specifier: ^0.2.0
+    version: 0.2.0
   '@skyware/firehose':
     specifier: ^0.1.5
     version: 0.1.5
@@ -411,8 +411,8 @@ packages:
       - supports-color
     dev: true
 
-  /@atproto/api@0.12.2:
-    resolution: {integrity: sha512-UVzCiDZH2j0wrr/O8nb1edD5cYLVqB5iujueXUCbHS3rAwIxgmyLtA3Hzm2QYsGPo/+xsIg1fNvpq9rNT6KWUA==}
+  /@atproto/api@0.12.11:
+    resolution: {integrity: sha512-NABsZ4ZYznWisr1bGuP6Z4X1GTiu5gNrmAQTxWp45M8RX88BFP1PskoG3J42d2iiyQMVBwTdoENTFYzvsKBuQg==}
     dependencies:
       '@atproto/common-web': 0.3.0
       '@atproto/lexicon': 0.4.0
@@ -1777,10 +1777,10 @@ packages:
       - typescript
     dev: true
 
-  /@skyware/bot@0.1.9:
-    resolution: {integrity: sha512-/DRReAwDGfHgyGwhPvonl0mwvvtsMvVPSFMFE54s9q3R7o5dFO2t7Gv2W3mQPdWGkpCJ0GZPbCND+he05nwd2w==}
+  /@skyware/bot@0.2.0:
+    resolution: {integrity: sha512-j8qqM9tfD3J370UKC6vcv8enxpU2EgM/peGHt+XevQsRgzq4sw8fZPxf0PCWZMnjE9JnVUkK8Miw3n0yMMk4RA==}
     dependencies:
-      '@atproto/api': 0.12.2
+      '@atproto/api': 0.12.11
       quick-lru: 7.0.0
       rate-limit-threshold: 0.1.5
     optionalDependencies:
