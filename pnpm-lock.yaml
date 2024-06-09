@@ -32,8 +32,8 @@ devDependencies:
     specifier: ^1.2.2
     version: 1.2.2(typescript@5.4.3)
   '@skyware/bot':
-    specifier: ^0.2.0
-    version: 0.2.0
+    specifier: ^0.2.1
+    version: 0.2.1
   '@skyware/firehose':
     specifier: ^0.1.5
     version: 0.1.5
@@ -1777,8 +1777,8 @@ packages:
       - typescript
     dev: true
 
-  /@skyware/bot@0.2.0:
-    resolution: {integrity: sha512-j8qqM9tfD3J370UKC6vcv8enxpU2EgM/peGHt+XevQsRgzq4sw8fZPxf0PCWZMnjE9JnVUkK8Miw3n0yMMk4RA==}
+  /@skyware/bot@0.2.1:
+    resolution: {integrity: sha512-hEHdN6ostCwb2WTtkOhSyzVzDED1qo4lu08T106U20UD0nxDmYG1bOXMZzTJqoGAF3HuGiU1BZc+Hgvxg4KGKw==}
     dependencies:
       '@atproto/api': 0.12.11
       quick-lru: 7.0.0
