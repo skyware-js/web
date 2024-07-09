@@ -35,8 +35,8 @@ devDependencies:
     specifier: ^0.2.1
     version: 0.2.1
   '@skyware/firehose':
-    specifier: ^0.1.5
-    version: 0.1.5
+    specifier: ^0.2.0
+    version: 0.2.0
   '@tailwindcss/forms':
     specifier: ^0.5.7
     version: 0.5.7(tailwindcss@3.4.1)
@@ -1794,6 +1794,21 @@ packages:
 
   /@skyware/firehose@0.1.5:
     resolution: {integrity: sha512-ggO2xHERcTxnICRGHuha0vad9fQbmzvraRPhSoi7ysnIzSGUMiQVz/c6HrON2svVMZBoeMzTtu9jjRyhio+ckA==}
+    requiresBuild: true
+    dependencies:
+      '@atproto/repo': 0.3.9
+      '@atproto/xrpc-server': 0.4.4
+      ws: 8.16.0
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: true
+    optional: true
+
+  /@skyware/firehose@0.2.0:
+    resolution: {integrity: sha512-N3Z8PDb05JpQSTPMfe8mcAbE1zrFoPXLlhPKFio3Wyu+64ZW6g54htrOCX3S4CG7x7TYfWXc4au+hCny3F+1Mw==}
     dependencies:
       '@atproto/repo': 0.3.9
       '@atproto/xrpc-server': 0.4.4

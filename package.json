@@ -16,7 +16,7 @@
 		"@astrojs/tailwind": "^5.1.0",
 		"@shikijs/twoslash": "^1.2.2",
 		"@skyware/bot": "^0.2.1",
-		"@skyware/firehose": "^0.1.5",
+		"@skyware/firehose": "^0.2.0",
 		"@tailwindcss/forms": "^0.5.7",
 		"@tailwindcss/typography": "^0.5.12",
 		"@types/react": "^18.2.73",
