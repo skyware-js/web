@@ -4,6 +4,24 @@ description: "Nobody's born perfect — not even a JS library."
 ---
 import { Reference } from "../../../../components/markdown/Reference.tsx";
 
+### 0.3.2
+
+- Minor further bug fixes to event handling.
+- Fixed a bug resulting in an error when attempting to create or negate labels.
+
+### 0.3.1
+
+- The `like` event will now be emitted for likes on posts, feed generators, and labeler profiles.
+- Fixed the `repost` and `follow` events not including the `uri` property.
+
+## 0.3.0
+
+- Added support for Starter Packs with the <Reference to="/docs/bot/classes/StarterPack" /> class.
+- New properties/methods on <Reference to="/docs/bot/classes/Post" />: `embeddingDisabled`, `quoteCount`, `getQuoteCount()`, `getQuotes()`.
+- Removed the <Reference to="/docs/bot/classes/Bot#declareLabeler" type="Method" /> and <Reference to="/docs/bot/classes/Bot#deleteLabelerDeclaration" type="Method" /> methods. Use the [@skyware/labeler](https://skyware.js.org/docs/labeler) package instead.
+- Fixed rate limit being stricter than it should've been ([#3](https://github.com/skyware-js/bot/issues/3)).
+- Fixed a bug where the number of event emitters would multiply.
+
 ### 0.2.1
 
 - <Reference to="/docs/bot/types/PostPayload#facets" type="Property" /> can now contain <Reference to="/docs/bot/classes/Facet" /> instances.
