@@ -7,6 +7,10 @@
 		{
 			"repo": "skyware-js/firehose",
 			"packageName": "@skyware/firehose"
+		},
+		{
+			"repo": "skyware-js/labeler",
+			"packageName": "@skyware/labeler"
 		}
 	],
 	"guides": {
@@ -39,6 +43,14 @@
 				"category": "Introduction",
 				"guides": [
 					"firehose/introduction/getting-started",
+					"global/glossary"
+				]
+			}
+		],
+		"@skyware/labeler": [
+			{
+				"category": "Introduction",
+				"guides": [
 					"global/glossary"
 				]
 			}

@@ -14,6 +14,7 @@ export default defineConfig({
 	redirects: {
 		"/docs/bot": "/guides/bot/introduction/getting-started",
 		"/docs/firehose": "/guides/firehose/introduction/getting-started",
+		"/docs/labeler": "/guides/labeler/introduction/getting-started",
 	},
 
 	integrations: [tailwind({ applyBaseStyles: false }), react(), mdx(), sitemap({})],
