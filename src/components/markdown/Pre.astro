@@ -1,0 +1,56 @@
+---
+import { CopyIcon } from "../../assets/icons/CopyIcon";
+import { ClipboardCheckIcon } from "../../assets/icons/ClipboardCheckIcon";
+const props = Astro.props;
+---
+<figure class="relative group/code-fig">
+	<button
+		class="absolute group/btn top-1 right-2 p-3 text-gray-700/60 hover:text-gray-700 opacity-0 group-hover/code-fig:opacity-100 transition-opacity"
+		aria-label="Copy code"
+		title="Copy code"
+	>
+		<CopyIcon
+			className="h-4 w-4 fill-current group-data-[copied=true]/btn:hidden"
+		/>
+        <ClipboardCheckIcon
+            className="h-4 w-4 fill-current hidden group-data-[copied=true]/btn:block"
+        />
+	</button>
+	<pre {...props}><slot /></pre>
+</figure>
+
+<script>
+    const getTextFromShikiBlock = (block: HTMLPreElement) => {
+        let text = "";
+        function walkChildren(node: HTMLElement) {
+            console.log(node);
+            if (node.classList.contains("twoslash-popup-container")) return;
+            node.childNodes.forEach((child) => {
+                if (child.nodeType === Node.TEXT_NODE) {
+                    text += child.textContent;
+                } else if (child.nodeType === Node.ELEMENT_NODE) {
+                    walkChildren(child);
+                }
+            });
+        }
+        walkChildren(block);
+        return text;
+    }
+
+    const copyCode = (event) => {
+        const target = event.currentTarget;
+        const pre = target.nextElementSibling;
+       if (!pre) return;
+        const code = getTextFromShikiBlock(pre);
+        if (code) navigator.clipboard.writeText(code);
+        target.dataset.copied = "true";
+        setTimeout(() => {
+            target.dataset.copied = "false";
+        }, 2000);
+    };
+
+    const codeFigures = document.querySelectorAll(".group\\/code-fig button");
+    codeFigures.forEach((button) => {
+        button.addEventListener("click", copyCode);
+    });
+</script>
