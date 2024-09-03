@@ -51,6 +51,7 @@
 			{
 				"category": "Introduction",
 				"guides": [
+					"labeler/introduction/getting-started",
 					"global/glossary"
 				]
 			}

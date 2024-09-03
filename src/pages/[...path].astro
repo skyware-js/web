@@ -122,7 +122,7 @@ const DocsTemplate = reflection ? DocsTemplates[reflection.kind] : null;
 const { Content: GuideContent = null } = guide ? await guide.render() : {};
 ---
 {
-	DocsTemplate ? <DocsTemplate reflection={reflection!} />: GuideContent
+	DocsTemplate ? <DocsTemplate reflection={reflection!} /> : GuideContent
 		? ((async () => {
 			const sidebar = await generateSidebar(module!);
 			return (
