@@ -9,12 +9,12 @@ interface Props {
 let { meta } = Astro.props;
 
 if (!meta?.title || !meta?.description) {
-		meta = {
-			...(meta || {}),
-			title: "Skyware | Documentation",
-			description:
-				"Skyware is a collection of libraries for building on Bluesky.",
-		};
+	meta = {
+		...(meta || {}),
+		title: "Skyware | Documentation",
+		description:
+			"Skyware is a collection of libraries for building on Bluesky.",
+	};
 }
 ---
 <Page meta={meta}>

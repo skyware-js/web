@@ -1,4 +1,5 @@
 ---
+import Sidebar, { generateSidebar } from "src/components/layout/Sidebar.astro";
 import type { DeclarationReflection } from "typedoc";
 import DocsLayout from "../components/layout/Layout.astro";
 import { PropertyMembers } from "../components/page/PropertyMembers";
@@ -6,7 +7,6 @@ import { TitleSection } from "../components/page/TitleSection";
 import { reflectionShouldBeRendered } from "../lib/rendering/reflectionShouldBeRendered";
 import { generateMeta } from "../lib/util/generateMeta";
 import { sortReflections as sort } from "../lib/util/sortReflections";
-import Sidebar, { generateSidebar } from "src/components/layout/Sidebar.astro";
 
 interface Props {
 	reflection: DeclarationReflection;

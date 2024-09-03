@@ -24,8 +24,6 @@ export const Reference = (
 		? HighlightKind[type as keyof typeof HighlightKind]
 		: UrlCategoriesReverse[category];
 
-	console.log(to, kind);
-
 	return (
 		<HighlightText kind={kind} as="a" href={`/${to}`} className="no-underline">
 			{children || name}
