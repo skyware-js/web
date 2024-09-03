@@ -7,11 +7,11 @@ import { type CommentDisplayPart, Reflection } from "typedoc";
 import { join } from "../util/util.ts";
 import { LinkIfPossible } from "./renderType.tsx";
 
-const plainLinkRegex =
-	/(?:^|\s|\(|\[)((?:https?:\/\/[\S]+)|(?:(?:[a-z][a-z0-9]*(?:\.[a-z0-9]+)+)(?!\.)[\S]*))/g;
 const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
 const blockCodeRegex = /`{3}([^]+?)\n*`{3}/g;
 const inlineCodeRegex = /`([^]+?)\n*`/g;
+const plainLinkRegex =
+	/(?:^|\s|\(|\[)((?:https?:\/\/[\S]+)|(?:(?:[a-z][a-z0-9]*(?:\.[a-z0-9]+)+)(?!\.)[\S]*))/g;
 
 export function parseMarkdown(
 	text: string,
@@ -20,12 +20,12 @@ export function parseMarkdown(
 	let lastIndex = 0;
 
 	const regex = new RegExp(
-		`${plainLinkRegex.source}|${linkRegex.source}|${blockCodeRegex.source}|${inlineCodeRegex.source}`,
+		`${linkRegex.source}|${blockCodeRegex.source}|${inlineCodeRegex.source}|${plainLinkRegex.source}`,
 		"gm",
 	);
 	let match;
 	while ((match = regex.exec(text)) !== null) {
-		const [fullMatch, plainLink, linkText, url, _blockCode, inlineCode] = match;
+		const [fullMatch, linkText, url, _blockCode, inlineCode, plainLink] = match;
 		if (lastIndex < match.index) {
 			parts.push({ text: text.slice(lastIndex, match.index) });
 		}
