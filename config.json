@@ -52,6 +52,7 @@
 				"category": "Introduction",
 				"guides": [
 					"labeler/introduction/getting-started",
+					"labeler/introduction/automated-labeling",
 					"global/glossary"
 				]
 			}
