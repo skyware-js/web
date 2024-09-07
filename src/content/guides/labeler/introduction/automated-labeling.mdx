@@ -53,10 +53,10 @@ await bot.login({
 	password: process.env.LABELER_PASSWORD,
 });
 
-const post = await bot.post({ text: "Like the replies to this post to receive labels." });
+const post = await bot.post({ text: "Like the replies to this post to receive labels.", threadgate: { allowLists: [] } });
 
 const firePost = await post.reply({ text: "Fire!" });
-const waterPost = await post.reply({ text: "Water!" });
+const waterPost = await post.reply({ text: "Water!"});
 const airPost = await post.reply({ text: "Air!" });
 const earthPost = await post.reply({ text: "Earth!" });
 
@@ -72,7 +72,7 @@ console.log(
 // Earth: at://did:.../app.bsky.feed.post/...
 ```
 
-The `post` method returns a <Reference to="/docs/bot/classes/PostReference" /> object, which you can use to reply to the post. The <Reference to="/docs/bot/classes/PostReference#reply" type="Method" /> method will return a reference to the reply.
+The `post` method returns a <Reference to="/docs/bot/classes/PostReference" /> object, which you can use to reply to the post. The <Reference to="/docs/bot/classes/PostReference#reply" type="Method" /> method will return a reference to the reply. We're using the <Reference to="/docs/bot/types/PostPayload#threadgate" type="Property">threadgate</Reference> property to prevent anyone else from replying to the post, by setting the allowed lists of users to an empty array.
 
 Transpile this code if necessary and run it. You should see the [AT URI](/guides/bot/glossary#at-uri) of each post printed to the console. Take note of these, as you'll need them later to process likes.
 
