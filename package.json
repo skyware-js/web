@@ -36,8 +36,8 @@
 		"shiki": "^1.2.1",
 		"tailwindcss": "^3.4.1",
 		"tsx": "^4.7.1",
-		"typedoc": "^0.25.12",
-		"typescript": "^5.4.3",
+		"typedoc": "^0.26.7",
+		"typescript": "^5.6.2",
 		"zx": "^7.2.3"
 	},
 	"peerDependencies": {
@@ -49,5 +49,5 @@
 		"@docsearch/react": "^3.6.0",
 		"clsx": "^2.1.0"
 	},
-	"packageManager": "pnpm@8.15.6+sha256.01c01eeb990e379b31ef19c03e9d06a14afa5250b82e81303f88721c99ff2e6f"
+	"packageManager": "pnpm@9.9.0"
 }
