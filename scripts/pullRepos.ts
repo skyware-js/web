@@ -5,7 +5,7 @@ import config from "../config.json";
 const base = path.resolve(import.meta.dirname, "..");
 await $`mkdir -p ${path.join(base, "packages")}`;
 
-for (const library of config.packages) {
+await Promise.all(config.packages.map(async (library) => {
 	const dirname = library.repo.split("/")[1];
 
 	if (!dirname) {
@@ -35,4 +35,4 @@ for (const library of config.packages) {
 		cd(packageDir);
 		await $`pnpm i`;
 	});
-}
+}));
