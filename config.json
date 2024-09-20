@@ -11,6 +11,10 @@
 		{
 			"repo": "skyware-js/labeler",
 			"packageName": "@skyware/labeler"
+		},
+		{
+			"repo": "skyware-js/jetstream",
+			"packageName": "@skyware/jetstream"
 		}
 	],
 	"guides": {
@@ -53,6 +57,15 @@
 				"guides": [
 					"labeler/introduction/getting-started",
 					"labeler/introduction/automated-labeling",
+					"global/glossary"
+				]
+			}
+		],
+		"@skyware/jetstream": [
+			{
+				"category": "Introduction",
+				"guides": [
+					"jetstream/introduction/getting-started",
 					"global/glossary"
 				]
 			}

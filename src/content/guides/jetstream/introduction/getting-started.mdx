@@ -1,0 +1,102 @@
+---
+title: "Getting Started"
+description: "Getting started with @skyware/jetstream."
+---
+import { Reference } from "../../../../components/markdown/Reference.js";
+
+# Getting Started
+
+[`@skyware/jetstream`](https://npmjs.com/package/@skyware/jetstream) is a utility library for consuming data from a [Jetstream](https://github.com/bluesky-social/jetstream) instance.
+
+## Setup
+
+```ts twoslash
+import { Jetstream } from "@skyware/jetstream";
+
+const jetstream = new Jetstream();
+```
+
+The `Firehose` class takes an object parameter with the following properties:
+
+- `wantedCollections`: An array of collections to subscribe to events for. If not provided or empty, you will receive events for all collections.
+- `wantedDids`: An array of DIDs to subscribe to events for. If not provided or empty, you will receive events for all DIDs.
+- `cursor`: The Unix timestamp in microseconds to start listening from. A cursor is included in every event emitted as the `time_us` property. If you don't provide a cursor, the class will start listening from the most recent event.
+- `endpoint`: The subscription URL of the Jetstream instance to connect to. Defaults to `wss://jetstream.atproto.tools/subscribe`.
+
+## Handling events
+
+```ts twoslash
+declare const jetstream: import("@skyware/jetstream").Jetstream;
+// ---cut---
+jetstream.onCreate("app.bsky.feed.post", (event) => {
+	console.log("New post:", event.commit.record.text)
+});
+```
+
+Jetstream allows you to subscribe to a filtered feed of events related to specific collections. The <Reference to="/docs/jetstream/classes/Jetstream"/> class has three useful methods for listening for commits:
+- <Reference to="/docs/jetstream/classes/Jetstream#onCreate" type="Method">onCreate</Reference>: Listen for new records created in a collection.
+- <Reference to="/docs/jetstream/classes/Jetstream#onUpdate" type="Method">onUpdate</Reference>: Listen for updated records in a collection.
+- <Reference to="/docs/jetstream/classes/Jetstream#onDelete" type="Method">onDelete</Reference>: Listen for deleted records in a collection.
+
+The class also emits broader events.
+
+```ts twoslash
+declare const jetstream: import("@skyware/jetstream").Jetstream;
+// ---cut---
+import { CommitType } from "@skyware/jetstream";
+
+// Listen for all commits, regardless of collection
+jetstream.on("commit", (event) => {
+	if (event.commit.type === CommitType.Create) {
+		console.log("create in ", event.commit.collection, event.commit.record);
+	} else if (event.commit.type === CommitType.Update) {
+		console.log("update in", event.commit.collection, event.commit.rkey);
+	} else if (event.commit.type === CommitType.Delete) {
+		console.log("delete in", event.commit.collection, event.commit.rkey);
+	}
+});
+
+// Listen for account status updates
+jetstream.on("account", (event) => {
+	console.log("account update", event.account.status)
+});
+
+// Listen for identity updates
+jetstream.on("identity", (event) => {
+	console.log("identity update", event.account.did)
+});
+```
+
+Using Jetstream over a [direct Relay connection](/docs/firehose) can help you save bandwidth and only receive the events you care about.
+
+### A Note on Types
+
+When using method such as <Reference to="/docs/jetstream/classes/Jetstream#onCreate" type="Method">onCreate</Reference>, the type of the event will be inferred from the collection name. However, you may encounter an error resulting in missing properties on the record object. Make sure that your `tsconfig.json` has the following:
+
+```json
+{
+	"compilerOptions": {
+		"moduleResolution": "node16", // or nodenext
+	}
+}
+```
+
+## Event Reference
+
+The `Jetstream` class may emit the following events:
+
+### Update events
+
+| Event            | Description                                                                                                                  |
+|------------------|------------------------------------------------------------------------------------------------------------------------------|
+| `commit`         | Represents a commit to a user's repository.                                                                                  |
+| `identity`       | Represents a change to an account's identity. Could be an updated handle, signing key, or PDS hosting endpoint.              |
+| `account`        | Represents a change to an account's status. The account may be deactivated, suspended, or deleted.                         |
+
+### System events
+
+| Event            | Description                                                                                                                  |
+|------------------|------------------------------------------------------------------------------------------------------------------------------|
+| `open`           | Emitted when the websocket connection is opened.                                                                             |
+| `close`          | Emitted when the websocket connection is closed.                                                                             |
+| `error`          | Emitted when an error occurs while handling a message.                                                                       |

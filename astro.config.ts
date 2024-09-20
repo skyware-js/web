@@ -15,6 +15,7 @@ export default defineConfig({
 		"/docs/bot": "/guides/bot/introduction/getting-started",
 		"/docs/firehose": "/guides/firehose/introduction/getting-started",
 		"/docs/labeler": "/guides/labeler/introduction/getting-started",
+		"/docs/jetstream": "/guides/jetstream/introduction/getting-started",
 	},
 
 	integrations: [tailwind({ applyBaseStyles: false }), react(), mdx(), sitemap({})],
@@ -27,6 +28,12 @@ export default defineConfig({
 						renderMarkdown: renderMarkdownInTwoslashHover!,
 						renderMarkdownInline: renderMarkdownInTwoslashHover!,
 					}),
+					twoslashOptions: {
+						compilerOptions: {
+							module: 199, // nodenext
+							moduleResolution: 99 // nodenext
+						}
+					}
 				}),
 			],
 			wrap: true,

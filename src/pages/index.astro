@@ -25,13 +25,13 @@ const packages = fs.readdirSync("./packages", { withFileTypes: true }).map(
 	>
 		<Logo className="w-72 lg:w-96 mb-4 lg:mb-0 max-w-full fill-accent" />
 		<div
-			class="w-full max-w-3xl flex flex-col lg:flex-row items-center justify-center gap-4"
+			class="w-full max-w-3xl grid grid-cols-1 md:grid-cols-2 gap-4"
 		>
 			{
 				packages.map(({ name, path, version }) => (
 					<a
 						href={join(import.meta.env.BASE_URL, "/docs/", path)}
-						class="relative group inline-flex items-center justify-between xs:gap-8 min-w-fit w-full lg:w-auto px-4 xs:px-8 py-4 bg-gray-100 hover:bg-gray-300 border border-gray-300 rounded-lg"
+						class="relative group inline-flex items-center justify-between sm:gap-8 min-w-fit w-full lg:w-auto px-4 sm:px-8 py-4 bg-gray-100 hover:bg-gray-300 border border-gray-300 rounded-lg"
 					>
 						<div class="space-y-2">
 							<span class="font-medium text-gray-900 text-xl">{
