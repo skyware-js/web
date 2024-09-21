@@ -388,7 +388,7 @@ export function renderType(type?: SomeType | undefined): ReactNode {
 	if (type instanceof TypeOperatorType) {
 		return (
 			<>
-				<HighlightText kind={HighlightKind.Keyword}>{type.operator}</HighlightText>
+				<HighlightText kind={HighlightKind.Keyword}>{type.operator} </HighlightText>
 				{renderType(type.target)}
 			</>
 		);
