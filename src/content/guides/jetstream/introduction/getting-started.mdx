@@ -18,7 +18,7 @@ const jetstream = new Jetstream();
 
 The `Jetstream` class takes an object parameter with the following properties:
 
-- `wantedCollections`: An array of collections to subscribe to events for. If not provided or empty, you will receive events for all collections.
+- `wantedCollections`: An array of collections to subscribe to events for. This can contain any collection name or wildcard strings such as `app.bsky.feed.*` to receive events for all collections whose name starts with `app.bsky.feed.`. If not provided or empty, you will receive events for all collections.
 - `wantedDids`: An array of DIDs to subscribe to events for. If not provided or empty, you will receive events for all DIDs.
 - `cursor`: The Unix timestamp in microseconds to start listening from. A cursor is included in every event emitted as the `time_us` property. If you don't provide a cursor, the class will start listening from the most recent event.
 - `endpoint`: The subscription URL of the Jetstream instance to connect to. Defaults to `wss://jetstream.atproto.tools/subscribe`.
