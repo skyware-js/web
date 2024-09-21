@@ -380,7 +380,7 @@ export function renderType(type?: SomeType | undefined): ReactNode {
 				{type.isOptional
 					? <HighlightText kind={HighlightKind.Punctuation}>?</HighlightText>
 					: null}
-				<HighlightText kind={HighlightKind.Punctuation}>:</HighlightText>
+				<HighlightText kind={HighlightKind.Punctuation}>: </HighlightText>
 				{renderType(type.element)}
 			</>
 		);

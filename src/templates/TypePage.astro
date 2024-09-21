@@ -16,8 +16,9 @@ interface Props {
 const { reflection } = Astro.props;
 
 const properties = sort(
-	reflection.children?.filter(reflectionShouldBeRendered) || [],
+	(reflection.children ?? reflection.type?.declaration?.children)?.filter(reflectionShouldBeRendered) || [],
 );
+console.log();
 
 const sidebar = await generateSidebar(reflection.parent);
 ---
