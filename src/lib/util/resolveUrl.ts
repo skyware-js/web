@@ -69,6 +69,19 @@ function resolveAtprotoTypeUrl(type: ReferenceType): string | null {
 	return null;
 }
 
+function resolveAtcuteTypeUrl(type: ReferenceType): string | null {
+	if (!type.qualifiedName) return null;
+
+	const lexiconPath = type.qualifiedName.split(".").shift()?.split(/(?=[A-Z])/).reduce((acc, part, i) => {
+		if (i < 3) return acc + part.toLowerCase() + "/";
+		if (i === 3) return acc + part.toLowerCase();
+		return acc + part;
+	}, "");
+	if (!lexiconPath) return null;
+
+	return `https://github.com/bluesky-social/atproto/tree/main/lexicons/${lexiconPath}.json`;
+}
+
 export function resolveSourceUrl(reflection: Reflection & { sources?: Array<SourceReference> }) {
 	const source = reflection.sources?.[0];
 	if (!source) return null;
@@ -92,6 +105,9 @@ export function resolveTypeUrl(type?: SomeType | null | undefined): string | nul
 	if (type.externalUrl) return type.externalUrl;
 	if (type.package === "@atproto/api") {
 		return resolveAtprotoTypeUrl(type);
+	}
+	if (type.package?.startsWith("@atcute/") && type.symbolId?.fileName.endsWith("lexicons.d.ts")) {
+		return resolveAtcuteTypeUrl(type);
 	}
 	return null;
 }

@@ -46,6 +46,9 @@ function resolveTypeName(type?: SomeType | null | undefined): string | null {
 	if (type.package === "@atproto/api") {
 		return resolveAtprotoLexiconTypeName(type);
 	}
+	if (type.package?.startsWith("@atcute/") && type.symbolId?.fileName.endsWith("lexicons.d.ts")) {
+		return type.qualifiedName;
+	}
 	if (type.package === "quick-lru" && type.name === "default") {
 		return "QuickLRU";
 	}
