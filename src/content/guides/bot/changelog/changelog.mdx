@@ -4,6 +4,25 @@ description: "Nobody's born perfect — not even a JS library."
 ---
 import { Reference } from "../../../../components/markdown/Reference.tsx";
 
+### 0.3.8
+- Updated the <Reference to="/docs/bot/classes/Bot#login" type="Method" /> method's return type to match <Reference to="/docs/bot/classes/Bot#resumeSession" type="Method" />'s parameter.
+- Fixed chat emitter not restarting after resuming a session.
+- Allowed providing a <Reference to="/docs/bot/classes/PostReference" /> to the <Reference to="/docs/bot/types/PostPayload#quoted" type="Property" /> property of a post payload.
+
+### 0.3.7
+- Further tweaked rate limit handling.
+- Fixed a bug relating to facet detection in post text.
+
+### 0.3.6
+- Allowed uploading videos with posts.
+- Tweaked rate limit handling.
+
+### 0.3.5
+- Added the <Reference to="/docs/bot/types/BotPostOptions#shortenLinks" type="Property" /> option to all post methods.
+- Added the <Reference to="/docs/bot/types/BotOptions#chatEmitterOptions" type="Property" /> option to configure the chat event emitter.
+- Updated the <Reference to="/docs/bot/classes/Bot#label" type="Method" /> and <Reference to="/docs/bot/classes/Bot#negateLabels" type="Method" /> methods to return the label event.
+- Fixed a bug resulting in an error when uploading media with a post.
+
 ### 0.3.4
 - Added the <Reference to="/docs/bot/enums/EventStrategy#Jetstream" type="EnumMember" /> event strategy.
   - Jetstream is a service that allows you to filter the relay firehose to only receive events you're interested in.
