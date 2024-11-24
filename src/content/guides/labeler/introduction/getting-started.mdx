@@ -73,7 +73,7 @@ The `LabelerServer` class takes an object argument with the following properties
 - `auth` (optional): A function that takes a DID and returns a boolean indicating whether the DID is authorized to emit labels. If not provided, only the labeler account can emit labels.
 - `dbPath` (optional): The path to the database file. Defaults to `./labels.db`.
 - `dbUrl` (optional): The URL of the database. Use this instead of `dbPath` if you want to use a remote libSQL database.
-- `dbAuthToken` (optional): The authentication token for the database. Required if `dbUrl` is provided.
+- `dbToken` (optional): The authentication token for the database. Required if a remote `dbUrl` is provided.
 
 After initializing the server, call the `start` method with the port number to listen on and a callback that will be called when the server starts. If an error occurs, the callback will be called with the error.
 
