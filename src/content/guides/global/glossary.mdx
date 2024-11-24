@@ -69,6 +69,10 @@ A facet is a piece of data within a post or description that points to a range o
 
 A feed generator is a service that provides a list of posts based on an algorithm of the developer's choosing. A client can request a feed from a feed generator, and the feed generator will return a list of references to posts.
 
+## Jetstream
+
+[Jetstream](https://github.com/bluesky-social/jetstream) is a service that provides a filtered feed of events on the AT Protocol network. It listens to a [Relay](#relay) for new events and emits a WebSocket stream based on the [collections](#lexicon) a user is interested in.
+
 ## Labeler
 
 A labeler is a service that applies labels to records. A label is a piece of metadata that describes a record. For example, a label might indicate that a post contains sensitive content. A user can subscribe to up to 10 labelers, and any labels applied by those labelers will be returned in API responses.

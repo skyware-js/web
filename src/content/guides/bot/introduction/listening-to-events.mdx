@@ -49,16 +49,16 @@ By default, the bot will poll every 5 seconds. Keep in mind that the total rate 
 
 The `eventEmitterOptions` object also takes a `processFrom` `Date` object, allowing you to ignore notifications that occurred before a certain time. This can be useful if you want to avoid processing old notifications when your bot starts up.
 
-## Firehose
+## Jetstream
 
-If real-time updates are important to your bot, you can configure your `Bot` instance to listen for events directly via a WebSocket connection to the [Relay](/guides/bot/glossary#relay).
+If real-time updates are important to your bot, you can configure your `Bot` instance to listen for events directly via a WebSocket connection to [Jetstream](/guides/bot/glossary#jetstream).
 
-Be aware that this will mean maintaining an open WebSocket connection that will receive all events occurring on the Bluesky network. This can be resource-intensive compared to polling.
+Be aware that this will mean maintaining an open WebSocket connection that will receive a feed of events occurring on the Bluesky network. This can be bandwidth-intensive compared to polling.
 
-To begin, you will need to install the `@skyware/firehose` package:
+To begin, you will need to install the `@skyware/jetstream` package:
 
 ```bash
-npm install @skyware/firehose
+npm install @skyware/jetstream
 ```
 
 Then, you'll need to set the `strategy` option accordingly:
@@ -67,18 +67,18 @@ Then, you'll need to set the `strategy` option accordingly:
 import { Bot, EventStrategy } from "@skyware/bot";
 const bot = new Bot({
     eventEmitterOptions: {
-        strategy: EventStrategy.Firehose
+        strategy: EventStrategy.Jetstream
     }
 });
 ```
 
-Alongside the `strategy` option, you can optionally pass a <Reference to="/docs/firehose/types/FirehoseOptions">`firehoseOptions`</Reference> object within `eventEmitterOptions`, which will allow you to set a `cursor` to resume from a specific point in the event stream.
+Alongside the `strategy` option, you can optionally pass a <Reference to="/docs/jetstream/types/JetstreamOptions">`jetstreamOptions`</Reference> object within `eventEmitterOptions`, which will allow you to set a `cursor` to resume from a specific time (expressed in microseconds) in the event stream.
 
 After the initial setup, use of the `Bot#on` method remains the same.
 
 ## Shutting Down
 
-When you're done listening for events, you can call the <Reference to="/docs/bot/classes/Bot#off" type="Method" /> method to remove an event listener, or the <Reference to="/docs/bot/classes/Bot#removeAllListeners" type="Method" /> method to stop listening for events entirely. It is recommended to shut down the bot gracefully using these methods, especially if you are using the firehose strategy.
+When you're done listening for events, you can call the <Reference to="/docs/bot/classes/Bot#off" type="Method" /> method to remove an event listener, or the <Reference to="/docs/bot/classes/Bot#removeAllListeners" type="Method" /> method to stop listening for events entirely. It is recommended to shut down the bot gracefully using these methods, especially if you are using the Jetstream strategy.
 
 ## Next Steps
 

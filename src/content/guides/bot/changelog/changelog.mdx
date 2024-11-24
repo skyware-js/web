@@ -4,8 +4,15 @@ description: "Nobody's born perfect — not even a JS library."
 ---
 import { Reference } from "../../../../components/markdown/Reference.tsx";
 
+### 0.3.4
+- Added the <Reference to="/docs/bot/enums/EventStrategy#Jetstream" type="EnumMember" /> event strategy.
+  - Jetstream is a service that allows you to filter the relay firehose to only receive events you're interested in.
+  - You can host your own Jetstream instance or (default) use one hosted by Bluesky.
+- The <Reference to="/docs/bot/enums/EventStrategy#Firehose" type="EnumMember" /> event strategy is now deprecated in favour of Jetstream (see above).
+
+
 ### 0.3.3
-- Support for video posts.
+- Added support for video posts.
 - Added the <Reference to="/docs/bot/classes/Bot#getProfiles" type="Method" /> method.
 
 ### 0.3.2
