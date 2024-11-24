@@ -9,9 +9,9 @@ import { Reference } from "../../../../components/markdown/Reference.js";
 
 ## Setting up
 
-Note that you will need an existing [Bluesky](https://bsky.app) account for the bot to log in to.
+You'll need an existing [Bluesky](https://bsky.app) account for the bot to log in to.
 
-Once you have created an account and taken note of your credentials, it's recommended to store them in a `.env` file in the root of your project. You can use the [`dotenv`](https://www.npmjs.com/package/dotenv) package to load these credentials into your project.
+Once you've created an account and noted the credentials, you should store them in a `.env` file in the root of your project. You can use the [`dotenv`](https://www.npmjs.com/package/dotenv) package to load these credentials into your project.
 
 ```
 BSKY_USERNAME=user.bsky.social
@@ -39,6 +39,7 @@ When calling `new Bot()`, you may choose to pass an optional <Reference to="/doc
 - `service`: The [PDS](/guides/bot/glossary#pds-personal-data-server) to log into. Defaults to `https://bsky.social`.
 - `langs`: An array of two-letter language codes signifying the languages the bot will post in. Clients may use this information to show users posts in languages they understand, and to offer the option to translate a post. Defaults to `["en"]`.
 - `emitEvents`: Whether the bot should emit events. You'll learn more about this in [Listening to events](/guides/bot/introduction/listening-to-events). Defaults to `true`.
+- `emitChatEvents`: Whether the bot should emit chat events. More on this in [Chatting with Users](/guides/bot/introduction/chatting-with-users). Defaults to `false`.
 - and various other configuration options — refer to the <Reference to="/docs/bot/types/BotPostOptions" /> documentation for the full list.
 
 ## Posting
