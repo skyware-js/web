@@ -47,11 +47,11 @@ import { CommitType } from "@skyware/jetstream";
 
 // Listen for all commits, regardless of collection
 jetstream.on("commit", (event) => {
-	if (event.commit.type === CommitType.Create) {
+	if (event.commit.operation === CommitType.Create) {
 		console.log("create in ", event.commit.collection, event.commit.record);
-	} else if (event.commit.type === CommitType.Update) {
+	} else if (event.commit.operation === CommitType.Update) {
 		console.log("update in", event.commit.collection, event.commit.rkey);
-	} else if (event.commit.type === CommitType.Delete) {
+	} else if (event.commit.operation === CommitType.Delete) {
 		console.log("delete in", event.commit.collection, event.commit.rkey);
 	}
 });
