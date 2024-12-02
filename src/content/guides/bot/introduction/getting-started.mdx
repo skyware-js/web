@@ -34,13 +34,13 @@ await bot.login({
 });
 ```
 
-When calling `new Bot()`, you may choose to pass an optional <Reference to="/docs/bot/types/BotPostOptions" /> object to configure the bot. This object can contain the following properties:
+When calling `new Bot()`, you may choose to pass an optional <Reference to="/docs/bot/types/BotOptions" /> object to configure the bot. This object can contain the following properties:
 
 - `service`: The [PDS](/guides/bot/glossary#pds-personal-data-server) to log into. Defaults to `https://bsky.social`.
 - `langs`: An array of two-letter language codes signifying the languages the bot will post in. Clients may use this information to show users posts in languages they understand, and to offer the option to translate a post. Defaults to `["en"]`.
 - `emitEvents`: Whether the bot should emit events. You'll learn more about this in [Listening to events](/guides/bot/introduction/listening-to-events). Defaults to `true`.
 - `emitChatEvents`: Whether the bot should emit chat events. More on this in [Chatting with Users](/guides/bot/introduction/chatting-with-users). Defaults to `false`.
-- and various other configuration options — refer to the <Reference to="/docs/bot/types/BotPostOptions" /> documentation for the full list.
+- and various other configuration options — refer to the <Reference to="/docs/bot/types/BotOptions" /> documentation for the full list.
 
 ## Posting
 
