@@ -23,10 +23,10 @@ import { RichText, Bot } from "@skyware/bot";
 declare const bot: Bot;
 // ---cut---
 const richText = new RichText()
-    .text("Hey, check out this library: ")
-    .link("https://skyware.js.org")
-    .text("! ")
-    .tag("#atdev");
+    .addText("Hey, check out this library: ")
+    .addLink("skyware.js.org", "https://skyware.js.org")
+    .addText("! ")
+    .addTag("#atdev");
 
 await bot.post({ text: richText })
 ```
@@ -37,16 +37,16 @@ You'll notice that the `Bot#post` method can accept either `RichText` or a strin
 
 ## Mentions
 
-When you're manually constructing `RichText`, mentioning a user requires you to know the user's handle and DID. You can then use the `mention` method to add a mention to your post:
+When you're manually constructing `RichText`, mentioning a user requires you to know the user's handle and DID. You can then use the `.addMention` method to add a mention to your post:
 
 ```ts twoslash
 import { RichText, Bot } from "@skyware/bot";
 declare const bot: Bot;
 // ---cut---
 const richText = new RichText()
-    .text("Hey, ")
-    .mention("@skyware.js.org", "did:plc:ith6w2xyj2qy3rcvmlsem6fz")
-    .text("!");
+    .addText("Hey, ")
+    .addMention("@skyware.js.org", "did:plc:ith6w2xyj2qy3rcvmlsem6fz")
+    .addText("!");
 
 await bot.post({ text: richText })
 ```
@@ -55,39 +55,43 @@ Note that the DID provided *could* differ from the mentioned handle — a mentio
 
 ## Hyperlinks
 
-Speaking of hyperlinks, mentions aren't the only way to have text act as a link. The `.link` method we previously used can also take two parameters: text and a URL.
+Speaking of hyperlinks, mentions aren't the only way to have text act as a link. The `.addLink` method we previously used can also take two parameters: text and a URL.
 
 ```ts twoslash
 import { RichText, Bot } from "@skyware/bot";
 declare const bot: Bot;
 // ---cut---
 const richText = new RichText()
-    .text("Hey, check out ")
-    .link("Skyware", "https://skyware.js.org")
-    .text("!");
+    .addText("Hey, check out ")
+    .addLink("Skyware", "https://skyware.js.org")
+    .addText("!");
 
 await bot.post({ text: richText })
 ```
 
 ![A post by user @skyware.js.org with the text "Hey, check out Skyware!". The word "Skyware" is highlighted blue.](/img/rich-text/rt-hyperlink.png)
 
-## Detecting facets yourself
+## Plain text
 
-Alternatively, the `RichText` class contains a <Reference to="/docs/bot/classes/RichText#detectFacets" type="Method">detectFacets</Reference> static method that will handle detecting all mentions, links, and tags, and automatically resolve mentions to DIDs.
-
-The `post` method and others such as `reply` and `quote` will automatically detect facets for you if you pass a string. However, if you want to detect facets from an existing string but exclude certain facets, the `RichText.detectFacets` method offers greater control.
+As mentioned before, in most cases you won't need to use the `RichText` builder, as methods like `post` and `reply` will automatically parse your text. However, if you do want to provide facets manually — say, copied from another post — you can provide the `facets` option:
 
 ```ts twoslash
-import { RichText, Bot } from "@skyware/bot";
+import { Post, Bot } from "@skyware/bot";
 declare const bot: Bot;
+declare const otherPost: Post;
 // ---cut---
-const text = "Hey, @skyware.js.org! #atdev";
-const facets = await RichText.detectFacets(text, bot);
-
-await bot.post({ text, facets });
+await bot.post({ text: otherPost.text, facets: otherPost.facets });
 ```
 
-You must pass your `bot` instance in to `RichText.detectFacets` so that it can resolve mentions. If you pass `facets` into `post`, only those facets will be used.
+Or to include no facets, pass `resolveFacets: false` to disable the automatic detection:
+
+```ts twoslash
+declare const bot: import("@skyware/bot").Bot;
+// ---cut---
+await bot.post({
+	text: "i love the @protocol"
+}, { resolveFacets: false });
+```
 
 ## Moving on
 
