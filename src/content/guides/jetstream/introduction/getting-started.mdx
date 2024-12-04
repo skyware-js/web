@@ -14,6 +14,7 @@ import { Reference } from "../../../../components/markdown/Reference.js";
 import { Jetstream } from "@skyware/jetstream";
 
 const jetstream = new Jetstream();
+jetstream.start();
 ```
 
 The `Jetstream` class takes an object parameter with the following properties:
@@ -21,7 +22,9 @@ The `Jetstream` class takes an object parameter with the following properties:
 - `wantedCollections`: An array of collections to subscribe to events for. This can contain any collection name or wildcard strings such as `app.bsky.feed.*` to receive events for all collections whose name starts with `app.bsky.feed.`. If not provided or empty, you will receive events for all collections.
 - `wantedDids`: An array of DIDs to subscribe to events for. If not provided or empty, you will receive events for all DIDs.
 - `cursor`: The Unix timestamp in microseconds to start listening from. A cursor is included in every event emitted as the `time_us` property. If you don't provide a cursor, the class will start listening from the most recent event.
-- `endpoint`: The subscription URL of the Jetstream instance to connect to. Defaults to `wss://jetstream.atproto.tools/subscribe`.
+- `endpoint`: The subscription URL of the Jetstream instance to connect to. Defaults to `wss://jetstream1.us-east.bsky.network/subscribe`.
+
+To begin listening for events, call the <Reference to="/docs/jetstream/classes/Jetstream#start" type="Method">start</Reference> method.
 
 ## Handling events
 
@@ -47,11 +50,11 @@ import { CommitType } from "@skyware/jetstream";
 
 // Listen for all commits, regardless of collection
 jetstream.on("commit", (event) => {
-	if (event.commit.type === CommitType.Create) {
+	if (event.commit.operation === CommitType.Create) {
 		console.log("create in ", event.commit.collection, event.commit.record);
-	} else if (event.commit.type === CommitType.Update) {
+	} else if (event.commit.operation === CommitType.Update) {
 		console.log("update in", event.commit.collection, event.commit.rkey);
-	} else if (event.commit.type === CommitType.Delete) {
+	} else if (event.commit.operation === CommitType.Delete) {
 		console.log("delete in", event.commit.collection, event.commit.rkey);
 	}
 });
@@ -63,7 +66,7 @@ jetstream.on("account", (event) => {
 
 // Listen for identity updates
 jetstream.on("identity", (event) => {
-	console.log("identity update", event.account.did)
+	console.log("identity update", event.identity.did)
 });
 ```
 
