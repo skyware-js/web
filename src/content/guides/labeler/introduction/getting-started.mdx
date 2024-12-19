@@ -12,6 +12,17 @@ Before you start, you will need:
 - A domain
 - An SSL certificate for your domain
 
+## Running in dev env
+
+Bluesky consumes labels via `com.atproto.label.subscribeLabels` method and remembers what labels it has seen from your labeler account. This means that labels you create while developing your labeler permanently affect how Bluesky sees it. Each label creation or retraction increments the cursor of your label stream and there's no (good) way to reset it on Bluesky's side, so to avoid issues later on it must also not reset on your side too.
+
+Particular things to **avoid** doing:
+
+- Deleting the DB file to start from scratch
+- Deploying your labeler without copying the DB file from development environment
+
+It might be a good idea to use a separate account for development too. But even then, avoid deleting the DB, otherwise your dev account won't function properly.
+
 ## Setup
 
 If you already have a labeler set up, via Ozone or otherwise, you can skip this step.
