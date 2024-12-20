@@ -46,8 +46,8 @@ importers:
         specifier: ^0.3.2
         version: 0.3.2
       '@skyware/jetstream':
-        specifier: ^0.2.0
-        version: 0.2.0(@atcute/client@2.0.1)
+        specifier: ^0.2.1
+        version: 0.2.1(@atcute/client@2.0.1)
       '@skyware/labeler':
         specifier: ^0.2.0
         version: 0.2.0
@@ -972,8 +972,8 @@ packages:
   '@skyware/jetstream@0.1.9':
     resolution: {integrity: sha512-87NGqRSmEYmvEuVY0DKZ2ZRbL72tExtDuV+PDvywYqukSp3F/it+9wnU5Xb/Is/pf+KSbd6lWvrnE31HgxJpJg==}
 
-  '@skyware/jetstream@0.2.0':
-    resolution: {integrity: sha512-nydEVe47fc3Cn9yLjk0Tos05pB4PYVOXno8RKlf0QguJUF48ASKx9xA4jUHqEI1dk2oHuHWoXpo9ic+RIgk6yw==}
+  '@skyware/jetstream@0.2.1':
+    resolution: {integrity: sha512-qmQkBnMYG3+XBTLUDUKTWMS0QpwCFSZh66fvQRn+xEqUQ2CXB2ELo4El0tgVvdT4+glk4nfzVG45L6Op9VURow==}
 
   '@skyware/labeler@0.2.0':
     resolution: {integrity: sha512-5Xsjly8Crvi+vILmFkObNs5y/FeNj/mIztcm1qfNafUzwv9n9B7O5MQmmg3aZfnalmQWsYfs2BgVlaBBBni5bw==}
@@ -2120,7 +2120,6 @@ packages:
 
   libsql@0.4.7:
     resolution: {integrity: sha512-T9eIRCs6b0J1SHKYIvD8+KCJMcWZ900iZyxdnSCdqxN12Z1ijzT+jY5nrk72Jw4B0HGzms2NgpryArlJqvc3Lw==}
-    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   light-my-request@5.13.0:
@@ -3654,6 +3653,10 @@ snapshots:
     dependencies:
       '@atcute/client': 2.0.1
 
+  '@atcute/bluesky@1.0.9(@atcute/client@2.0.1)':
+    dependencies:
+      '@atcute/client': 2.0.1
+
   '@atcute/bluesky@1.0.9(@atcute/client@2.0.6)':
     dependencies:
       '@atcute/client': 2.0.6
@@ -4322,9 +4325,9 @@ snapshots:
       - '@atcute/client'
     optional: true
 
-  '@skyware/jetstream@0.2.0(@atcute/client@2.0.1)':
+  '@skyware/jetstream@0.2.1(@atcute/client@2.0.1)':
     dependencies:
-      '@atcute/bluesky': 1.0.6(@atcute/client@2.0.1)
+      '@atcute/bluesky': 1.0.9(@atcute/client@2.0.1)
       partysocket: 1.0.2
     transitivePeerDependencies:
       - '@atcute/client'
