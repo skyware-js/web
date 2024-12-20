@@ -96,11 +96,11 @@ declare const conversation: Conversation;
 // ---cut---
 import { RichText } from "@skyware/bot";
 await conversation.sendMessage({
-    text: new RichText().text("I love ").link("Skyware", "https://skyware.js.org").text("!")
+    text: new RichText().addText("I love ").addLink("Skyware", "https://skyware.js.org").addText("!")
 });
 ```
 
-If you already have a <Reference to="/docs/bot/classes/Profile" /> object, you can skip the <Reference to="/docs/bot/classes/Conversation" /> object and send and read messages directly.
+If you already have a <Reference to="/docs/bot/classes/Profile" /> object, you can skip the <Reference to="/docs/bot/classes/Conversation" /> and send and read messages directly.
 
 ```ts twoslash
 import { Profile } from "@skyware/bot";
