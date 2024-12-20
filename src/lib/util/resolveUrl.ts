@@ -22,6 +22,12 @@ export const externalSymbolLinkMappings = {
 	},
 	limiter: { "*": "https://www.npmjs.com/package/limiter" },
 	"quick-lru": { "*": "https://www.npmjs.com/package/quick-lru" },
+	"@atcute/client": {
+		"XRPC": "https://github.com/mary-ext/atcute/tree/trunk/packages/core/client",
+	},
+	"@atcute/bluesky-richtext-builder": {
+		"*": "https://github.com/mary-ext/atcute/tree/trunk/packages/bluesky/richtext-builder",
+	},
 };
 
 export const UrlCategories: Partial<Record<ReflectionKind, string>> = {
@@ -41,38 +47,13 @@ export const UrlCategoriesReverse: Record<string, ReflectionKind> = {
 	enums: ReflectionKind.Enum,
 };
 
-export function parseAtprotoLexiconPath(fileName: string): Array<string> | null {
-	const lexiconMatch = fileName.match(/client\/types\/(\w+)\/(\w+)\/(\w+)\/(\w+)\.ts/);
-	if (!lexiconMatch) return null;
-
-	const [, ...lexiconParts] = lexiconMatch.filter(Boolean);
-	if (lexiconParts.length !== 4) return null;
-
-	return lexiconParts;
-}
-
-function resolveAtprotoTypeUrl(type: ReferenceType): string | null {
-	if (!type.symbolId?.fileName) return null;
-
-	const lexiconParts = parseAtprotoLexiconPath(type.symbolId.fileName);
-	if (lexiconParts) {
-		return `https://github.com/bluesky-social/atproto/tree/main/lexicons/${
-			lexiconParts.join("/")
-		}.json`;
-	}
-
-	const filepath = type.symbolId.fileName.match(/@atproto\/api\/(.+)/)?.[1];
-	if (filepath) {
-		return `https://github.com/bluesky-social/atproto/tree/main/packages/api/${filepath}`;
-	}
-
-	return null;
-}
-
 function resolveAtcuteTypeUrl(type: ReferenceType): string | null {
 	if (!type.qualifiedName) return null;
 
-	const lexiconPath = type.qualifiedName.split(".").shift()?.split(/(?=[A-Z])/).reduce((acc, part, i) => {
+	const nameParts = type.qualifiedName.split(".");
+	const lexiconName = nameParts[0].includes("@atcute/") ? nameParts[1] : nameParts[0];
+
+	const lexiconPath = lexiconName?.split(/(?=[A-Z])/).reduce((acc, part, i) => {
 		if (i < 3) return acc + part.toLowerCase() + "/";
 		if (i === 3) return acc + part.toLowerCase();
 		return acc + part;
@@ -103,9 +84,6 @@ export function resolveSourceUrl(reflection: Reflection & { sources?: Array<Sour
 export function resolveTypeUrl(type?: SomeType | null | undefined): string | null {
 	if (!(type instanceof ReferenceType)) return null;
 	if (type.externalUrl) return type.externalUrl;
-	if (type.package === "@atproto/api") {
-		return resolveAtprotoTypeUrl(type);
-	}
 	if (type.package?.startsWith("@atcute/") && type.symbolId?.fileName.endsWith("lexicons.d.ts")) {
 		return resolveAtcuteTypeUrl(type);
 	}

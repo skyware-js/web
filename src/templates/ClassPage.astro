@@ -1,5 +1,5 @@
 ---
-import { DeclarationReflection, ReflectionKind } from "typedoc";
+import { DeclarationReflection, ReflectionKind, ReflectionType } from "typedoc";
 import DocsLayout from "../components/layout/Layout.astro";
 import Sidebar, { generateSidebar } from "../components/layout/Sidebar.astro";
 import { FunctionDocumentation } from "../components/page/FunctionDocumentation";
@@ -17,11 +17,13 @@ interface Props {
 const { reflection } = Astro.props;
 
 const ctor = reflection.getChildrenByKind(ReflectionKind.Constructor)[0];
+
 const properties = sort(
 	reflection.getChildrenByKind(ReflectionKind.VariableOrProperty).filter(
 		reflectionShouldBeRendered,
 	),
 );
+
 
 const accessors = sort(
 	reflection.getChildrenByKind(ReflectionKind.Accessor).filter((accessor) =>
@@ -30,10 +32,13 @@ const accessors = sort(
 	),
 );
 const methods = sort(
-	reflection.getChildrenByKind(ReflectionKind.Method).filter((method) =>
-		reflectionShouldBeRendered(method) && method.signatures?.length
-		&& method.signatures.some(reflectionShouldBeRendered)
-	),
+	[
+		...reflection.getChildrenByKind(ReflectionKind.Method).filter((method) =>
+			reflectionShouldBeRendered(method) && method.signatures?.length
+			&& method.signatures.some(reflectionShouldBeRendered)
+		),
+		...properties.map(property => property.type instanceof ReflectionType && property.type.declaration.signatures?.length ? property.type.declaration : null).filter(Boolean),
+	],
 );
 
 const sidebar = await generateSidebar(reflection.parent);

@@ -1,4 +1,3 @@
-import { ExternalIcon } from "../../assets/icons/ExternalIcon.tsx";
 import { HighlightKind, HighlightText } from "../../lib/rendering/highlight.tsx";
 import { UrlCategoriesReverse } from "../../lib/util/resolveUrl.ts";
 
@@ -10,7 +9,6 @@ export const Reference = (
 		return (
 			<HighlightText kind={HighlightKind.Reference} as="a" href={to} className="no-underline">
 				{children}
-				<ExternalIcon className="fill-current w-[0.75em] h-[0.75em]" />
 			</HighlightText>
 		);
 	}

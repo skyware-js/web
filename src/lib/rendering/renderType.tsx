@@ -25,29 +25,22 @@ import {
 } from "typedoc";
 import { ExternalIcon } from "../../assets/icons/ExternalIcon.tsx";
 import {
-	parseAtprotoLexiconPath,
 	resolveReflectionUrl,
 	resolveTypeUrl,
 } from "../util/resolveUrl.ts";
 import { HighlightKind, HighlightText } from "./highlight.tsx";
 
-function resolveAtprotoLexiconTypeName(type: ReferenceType): string {
-	if (!type.symbolId?.fileName) return type.name;
-	const lexiconParts = parseAtprotoLexiconPath(type.symbolId.fileName);
-	if (!lexiconParts) return type.name;
+function resolveAtcuteLexiconTypeName(type: ReferenceType): string {
+	if (!type.qualifiedName) return type.name;
 
-	const lexiconPascalCase = lexiconParts.map((part) => part[0].toUpperCase() + part.slice(1))
-		.join("");
-	return lexiconPascalCase + "." + type.name;
+	const nameParts = type.qualifiedName.split(".");
+	return nameParts[0].includes("@atcute/") ? nameParts.slice(1).join(".") : type.qualifiedName;
 }
 
 function resolveTypeName(type?: SomeType | null | undefined): string | null {
 	if (!type || !(type instanceof ReferenceType)) return null;
-	if (type.package === "@atproto/api") {
-		return resolveAtprotoLexiconTypeName(type);
-	}
 	if (type.package?.startsWith("@atcute/") && type.symbolId?.fileName.endsWith("lexicons.d.ts")) {
-		return type.qualifiedName;
+		return resolveAtcuteLexiconTypeName(type);
 	}
 	if (type.package === "quick-lru" && type.name === "default") {
 		return "QuickLRU";
