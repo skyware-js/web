@@ -40,14 +40,14 @@ importers:
         specifier: ^1.2.2
         version: 1.2.2(typescript@5.6.2)
       '@skyware/bot':
-        specifier: ^0.3.8
-        version: 0.3.8
+        specifier: ^0.3.11
+        version: 0.3.11
       '@skyware/firehose':
-        specifier: ^0.3.2
-        version: 0.3.2
+        specifier: ^0.5.0
+        version: 0.5.0
       '@skyware/jetstream':
-        specifier: ^0.2.1
-        version: 0.2.1(@atcute/client@2.0.1)
+        specifier: ^0.2.2
+        version: 0.2.2(@atcute/client@2.0.1)
       '@skyware/labeler':
         specifier: ^0.2.0
         version: 0.2.0
@@ -251,11 +251,20 @@ packages:
   '@atcute/car@1.1.1':
     resolution: {integrity: sha512-j6HY//ttIFCbOioDlEowKn2WOGeNavJenZkAP+wWIhsbRlK+V4+TpnJ38IX/VYfMpQHrKweh3W94wRCYp6L5Zg==}
 
+  '@atcute/car@3.0.3':
+    resolution: {integrity: sha512-TV596HRRl8LgNcO58fqf6zELjYutrpcj3VeM7cnoEQ3GLwH0hJSbPmYlRxF1gxurJhMEE5PUpIDb+dgDxFRLpw==}
+
   '@atcute/cbor@1.0.6':
     resolution: {integrity: sha512-ONqrK37COOTkp92gzmxI5a3per9DLPJf60SSlK3Z9vIps7sYEnTq+mL5PLYzbP8l+/V3GVdzpULLphj37eNuXg==}
 
+  '@atcute/cbor@2.2.2':
+    resolution: {integrity: sha512-UzgoEtgGzWy5p9qcFfirRCCgGl1QF8xQF53ycq5yaZ43o7pJdGsctAHK58rTru9QfQxTZs7V9vTDUIxVEZ0s9g==}
+
   '@atcute/cid@1.0.2':
     resolution: {integrity: sha512-aRtt4/5pHCpKVvqtuvxWC8Koet9A7mT8t3fWspOJSj6lcP2QyKKpSUx3z0jSZ+M1Kf2UZ25eo6btcM5zmmhK3g==}
+
+  '@atcute/cid@2.2.1':
+    resolution: {integrity: sha512-tSsVdgx8jj+n6l+MP8IN8rZCR9N4ltJ8EPMiRzo6uduAAygYiZkCRceCOZ57IMtToZcSgm3nxYr4g1aeUbHUcw==}
 
   '@atcute/client@2.0.1':
     resolution: {integrity: sha512-M4q0QchcjcPTypgXTKc4MO06eJMno5op14qHAMWhKbxROOnxnhLfjG9rbcNr7nOycQb5THmUIEAwvvabrv1AjA==}
@@ -263,14 +272,23 @@ packages:
   '@atcute/client@2.0.6':
     resolution: {integrity: sha512-mhdqEicGUx0s5HTFOLpz91rcLS9j/g63de0nmAqv7blhU3j+xBf4le54qr2YIXNfnReZI7EwLYLX/YIBez4LGA==}
 
+  '@atcute/multibase@1.1.3':
+    resolution: {integrity: sha512-vQQO0tDuQPguBvHdgV3ryn7R8U6beQ50KA/juYm+dCeT/3hOK2stMbX+IaW8JEuwkT5lJsU8wDIOicQT4mB7Ag==}
+
   '@atcute/ozone@1.0.7':
     resolution: {integrity: sha512-X/ePJwTw+/Zr9eZvleYt+aczfl/FRdkr88jhvDSd/Lqs8jHupsn4UYRYL98foWAuPWj23etBKLi8atPIJ+YQ0Q==}
     peerDependencies:
       '@atcute/bluesky': ^1.0.0
       '@atcute/client': ^1.0.0 || ^2.0.0
 
+  '@atcute/uint8array@1.0.1':
+    resolution: {integrity: sha512-AAnlFKyfDRgb9GNZJbhQ6OuMhbmNPirQyapb8KnmcEhxQZ3+tt+4NcwqekEegY4MpNqSTYeeTdyxq0wGZv1JHg==}
+
   '@atcute/varint@1.0.1':
     resolution: {integrity: sha512-GXWu+CIfpQGSMSOSUskjwU/licxH8WcyX4t11mRKafQIE4Yi3v5GuchMYVOu89YX15tY93QzY/0zMQDCWoke8Q==}
+
+  '@atcute/varint@1.0.2':
+    resolution: {integrity: sha512-0O31hePzzr4O3NGWHUKKOyta6CGSL+AtN8iir8grGxu9jXyI7DBARlw6PbgKA6uTAvsXdpmRmF8MX+p0TsLnNg==}
 
   '@babel/code-frame@7.24.2':
     resolution: {integrity: sha512-y5+tLQyV8pg3fsiln67BVLD1P13Eg4lh5RW9mF0zUuvLrv9uIQ4MCL+CRT+FTsBlBjcIan6PGsLcBN0m3ClUyQ==}
@@ -963,17 +981,20 @@ packages:
   '@shikijs/vscode-textmate@9.2.2':
     resolution: {integrity: sha512-TMp15K+GGYrWlZM8+Lnj9EaHEFmOen0WJBrfa17hF7taDOYthuPPV0GWzfd/9iMij0akS/8Yw2ikquH7uVi/fg==}
 
-  '@skyware/bot@0.3.8':
-    resolution: {integrity: sha512-pERh6xTuHyJ4qAcRfpFoyd/4x2zrWkUg9DVF1ohyAPJvHXuKznSr4fK86M9TzxjJGs8JCtGBbhCtN5BL+9U1nA==}
+  '@skyware/bot@0.3.11':
+    resolution: {integrity: sha512-fG4uvD/3+ynlQPRHv6pz4kk+5fbDNJYTORbLXwmlwWAzJ7FSBkahG1NeK2M+hqIYBVqdzAI5QqcM17fwJXeZeQ==}
 
   '@skyware/firehose@0.3.2':
     resolution: {integrity: sha512-CmRaw3lFPEd9euFGV+K/n/TF/o0Rre87oJP5pswC8IExj/qQnWVoncIulAJbL3keUCm5mlt49jCiiqfQXVjigg==}
 
+  '@skyware/firehose@0.5.0':
+    resolution: {integrity: sha512-q3KIsFKpsImCagkrciTrlZfhtZG2Dg7JR9q971UdE9d9qSkmGKDFkZqJNtboVz+kdTMkRfn1Z8rYdOCTkhik1w==}
+
   '@skyware/jetstream@0.1.9':
     resolution: {integrity: sha512-87NGqRSmEYmvEuVY0DKZ2ZRbL72tExtDuV+PDvywYqukSp3F/it+9wnU5Xb/Is/pf+KSbd6lWvrnE31HgxJpJg==}
 
-  '@skyware/jetstream@0.2.1':
-    resolution: {integrity: sha512-qmQkBnMYG3+XBTLUDUKTWMS0QpwCFSZh66fvQRn+xEqUQ2CXB2ELo4El0tgVvdT4+glk4nfzVG45L6Op9VURow==}
+  '@skyware/jetstream@0.2.2':
+    resolution: {integrity: sha512-d1MtWPTIFEciSzV8OClXZCJoz0DJ7aupt4EZSwpGAASYG0ZIPmZTt7RVJkoFzQyqRPHAMD7CvEwu0ut3MHX1og==}
 
   '@skyware/labeler@0.2.0':
     resolution: {integrity: sha512-5Xsjly8Crvi+vILmFkObNs5y/FeNj/mIztcm1qfNafUzwv9n9B7O5MQmmg3aZfnalmQWsYfs2BgVlaBBBni5bw==}
@@ -2424,6 +2445,10 @@ packages:
   mz@2.7.0:
     resolution: {integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==}
 
+  nanoevents@9.1.0:
+    resolution: {integrity: sha512-Jd0fILWG44a9luj8v5kED4WI+zfkkgwKyRQKItTtlPfEsh7Lznfi1kr8/iZ+XAIss4Qq5GqRB0qtWbaz9ceO/A==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+
   nanoid@3.3.7:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
@@ -3666,27 +3691,53 @@ snapshots:
       '@atcute/cbor': 1.0.6
       '@atcute/cid': 1.0.2
       '@atcute/varint': 1.0.1
+    optional: true
+
+  '@atcute/car@3.0.3':
+    dependencies:
+      '@atcute/cbor': 2.2.2
+      '@atcute/cid': 2.2.1
+      '@atcute/varint': 1.0.2
 
   '@atcute/cbor@1.0.6':
     dependencies:
       '@atcute/base32': 1.0.1
       '@atcute/cid': 1.0.2
 
+  '@atcute/cbor@2.2.2':
+    dependencies:
+      '@atcute/cid': 2.2.1
+      '@atcute/multibase': 1.1.3
+      '@atcute/uint8array': 1.0.1
+
   '@atcute/cid@1.0.2':
     dependencies:
       '@atcute/base32': 1.0.1
       '@atcute/varint': 1.0.1
 
+  '@atcute/cid@2.2.1':
+    dependencies:
+      '@atcute/multibase': 1.1.3
+      '@atcute/uint8array': 1.0.1
+
   '@atcute/client@2.0.1': {}
 
   '@atcute/client@2.0.6': {}
+
+  '@atcute/multibase@1.1.3':
+    dependencies:
+      '@atcute/uint8array': 1.0.1
 
   '@atcute/ozone@1.0.7(@atcute/bluesky@1.0.9(@atcute/client@2.0.6))(@atcute/client@2.0.6)':
     dependencies:
       '@atcute/bluesky': 1.0.9(@atcute/client@2.0.6)
       '@atcute/client': 2.0.6
 
+  '@atcute/uint8array@1.0.1': {}
+
   '@atcute/varint@1.0.1': {}
+
+  '@atcute/varint@1.0.2': {}
 
   '@babel/code-frame@7.24.2':
     dependencies:
@@ -4293,7 +4344,7 @@ snapshots:
 
   '@shikijs/vscode-textmate@9.2.2': {}
 
-  '@skyware/bot@0.3.8':
+  '@skyware/bot@0.3.11':
     dependencies:
       '@atcute/bluesky': 1.0.9(@atcute/client@2.0.6)
       '@atcute/bluesky-richtext-builder': 1.0.2(@atcute/bluesky@1.0.9(@atcute/client@2.0.6))(@atcute/client@2.0.6)
@@ -4316,6 +4367,13 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    optional: true
+
+  '@skyware/firehose@0.5.0':
+    dependencies:
+      '@atcute/car': 3.0.3
+      '@atcute/cbor': 2.2.2
+      nanoevents: 9.1.0
 
   '@skyware/jetstream@0.1.9(@atcute/client@2.0.6)':
     dependencies:
@@ -4325,7 +4383,7 @@ snapshots:
       - '@atcute/client'
     optional: true
 
-  '@skyware/jetstream@0.2.1(@atcute/client@2.0.1)':
+  '@skyware/jetstream@0.2.2(@atcute/client@2.0.1)':
     dependencies:
       '@atcute/bluesky': 1.0.9(@atcute/client@2.0.1)
       partysocket: 1.0.2
@@ -6340,6 +6398,8 @@ snapshots:
       any-promise: 1.3.0
       object-assign: 4.1.1
       thenify-all: 1.6.0
+
+  nanoevents@9.1.0: {}
 
   nanoid@3.3.7: {}
 
