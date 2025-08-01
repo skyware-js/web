@@ -40,14 +40,14 @@ importers:
         specifier: ^1.2.2
         version: 1.2.2(typescript@5.6.2)
       '@skyware/bot':
-        specifier: ^0.3.11
-        version: 0.3.11
+        specifier: ^0.4.0
+        version: 0.4.0
       '@skyware/firehose':
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.5.2
+        version: 0.5.2
       '@skyware/jetstream':
-        specifier: ^0.2.2
-        version: 0.2.2(@atcute/client@2.0.1)
+        specifier: ^0.2.5
+        version: 0.2.5
       '@skyware/labeler':
         specifier: ^0.2.0
         version: 0.2.0
@@ -229,14 +229,14 @@ packages:
     resolution: {integrity: sha512-A+0c7k/Xy293xx6odsYZuXiaHO0PL+bnDoXOc47sGDF5ffIKdKQGRPFl2NMlCF4L0NqN4Ynbgnaip+pPF0s7pQ==}
     engines: {node: '>=18.14.1'}
 
+  '@atcute/atproto@3.1.1':
+    resolution: {integrity: sha512-D+RLTIPF0xLu7BPZY8KSewAPemJFh+3n3zeQ3ROsLxbTtCHbrTDMAmAFexaVRAPGcPYrwXaBUlv7yZjScJolMg==}
+
   '@atcute/base32@1.0.1':
     resolution: {integrity: sha512-oHnrPXDlkLd4283rz5C4KLnL46/D9mjpFgK17iTPU7OooyNSz+elr8kXN9ReZgzgnjWZHIr8Dp2splEm9hjNhg==}
 
-  '@atcute/bluesky-richtext-builder@1.0.2':
-    resolution: {integrity: sha512-sa+9B5Ygb1GcWeMpav9RVBRdFLL5snZEoFFF2RkTaNr61m/cLd5lk97QJs+t9LXUEl5cfHS3jXujywFrGXZj9w==}
-    peerDependencies:
-      '@atcute/bluesky': ^1.0.0
-      '@atcute/client': ^1.0.0 || ^2.0.0
+  '@atcute/bluesky-richtext-builder@2.0.3':
+    resolution: {integrity: sha512-FOd4At9etRfkfpun3PFBU1TjRurWNjjwkZZ9UcURxdzOg8H6NBZXk4Djdz0Q8VpbcqUxjDOycGHTJClOA8+OEw==}
 
   '@atcute/bluesky@1.0.6':
     resolution: {integrity: sha512-RVhFwleInQYj5znVFRRL7Buun3PTTWuC1T0dWlEamkuDrMlmnXZ4LpzERMRyBnvMpFWDJGE2wJfKYrHNAWmY+g==}
@@ -248,23 +248,23 @@ packages:
     peerDependencies:
       '@atcute/client': ^1.0.0 || ^2.0.0
 
-  '@atcute/car@1.1.1':
-    resolution: {integrity: sha512-j6HY//ttIFCbOioDlEowKn2WOGeNavJenZkAP+wWIhsbRlK+V4+TpnJ38IX/VYfMpQHrKweh3W94wRCYp6L5Zg==}
+  '@atcute/bluesky@3.2.0':
+    resolution: {integrity: sha512-OqPLqUNjXcgQ25MaPdU7H0QcWmZrx6QQk7d5B22A5U4xy+hZJ954kQ5mSAn24Bt0DEm4j/isq1WZovr3vaPTUA==}
 
-  '@atcute/car@3.0.3':
-    resolution: {integrity: sha512-TV596HRRl8LgNcO58fqf6zELjYutrpcj3VeM7cnoEQ3GLwH0hJSbPmYlRxF1gxurJhMEE5PUpIDb+dgDxFRLpw==}
+  '@atcute/car@3.1.1':
+    resolution: {integrity: sha512-yhez/LqIl0zHubG6z/G/gqWYHmg7wJ5L4jNkbXj5FvZ4eOvmzsw8+ojbdq6wfMU4p5NhP0pUJNLkTZHbYSPmLg==}
 
   '@atcute/cbor@1.0.6':
     resolution: {integrity: sha512-ONqrK37COOTkp92gzmxI5a3per9DLPJf60SSlK3Z9vIps7sYEnTq+mL5PLYzbP8l+/V3GVdzpULLphj37eNuXg==}
 
-  '@atcute/cbor@2.2.2':
-    resolution: {integrity: sha512-UzgoEtgGzWy5p9qcFfirRCCgGl1QF8xQF53ycq5yaZ43o7pJdGsctAHK58rTru9QfQxTZs7V9vTDUIxVEZ0s9g==}
+  '@atcute/cbor@2.2.5':
+    resolution: {integrity: sha512-sBT8+6qau0mC3kwgmjl+nzqGn02xsE9b+kSgXm4/BRd9w8fwdRQYwcC9ApDlfaojrljJfcEkimppl/IcPOF3CA==}
 
   '@atcute/cid@1.0.2':
     resolution: {integrity: sha512-aRtt4/5pHCpKVvqtuvxWC8Koet9A7mT8t3fWspOJSj6lcP2QyKKpSUx3z0jSZ+M1Kf2UZ25eo6btcM5zmmhK3g==}
 
-  '@atcute/cid@2.2.1':
-    resolution: {integrity: sha512-tSsVdgx8jj+n6l+MP8IN8rZCR9N4ltJ8EPMiRzo6uduAAygYiZkCRceCOZ57IMtToZcSgm3nxYr4g1aeUbHUcw==}
+  '@atcute/cid@2.2.3':
+    resolution: {integrity: sha512-WEzNSL1EuCVtCQDFYEBIm4dEP6PcMEwi8IYUVIWvT77eO5EjY58F63z5T4qMABxSBM0+L4kqMxypdL1Fzf6LZw==}
 
   '@atcute/client@2.0.1':
     resolution: {integrity: sha512-M4q0QchcjcPTypgXTKc4MO06eJMno5op14qHAMWhKbxROOnxnhLfjG9rbcNr7nOycQb5THmUIEAwvvabrv1AjA==}
@@ -272,8 +272,17 @@ packages:
   '@atcute/client@2.0.6':
     resolution: {integrity: sha512-mhdqEicGUx0s5HTFOLpz91rcLS9j/g63de0nmAqv7blhU3j+xBf4le54qr2YIXNfnReZI7EwLYLX/YIBez4LGA==}
 
-  '@atcute/multibase@1.1.3':
-    resolution: {integrity: sha512-vQQO0tDuQPguBvHdgV3ryn7R8U6beQ50KA/juYm+dCeT/3hOK2stMbX+IaW8JEuwkT5lJsU8wDIOicQT4mB7Ag==}
+  '@atcute/client@4.0.3':
+    resolution: {integrity: sha512-RIOZWFVLca/HiPAAUDqQPOdOreCxTbL5cb+WUf5yqQOKIu5yEAP3eksinmlLmgIrlr5qVOE7brazUUzaskFCfw==}
+
+  '@atcute/identity@1.0.3':
+    resolution: {integrity: sha512-mNMxbKHFGys03A8JXKk0KfMBzdd0vrYMzZZWjpw1nYTs0+ea6bo5S1hwqVUZxHdo1gFHSe/t63jxQIF4yL9aKw==}
+
+  '@atcute/lexicons@1.1.0':
+    resolution: {integrity: sha512-LFqwnria78xLYb62Ri/+WwQpUTgZp2DuyolNGIIOV1dpiKhFFFh//nscHMA6IExFLQRqWDs3tTjy7zv0h3sf1Q==}
+
+  '@atcute/multibase@1.1.4':
+    resolution: {integrity: sha512-NUf5AeeSOmuZHGU+4GAaMtISJoG+ZHtW/vUVA4lK/YDt/7LODAW0Fd0NNIIUPVUoW0xJS6zSEIWvwLLuxmEHhA==}
 
   '@atcute/ozone@1.0.7':
     resolution: {integrity: sha512-X/ePJwTw+/Zr9eZvleYt+aczfl/FRdkr88jhvDSd/Lqs8jHupsn4UYRYL98foWAuPWj23etBKLi8atPIJ+YQ0Q==}
@@ -281,8 +290,11 @@ packages:
       '@atcute/bluesky': ^1.0.0
       '@atcute/client': ^1.0.0 || ^2.0.0
 
-  '@atcute/uint8array@1.0.1':
-    resolution: {integrity: sha512-AAnlFKyfDRgb9GNZJbhQ6OuMhbmNPirQyapb8KnmcEhxQZ3+tt+4NcwqekEegY4MpNqSTYeeTdyxq0wGZv1JHg==}
+  '@atcute/ozone@3.1.3':
+    resolution: {integrity: sha512-XJrt7lgUgF7w/JGoJbdD1bFlUKHCr9tf+RxT8J+8HZTGhhitj32YXDFqiDFKK/sbSpCR/Dj9gCpTMnfLVn+x/Q==}
+
+  '@atcute/uint8array@1.0.3':
+    resolution: {integrity: sha512-M/K+ihiVW8Pl2PFLzaC4E3l4JaZ1IH05Q0AbPWUC4cVHnd/gZ/1kAF5ngdtGvJeDMirHZ2VAy7OmAsPwR/2nlA==}
 
   '@atcute/varint@1.0.1':
     resolution: {integrity: sha512-GXWu+CIfpQGSMSOSUskjwU/licxH8WcyX4t11mRKafQIE4Yi3v5GuchMYVOu89YX15tY93QzY/0zMQDCWoke8Q==}
@@ -408,6 +420,10 @@ packages:
   '@babel/types@7.24.0':
     resolution: {integrity: sha512-+j7a5c253RfKh8iABBhywc8NSfP5LURe7Uh4qpsh6jc+aLJguvmIUBdjSdEMQv2bENrCR5MfRdjGo7vzS/ob7w==}
     engines: {node: '>=6.9.0'}
+
+  '@badrap/valita@0.4.6':
+    resolution: {integrity: sha512-4kdqcjyxo/8RQ8ayjms47HCWZIF5981oE5nIenbfThKDxWXtEHKipAOWlflpPJzZx9y/JWYQkp18Awr7VuepFg==}
+    engines: {node: '>= 18'}
 
   '@docsearch/css@3.6.0':
     resolution: {integrity: sha512-+sbxb71sWre+PwDK7X2T8+bhS6clcVMLwBPznX45Qu6opJcgRjAp7gYSDzVFp187J+feSj5dNBN1mJoi6ckkUQ==}
@@ -981,20 +997,14 @@ packages:
   '@shikijs/vscode-textmate@9.2.2':
     resolution: {integrity: sha512-TMp15K+GGYrWlZM8+Lnj9EaHEFmOen0WJBrfa17hF7taDOYthuPPV0GWzfd/9iMij0akS/8Yw2ikquH7uVi/fg==}
 
-  '@skyware/bot@0.3.11':
-    resolution: {integrity: sha512-fG4uvD/3+ynlQPRHv6pz4kk+5fbDNJYTORbLXwmlwWAzJ7FSBkahG1NeK2M+hqIYBVqdzAI5QqcM17fwJXeZeQ==}
+  '@skyware/bot@0.4.0':
+    resolution: {integrity: sha512-xbodXxB0PRqOwaB/llbdX1sZ9wqIXZhTxwPl77XL9BAP5/SI1DbM0wvo7qwkmI4CBBakE6Hp7ZYj0pyYDb81Uw==}
 
-  '@skyware/firehose@0.3.2':
-    resolution: {integrity: sha512-CmRaw3lFPEd9euFGV+K/n/TF/o0Rre87oJP5pswC8IExj/qQnWVoncIulAJbL3keUCm5mlt49jCiiqfQXVjigg==}
+  '@skyware/firehose@0.5.2':
+    resolution: {integrity: sha512-Ayg/cF0BkakBNQVA51ClDka0+nC96WiARNrGElMQxfqbwao0PBaCXkunfr8qS4DWS3TqLnR6hA9mvm1vAYlxJQ==}
 
-  '@skyware/firehose@0.5.0':
-    resolution: {integrity: sha512-q3KIsFKpsImCagkrciTrlZfhtZG2Dg7JR9q971UdE9d9qSkmGKDFkZqJNtboVz+kdTMkRfn1Z8rYdOCTkhik1w==}
-
-  '@skyware/jetstream@0.1.9':
-    resolution: {integrity: sha512-87NGqRSmEYmvEuVY0DKZ2ZRbL72tExtDuV+PDvywYqukSp3F/it+9wnU5Xb/Is/pf+KSbd6lWvrnE31HgxJpJg==}
-
-  '@skyware/jetstream@0.2.2':
-    resolution: {integrity: sha512-d1MtWPTIFEciSzV8OClXZCJoz0DJ7aupt4EZSwpGAASYG0ZIPmZTt7RVJkoFzQyqRPHAMD7CvEwu0ut3MHX1og==}
+  '@skyware/jetstream@0.2.5':
+    resolution: {integrity: sha512-fM/zs03DLwqRyzZZJFWN20e76KrdqIp97Tlm8Cek+vxn96+tu5d/fx79V6H85L0QN6HvGiX2l9A8hWFqHvYlOA==}
 
   '@skyware/labeler@0.2.0':
     resolution: {integrity: sha512-5Xsjly8Crvi+vILmFkObNs5y/FeNj/mIztcm1qfNafUzwv9n9B7O5MQmmg3aZfnalmQWsYfs2BgVlaBBBni5bw==}
@@ -1619,6 +1629,9 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     hasBin: true
 
+  esm-env@1.2.2:
+    resolution: {integrity: sha512-Epxrv+Nr/CaL4ZcFGPJIYLWFom+YeV1DqMLHJoEd9SYRxNbaFruBwfEX/kkHUJf55j2+TUbmDcmuilbP1TmXHA==}
+
   espree@9.6.1:
     resolution: {integrity: sha512-oruZaFkjorTpF32kDSI5/75ViwGeZginGGy2NoOSg3Q9bnwlnmDm4HLnkl0RE3n+njDXR037aY1+x58Z/zFdwQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -1665,13 +1678,12 @@ packages:
   event-stream@3.3.4:
     resolution: {integrity: sha512-QHpkERcGsR0T7Qm3HNJSyXKEEj8AHNxkY3PK8TS2KJvQ7NiSHe3DDpwVKKtoYprL/AreyzFBeIkBIWChAqn60g==}
 
+  event-target-polyfill@0.0.4:
+    resolution: {integrity: sha512-Gs6RLjzlLRdT8X9ZipJdIZI/Y6/HhRLyq9RdDlCsnpxr/+Nn6bU2EFGuC94GjxqhM+Nmij2Vcq98yoHrU8uNFQ==}
+
   event-target-shim@5.0.1:
     resolution: {integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==}
     engines: {node: '>=6'}
-
-  event-target-shim@6.0.2:
-    resolution: {integrity: sha512-8q3LsZjRezbFZ2PN+uP+Q7pnHUMmAOziU2vA2OwoFaKIXxlxl38IylhSSgUorWu/rf4er67w0ikBqjBFk/pomA==}
-    engines: {node: '>=10.13.0'}
 
   eventemitter3@5.0.1:
     resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
@@ -2576,8 +2588,8 @@ packages:
   parse5@7.1.2:
     resolution: {integrity: sha512-Czj1WaSVpaoj0wbhMzLmWD69anp2WH7FXMB9n1Sy8/ZFF9jolSQVMu1Ij5WIyGmcBmhk7EOndpO4mIpihVqAXw==}
 
-  partysocket@1.0.2:
-    resolution: {integrity: sha512-rAFOUKImaq+VBk2B+2RTBsWEvlnarEP53nchoUHzpVs8V6fG2/estihOTslTQUWHVuHEKDL5k8htG8K3TngyFA==}
+  partysocket@1.1.4:
+    resolution: {integrity: sha512-jXP7PFj2h5/v4UjDS8P7MZy6NJUQ7sspiFyxL4uc/+oKOL+KdtXzHnTV8INPGxBrLTXgalyG3kd12Qm7WrYc3A==}
 
   path-exists@4.0.0:
     resolution: {integrity: sha512-ak9Qy5Q7jYb2Wwcey5Fpvg2KoAc/ZIhLSLOSBmRmygPsGwkVVt0fZa0qrtMz+m6tJTAHfZQ8FnmB4MG4LWy7/w==}
@@ -3126,6 +3138,9 @@ packages:
   through@2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
 
+  tiny-emitter@2.1.0:
+    resolution: {integrity: sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==}
+
   to-fast-properties@2.0.0:
     resolution: {integrity: sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog==}
     engines: {node: '>=4'}
@@ -3421,6 +3436,10 @@ packages:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
 
+  yocto-queue@1.2.1:
+    resolution: {integrity: sha512-AyeEbWOu/TAXdxlV9wmGcR0+yh2j3vYPGOECcIj2S7MkrLyC7ne+oye2BKTItt0ii2PHk4cDy+95+LshzbXnGg==}
+    engines: {node: '>=12.20'}
+
   zod-to-json-schema@3.22.5:
     resolution: {integrity: sha512-+akaPo6a0zpVCCseDed504KBJUQpEW5QZw7RMneNmKw+fGaML1Z9tUNLnHHAC8x6dzVRO1eB2oEMyZRnuBZg7Q==}
     peerDependencies:
@@ -3667,18 +3686,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@atcute/atproto@3.1.1':
+    dependencies:
+      '@atcute/lexicons': 1.1.0
+
   '@atcute/base32@1.0.1': {}
 
-  '@atcute/bluesky-richtext-builder@1.0.2(@atcute/bluesky@1.0.9(@atcute/client@2.0.6))(@atcute/client@2.0.6)':
+  '@atcute/bluesky-richtext-builder@2.0.3':
     dependencies:
-      '@atcute/bluesky': 1.0.9(@atcute/client@2.0.6)
-      '@atcute/client': 2.0.6
+      '@atcute/bluesky': 3.2.0
+      '@atcute/lexicons': 1.1.0
 
   '@atcute/bluesky@1.0.6(@atcute/client@2.0.1)':
-    dependencies:
-      '@atcute/client': 2.0.1
-
-  '@atcute/bluesky@1.0.9(@atcute/client@2.0.1)':
     dependencies:
       '@atcute/client': 2.0.1
 
@@ -3686,54 +3705,74 @@ snapshots:
     dependencies:
       '@atcute/client': 2.0.6
 
-  '@atcute/car@1.1.1':
+  '@atcute/bluesky@3.2.0':
     dependencies:
-      '@atcute/cbor': 1.0.6
-      '@atcute/cid': 1.0.2
-      '@atcute/varint': 1.0.1
-    optional: true
+      '@atcute/atproto': 3.1.1
+      '@atcute/lexicons': 1.1.0
 
-  '@atcute/car@3.0.3':
+  '@atcute/car@3.1.1':
     dependencies:
-      '@atcute/cbor': 2.2.2
-      '@atcute/cid': 2.2.1
+      '@atcute/cbor': 2.2.5
+      '@atcute/cid': 2.2.3
+      '@atcute/uint8array': 1.0.3
       '@atcute/varint': 1.0.2
+      yocto-queue: 1.2.1
 
   '@atcute/cbor@1.0.6':
     dependencies:
       '@atcute/base32': 1.0.1
       '@atcute/cid': 1.0.2
 
-  '@atcute/cbor@2.2.2':
+  '@atcute/cbor@2.2.5':
     dependencies:
-      '@atcute/cid': 2.2.1
-      '@atcute/multibase': 1.1.3
-      '@atcute/uint8array': 1.0.1
+      '@atcute/cid': 2.2.3
+      '@atcute/multibase': 1.1.4
+      '@atcute/uint8array': 1.0.3
 
   '@atcute/cid@1.0.2':
     dependencies:
       '@atcute/base32': 1.0.1
       '@atcute/varint': 1.0.1
 
-  '@atcute/cid@2.2.1':
+  '@atcute/cid@2.2.3':
     dependencies:
-      '@atcute/multibase': 1.1.3
-      '@atcute/uint8array': 1.0.1
+      '@atcute/multibase': 1.1.4
+      '@atcute/uint8array': 1.0.3
 
   '@atcute/client@2.0.1': {}
 
   '@atcute/client@2.0.6': {}
 
-  '@atcute/multibase@1.1.3':
+  '@atcute/client@4.0.3':
     dependencies:
-      '@atcute/uint8array': 1.0.1
+      '@atcute/identity': 1.0.3
+      '@atcute/lexicons': 1.1.0
+
+  '@atcute/identity@1.0.3':
+    dependencies:
+      '@atcute/lexicons': 1.1.0
+      '@badrap/valita': 0.4.6
+
+  '@atcute/lexicons@1.1.0':
+    dependencies:
+      esm-env: 1.2.2
+
+  '@atcute/multibase@1.1.4':
+    dependencies:
+      '@atcute/uint8array': 1.0.3
 
   '@atcute/ozone@1.0.7(@atcute/bluesky@1.0.9(@atcute/client@2.0.6))(@atcute/client@2.0.6)':
     dependencies:
       '@atcute/bluesky': 1.0.9(@atcute/client@2.0.6)
       '@atcute/client': 2.0.6
 
-  '@atcute/uint8array@1.0.1': {}
+  '@atcute/ozone@3.1.3':
+    dependencies:
+      '@atcute/atproto': 3.1.1
+      '@atcute/bluesky': 3.2.0
+      '@atcute/lexicons': 1.1.0
+
+  '@atcute/uint8array@1.0.3': {}
 
   '@atcute/varint@1.0.1': {}
 
@@ -3894,6 +3933,8 @@ snapshots:
       '@babel/helper-string-parser': 7.24.1
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
+
+  '@badrap/valita@0.4.6': {}
 
   '@docsearch/css@3.6.0': {}
 
@@ -4344,51 +4385,33 @@ snapshots:
 
   '@shikijs/vscode-textmate@9.2.2': {}
 
-  '@skyware/bot@0.3.11':
+  '@skyware/bot@0.4.0':
     dependencies:
-      '@atcute/bluesky': 1.0.9(@atcute/client@2.0.6)
-      '@atcute/bluesky-richtext-builder': 1.0.2(@atcute/bluesky@1.0.9(@atcute/client@2.0.6))(@atcute/client@2.0.6)
-      '@atcute/client': 2.0.6
-      '@atcute/ozone': 1.0.7(@atcute/bluesky@1.0.9(@atcute/client@2.0.6))(@atcute/client@2.0.6)
+      '@atcute/atproto': 3.1.1
+      '@atcute/bluesky': 3.2.0
+      '@atcute/bluesky-richtext-builder': 2.0.3
+      '@atcute/client': 4.0.3
+      '@atcute/lexicons': 1.1.0
+      '@atcute/ozone': 3.1.3
       quick-lru: 7.0.0
       rate-limit-threshold: 0.1.5
     optionalDependencies:
-      '@skyware/firehose': 0.3.2
-      '@skyware/jetstream': 0.1.9(@atcute/client@2.0.6)
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
+      '@skyware/firehose': 0.5.2
+      '@skyware/jetstream': 0.2.5
 
-  '@skyware/firehose@0.3.2':
+  '@skyware/firehose@0.5.2':
     dependencies:
-      '@atcute/car': 1.1.1
-      '@atcute/cbor': 1.0.6
-      ws: 8.16.0
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-    optional: true
-
-  '@skyware/firehose@0.5.0':
-    dependencies:
-      '@atcute/car': 3.0.3
-      '@atcute/cbor': 2.2.2
+      '@atcute/car': 3.1.1
+      '@atcute/cbor': 2.2.5
       nanoevents: 9.1.0
 
-  '@skyware/jetstream@0.1.9(@atcute/client@2.0.6)':
+  '@skyware/jetstream@0.2.5':
     dependencies:
-      '@atcute/bluesky': 1.0.9(@atcute/client@2.0.6)
-      partysocket: 1.0.2
-    transitivePeerDependencies:
-      - '@atcute/client'
-    optional: true
-
-  '@skyware/jetstream@0.2.2(@atcute/client@2.0.1)':
-    dependencies:
-      '@atcute/bluesky': 1.0.9(@atcute/client@2.0.1)
-      partysocket: 1.0.2
-    transitivePeerDependencies:
-      - '@atcute/client'
+      '@atcute/atproto': 3.1.1
+      '@atcute/bluesky': 3.2.0
+      '@atcute/lexicons': 1.1.0
+      partysocket: 1.1.4
+      tiny-emitter: 2.1.0
 
   '@skyware/labeler@0.2.0':
     dependencies:
@@ -5211,6 +5234,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  esm-env@1.2.2: {}
+
   espree@9.6.1:
     dependencies:
       acorn: 8.11.3
@@ -5269,9 +5294,9 @@ snapshots:
       stream-combiner: 0.0.4
       through: 2.3.8
 
-  event-target-shim@5.0.1: {}
+  event-target-polyfill@0.0.4: {}
 
-  event-target-shim@6.0.2: {}
+  event-target-shim@5.0.1: {}
 
   eventemitter3@5.0.1: {}
 
@@ -6541,9 +6566,9 @@ snapshots:
     dependencies:
       entities: 4.5.0
 
-  partysocket@1.0.2:
+  partysocket@1.1.4:
     dependencies:
-      event-target-shim: 6.0.2
+      event-target-polyfill: 0.0.4
 
   path-exists@4.0.0: {}
 
@@ -7207,6 +7232,8 @@ snapshots:
 
   through@2.3.8: {}
 
+  tiny-emitter@2.1.0: {}
+
   to-fast-properties@2.0.0: {}
 
   to-regex-range@5.0.1:
@@ -7481,6 +7508,8 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yocto-queue@1.0.0: {}
+
+  yocto-queue@1.2.1: {}
 
   zod-to-json-schema@3.22.5(zod@3.22.4):
     dependencies:
